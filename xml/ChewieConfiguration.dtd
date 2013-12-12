@@ -1,0 +1,51 @@
+<?xml encoding="ISO-8859-1"?>
+<!ELEMENT ChewieConfiguration(general*)(converter*)(scan*)>
+ <!ELEMENT converter>
+  <!ATTLIST converter maxEvents CDATA #REQUIRED>
+  <!ATTLIST converter threads CDATA #REQUIRED>
+ <!ELEMENT general(Analysis* Plane*)>
+  <!ATTLIST general preAnalysisMaxEvents CDATA #REQUIRED>
+  <!ATTLIST general analysesMaxEvents CDATA #REQUIRED>
+  <!ATTLIST general threads CDATA #REQUIRED>
+  <!ELEMENT Plane(Window+)(Calibrations*)>
+   <!ATTLIST Plane name CDATA #REQUIRED>
+   <!ATTLIST Plane xChipsNumber CDATA #REQUIRED>
+   <!ATTLIST Plane yChipsNumber CDATA #REQUIRED>
+   <!ATTLIST Plane zPosition CDATA #REQUIRED> 
+   <!ATTLIST Plane zRotation CDATA #REQUIRED>  
+    <!ELEMENT Window(lowerCol+ higherCol+ lowerRow+ higherRow+ removedPixel*)>
+     <!ELEMENT lowerCol (#PCDATA)+>
+     <!ELEMENT higherCol (#PCDATA)+>
+     <!ELEMENT lowerRow (#PCDATA)+>
+     <!ELEMENT higherRow (#PCDATA)+>
+     <!ELEMENT removedPixel (#PCDATA)*>
+      <!ATTLIST removedPixel row CDATA #REQUIRED>
+      <!ATTLIST removedPixel col CDATA #REQUIRED>
+    <!ELEMENT Calibrations (file+)>
+     <!ATTLIST use CDATA #REQUIRED>
+     <!ELEMENT file (#PCDATA)+>   
+ <!ELEMENT Analysis(minHits+)(cellCharge*)(totalCharge*)(cut*)(calibCut*)>
+  <!ATTLIST Analysis type CDATA #REQUIRED>
+  <!ATTLIST Analysis issucaToRun CDATA #REQUIRED>
+  <!ATTLIST Analysis standardCut CDATA #REQUIRED>
+  <!ATTLIST Analysis Priority CDATA #REQUIRED>
+  <!ELEMENT minHits(#PCDATA)+>
+  <!--ELEMENT priority(#PCDATA)+-->
+  <!ELEMENT cellCharge(threashold+ maxCharge+)>
+   <!ELEMENT threashold(#PCDATA)+>
+   <!ELEMENT maxCharge(#PCDATA)+>
+  <!ELEMENT totalCharge(minTotCharge+ maxTotCharge+)>
+   <!ELEMENT minTotCharge(#PCDATA)+>
+   <!ELEMENT maxTotCharge(#PCDATA)+>
+  <!ELEMENT cut (#PCDATA)*>
+   <!ATTLIST cut cutType CDATA #REQUIRED>
+   <!ATTLIST cut cutString CDATA #REQUIRED> 
+  <!ELEMENT calibCut(par+)>
+   <!ELEMENT par(min+ max+)>
+    <!ATTLIST parID CDATA #REQUIRED>
+ <!ELEMENT scan (file*)>
+  <!ELEMENT file (#PCDATA)*>
+   <!ATTLIST file value CDATA #REQUIRED>
+   <!ATTLIST file name CDATA #REQUIRED>
+   
+  

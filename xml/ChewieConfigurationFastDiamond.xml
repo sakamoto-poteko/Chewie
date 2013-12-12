@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!DOCTYPE ChewieConfiguration SYSTEM './ChewieConfiguration.dtd'>
+<ChewieConfiguration>
+  <Converter Threads="4" MaxEvents="9999" IsToLimit="no"/>
+  <General PreAnalysisMaxEvents="400000" Threads="4" MaxEvents="5" AnalysesMaxEvents="100000" IsToLimit="no">
+    <Plane Calibration="downstream_cal_0_0" Id="Telescope_Downstream0" Name="Station: 0 - Plaq: 0" XRocs="4" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>207</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane Calibration="downstream_again_cal_2_10" Id="Telescope_Downstream1" Name="Station: 0 - Plaq: 1" XRocs="4" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>207</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane Calibration="downstream_cal_0_20" Id="Telescope_Downstream2" Name="Station: 0 - Plaq: 2" XRocs="3" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>155</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane Calibration="downstream_cal_0_30" Id="Telescope_Downstream3" Name="Station: 0 - Plaq: 0" XRocs="3" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>155</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane Calibration="upstream_cal_1_0" Id="Telescope_Upstream0" Name="Station: 2 - Plaq: 0" XRocs="3" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>155</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane Calibration="upstream_cal_1_10" Id="Telescope_Upstream1" Name="Station: 2 - Plaq: 1" XRocs="3" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>155</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane Calibration="upstream_cal_1_20" Id="Telescope_Upstream2" Name="Station: 2 - Plaq: 2" XRocs="4" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>207</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane Calibration="upstream_again_cal_0_30" Id="Telescope_Upstream3" Name="Station: 2 - Plaq: 3" XRocs="4" YRocs="2">
+      <Window>
+        <LowerCol>0</LowerCol>
+        <HigherCol>207</HigherCol>
+        <LowerRow>0</LowerRow>
+        <HigherRow>159</HigherRow>
+      </Window>
+    </Plane>
+    <Plane ZPosition="6" Calibration="dut_PLT532A_LC500_cal_2_0" zRotation="90" Id="Dut0" Name="Station: 4 - Plaq: 0" ZRotation="90" XRocs="3" YRocs="2">
+      <Window>
+        <LowerCol>1</LowerCol>
+        <HigherCol>50</HigherCol>
+        <LowerRow>1</LowerRow>
+        <HigherRow>78</HigherRow>
+      </Window>
+      <Calibrations Use="no">
+        <File>/home/ngadiuba/MonicelliOutput/calibrationsPlots.root</File>
+      </Calibrations>
+    </Plane>
+    <Plane ZPosition="-5" Calibration="dut_PLT532A_LC500_cal_2_10" zRotation="90" Id="Dut1" Name="Station: 4 - Plaq: 1" XRocs="1" YRocs="1">
+      <Window>
+        <LowerCol>1</LowerCol>
+        <HigherCol>50</HigherCol>
+        <LowerRow>1</LowerRow>
+        <HigherRow>78</HigherRow>
+      </Window>
+      <Calibrations Use="no">
+        <File>/home/ngadiuba/MonicelliOutput/calibrationsPlots.root</File>
+      </Calibrations>
+    </Plane>
+    <Analysis Priority="0" IsToRun="yes" Type="Windows"/>
+    <!--Priority>0</Priority-->
+    <Analysis StandardCut="yes" Priority="1" IsToRun="yes" Type="Tracks">
+      <!--Priority>2</Priority-->
+      <MinHits>8</MinHits>
+    </Analysis>
+    <Analysis StandardCut="yes" Priority="4" IsToRun="no" Type="TracksAfter">
+      <!--Priority>3</Priority-->
+      <MinHits>8</MinHits>
+    </Analysis>
+    <Analysis StandardCut="yes" Priority="2" IsToRun="yes" Type="Efficiency">
+      <!--Priority>5</Priority-->
+      <Cut CutString="numberOfTracks &lt;= 1 &amp;&amp; chi2/ndof &lt;= 5" CutType="main cut"/>
+      <Cut CutString="" CutType="cell efficiency"/>
+      <Cut CutString="yPixelResidualLocal[9] &lt;= 30 &amp;&amp; yPixelResidualLocal[9] >= -30 &amp;&amp; ySigmaIntercept &lt;= 8" CutType="cell efficiency X"/>
+      <Cut CutString="xPixelResidualLocal[9] &lt;= 55 &amp;&amp; xPixelResidualLocal[9] >= -55 &amp;&amp; xSigmaIntercept &lt;= 8" CutType="cell efficiency Y"/>
+      <MinHits>8</MinHits>
+      <minHits>8</minHits>
+    </Analysis>
+    <Analysis StandardCut="yes" Priority="5" IsToRun="no" Type="Charge">
+      <!--Priority>4</Priority-->
+      <CellCharge>
+        <Threashold>500</Threashold>
+        <MaxCharge>60000</MaxCharge>
+      </CellCharge>
+      <TotalCharge>
+        <MinTotCharge>1000</MinTotCharge>
+        <MaxTotCharge>30000</MaxTotCharge>
+      </TotalCharge>
+      <Cut CutString="numberOfTracks &lt;= 1 &amp;&amp; chi2/ndof &lt;= 10" CutType="main cut" cutString="numberOfTracks &lt;= 1 &amp;&amp; chi2/ndof &lt;= 10 &amp;&amp; xErrorPredictedLocal[9] &lt;= 6 &amp;&amp; yErrorPredictedLocal[9] &lt;= 6"/>
+      <Cut CutString="" CutType="cluster Landau"/>
+      <Cut CutString="xPixelResidualLocal[9] &lt;= 55 &amp;&amp; xPixelResidualLocal[9] >= -55 &amp;&amp; yPixelResidualLocal[9] &lt;= 30 &amp;&amp; yPixelResidualLocal[9] >= -30" CutType="cell Landau"/>
+      <Cut CutString="" CutType="cell charge"/>
+      <Cut CutString="yPixelResidualLocal[9] &lt;= 30 &amp;&amp; yPixelResidualLocal[9] >= -30" CutType="cell charge X"/>
+      <Cut CutString="xPixelResidualLocal[9] &lt;= 55 &amp;&amp; xPixelResidualLocal[9] >= -55" CutType="cell charge Y"/>
+      <CalibCut>
+        <Par ParID="0">
+          <Min>X</Min>
+          <Max>X</Max>
+        </Par>
+        <Par ParID="1">
+          <Min>X</Min>
+          <Max>X</Max>
+        </Par>
+        <Par ParID="2">
+          <Min>X</Min>
+          <Max>X</Max>
+        </Par>
+        <Par ParID="3">
+          <Min>X</Min>
+          <Max>X</Max>
+        </Par>
+      </CalibCut>
+      <MinHits>8</MinHits>
+      <minHits>8</minHits>
+    </Analysis>
+    <Analysis StandardCut="yes" Priority="3" IsToRun="yes" Type="Resolution">
+      <!--Priority>1</Priority-->
+      <Cut CutString="numberOfTracks &lt;= 1 &amp;&amp; chi2/ndof &lt;= 5" CutType="main cut"/>
+      <Cut CutString="" CutType="X resolution"/>
+      <Cut CutString="" CutType="Y resolution"/>
+      <Cut CutString="" CutType="errors"/>
+      <MinHits>8</MinHits>
+      <!--minHits>8</minHits-->
+      <minHits>8</minHits>
+    </Analysis>
+  </General>
+  <Scan/>
+</ChewieConfiguration>
