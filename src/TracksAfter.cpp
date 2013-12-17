@@ -39,7 +39,10 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 TracksAfter::TracksAfter(AnalysisManager* analysisManager, int nOfThreads) :
     Analysis          (analysisManager, nOfThreads)
-  , thePlaneMapping_  (0)
+  , thePlaneMapping_  (0),
+    // Default value for Thickness, DepletionVoltage and AppliedVoltage
+    DUT0_Thickness(500), DUT0_DepletionVoltage(5), DUT0_AppliedVoltage(500),
+    DUT1_Thickness(500), DUT1_DepletionVoltage(5), DUT1_AppliedVoltage(500)
 {
     thePlaneMapping_ = new PlanesMapping();
     inFile_ = 0;

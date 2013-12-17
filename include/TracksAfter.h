@@ -52,12 +52,12 @@ public:
         void destroy             (void          );
         void preBook             (void          );
 
-        int DUT0_Thickness          =   500;
-        int DUT0_DepletionVoltage   =   5;
-        int DUT0_AppliedVoltage     =   500;
-        int DUT1_Thickness          =   500;
-        int DUT1_DepletionVoltage   =   5;
-        int DUT1_AppliedVoltage     =   500;
+        int DUT0_Thickness;
+        int DUT0_DepletionVoltage;
+        int DUT0_AppliedVoltage;
+        int DUT1_Thickness;
+        int DUT1_DepletionVoltage;
+        int DUT1_AppliedVoltage;
 
 
         PlanesMapping*                                     thePlaneMapping_       ;
