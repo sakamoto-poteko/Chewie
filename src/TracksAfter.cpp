@@ -53,16 +53,24 @@ TracksAfter::TracksAfter(AnalysisManager* analysisManager, int nOfThreads) :
     }
     totEventsControl_ = 0;   */
 
+    // Must make sure file is correct. No error check here
     QSettings tracksAfterData("TracksAfterData", QSettings::IniFormat, this);
     tracksAfterData.beginGroup("DUT0");
     if (tracksAfterData.contains("Thickness"))
         DUT0_Thickness = tracksAfterData.value("Thickness").toInt();
     if (tracksAfterData.contains("DepletionVoltage"))
         DUT0_DepletionVoltage = tracksAfterData.value("DepletionVoltage").toInt();
-
+    if (tracksAfterData.contains("AppliedVoltage"))
+        DUT0_AppliedVoltage = tracksAfterData.value("AppliedVoltage").toInt();
     tracksAfterData.endGroup("DUT0");
-    tracksAfterData.beginGroup("DUT1");
 
+    tracksAfterData.beginGroup("DUT1");
+    if (tracksAfterData.contains("Thickness"))
+        DUT0_Thickness = tracksAfterData.value("Thickness").toInt();
+    if (tracksAfterData.contains("DepletionVoltage"))
+        DUT0_DepletionVoltage = tracksAfterData.value("DepletionVoltage").toInt();
+    if (tracksAfterData.contains("AppliedVoltage"))
+        DUT0_AppliedVoltage = tracksAfterData.value("AppliedVoltage").toInt();
     tracksAfterData.endGroup("DUT1");
 }
 
