@@ -66,11 +66,11 @@ TracksAfter::TracksAfter(AnalysisManager* analysisManager, int nOfThreads) :
 
     tracksAfterData.beginGroup("DUT1");
     if (tracksAfterData.contains("Thickness"))
-        DUT0_Thickness = tracksAfterData.value("Thickness").toInt();
+        DUT1_Thickness = tracksAfterData.value("Thickness").toInt();
     if (tracksAfterData.contains("DepletionVoltage"))
-        DUT0_DepletionVoltage = tracksAfterData.value("DepletionVoltage").toInt();
+        DUT1_DepletionVoltage = tracksAfterData.value("DepletionVoltage").toInt();
     if (tracksAfterData.contains("AppliedVoltage"))
-        DUT0_AppliedVoltage = tracksAfterData.value("AppliedVoltage").toInt();
+        DUT1_AppliedVoltage = tracksAfterData.value("AppliedVoltage").toInt();
     tracksAfterData.endGroup("DUT1");
 }
 
@@ -357,37 +357,32 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
         return;
     }
 
-    // FIXME: UGLY FIX START
-
-    if (planeID == 8) {
+    // NOTE: Additional settings start
+    // X Axis
+    if (planeID == 8 || planeID == 9) {
+        // NOTE: Not sure planeID 9
         double mu = 0;
         if (type == "Size2")
             mu = 0.002;
         if (type == "SizeLE2")
             mu = 0.003;
-        int depletionVoltage = 250;
-        const int appliedvoltage = 70;
 
         if (type != "SizeLE2Inv") {
             // Thickness
-            XAsimmetryFunc_[planeID]->FixParameter(0, 200);
-            YAsimmetryFunc_[planeID]->FixParameter(0, 200);
+            XAsimmetryFunc_[planeID]->FixParameter(0, planeID == 8 ? DUT0_Thickness : DUT1_Thickness);
 
             // 2*mu*DepletionVoltage
-            XAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
-            YAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
+            XAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // Depletion Voltage
-            XAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
-            YAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
+            XAsimmetryFunc_[planeID]->FixParameter(2, planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // AppliedVoltage + DepletionVoltage
-            XAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
-            YAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
+            XAsimmetryFunc_[planeID]->FixParameter(3, planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage + planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
         }
     }
 
-    // FIXME: UGLY FIX END
+    // NOTE: Additional settings end
 
     STDLINE("Fitting eta function in coordinate x for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
 
@@ -488,37 +483,32 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
         return;
     }
 
-    // FIXME: UGLY FIX START
-
-    if (planeID == 8) {
+    // NOTE: Additional settings start
+    // Y Axis
+    if (planeID == 8 || planeID == 9) {
+        // NOTE: Not sure planeID 9
         double mu = 0;
         if (type == "Size2")
             mu = 0.002;
         if (type == "SizeLE2")
             mu = 0.003;
-        int depletionVoltage = 250;
-        const int appliedvoltage = 70;
 
         if (type != "SizeLE2Inv") {
             // Thickness
-            XAsimmetryFunc_[planeID]->FixParameter(0, 200);
-            YAsimmetryFunc_[planeID]->FixParameter(0, 200);
+            YAsimmetryFunc_[planeID]->FixParameter(0, planeID == 8 ? DUT0_Thickness : DUT1_Thickness);
 
             // 2*mu*DepletionVoltage
-            XAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
-            YAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // Depletion Voltage
-            XAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
-            YAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(2, planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // AppliedVoltage + DepletionVoltage
-            XAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
-            YAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(3, planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage + planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
         }
     }
 
-    // FIXME: UGLY FIX END
+    // NOTE: Additional settings end
 
 
     STDLINE("Fitting eta function in coordinate y for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
