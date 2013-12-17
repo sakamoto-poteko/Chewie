@@ -52,6 +52,14 @@ public:
         void destroy             (void          );
         void preBook             (void          );
 
+        int DUT0_Thickness          =   500;
+        int DUT0_DepletionVoltage   =   5;
+        int DUT0_AppliedVoltage     =   500;
+        int DUT1_Thickness          =   500;
+        int DUT1_DepletionVoltage   =   5;
+        int DUT1_AppliedVoltage     =   500;
+
+
         PlanesMapping*                                     thePlaneMapping_       ;
         std::map< std::string,std::vector<TTreeFormula*> > cutsFormulas_          ;
         TFile *                                            inFile_;
