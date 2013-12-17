@@ -1,11 +1,13 @@
 /**
     Modified TracksAfter.cpp
 
-    Hardcoded some data in fitEtaFunc(..)
+    Loading data to change value in fitEtaFunc(..)
 
 
-    Currently matined by Afa.L Cheng <alpha@tomatoeskit.org>
+    Currently maintined by Afa.L Cheng <alpha@tomatoeskit.org>
  **/
+
+#include <QSettings>
 
 #include "TracksAfter.h"
 
@@ -50,6 +52,18 @@ TracksAfter::TracksAfter(AnalysisManager* analysisManager, int nOfThreads) :
         isMaxToLimit_[p] = 0;
     }
     totEventsControl_ = 0;   */
+
+    QSettings tracksAfterData("TracksAfterData", QSettings::IniFormat, this);
+    tracksAfterData.beginGroup("DUT0");
+    if (tracksAfterData.contains("Thickness"))
+        DUT0_Thickness = tracksAfterData.value("Thickness").toInt();
+    if (tracksAfterData.contains("DepletionVoltage"))
+        DUT0_DepletionVoltage = tracksAfterData.value("DepletionVoltage").toInt();
+
+    tracksAfterData.endGroup("DUT0");
+    tracksAfterData.beginGroup("DUT1");
+
+    tracksAfterData.endGroup("DUT1");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
