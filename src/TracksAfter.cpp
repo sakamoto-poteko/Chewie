@@ -57,7 +57,7 @@ TracksAfter::TracksAfter(AnalysisManager* analysisManager, int nOfThreads) :
     totEventsControl_ = 0;   */
 
     // Must make sure file is correct. No error check here
-    QSettings tracksAfterData("TracksAfterData", QSettings::IniFormat, this);
+    QSettings tracksAfterData("TracksAfterData.ini", QSettings::IniFormat);
     tracksAfterData.beginGroup("DUT0");
     if (tracksAfterData.contains("Thickness"))
         DUT0_Thickness = tracksAfterData.value("Thickness").toInt();
