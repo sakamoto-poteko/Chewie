@@ -65,7 +65,7 @@ TracksAfter::TracksAfter(AnalysisManager* analysisManager, int nOfThreads) :
         DUT0_DepletionVoltage = tracksAfterData.value("DepletionVoltage").toInt();
     if (tracksAfterData.contains("AppliedVoltage"))
         DUT0_AppliedVoltage = tracksAfterData.value("AppliedVoltage").toInt();
-    tracksAfterData.endGroup("DUT0");
+    tracksAfterData.endGroup();
 
     tracksAfterData.beginGroup("DUT1");
     if (tracksAfterData.contains("Thickness"))
@@ -74,7 +74,7 @@ TracksAfter::TracksAfter(AnalysisManager* analysisManager, int nOfThreads) :
         DUT1_DepletionVoltage = tracksAfterData.value("DepletionVoltage").toInt();
     if (tracksAfterData.contains("AppliedVoltage"))
         DUT1_AppliedVoltage = tracksAfterData.value("AppliedVoltage").toInt();
-    tracksAfterData.endGroup("DUT1");
+    tracksAfterData.endGroup();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
