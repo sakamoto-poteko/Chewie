@@ -1,3 +1,12 @@
+/**
+    Modified TracksAfter.cpp
+
+    Hardcoded some data in fitEtaFunc(..)
+
+
+    Currently matined by Afa.L Cheng <alpha@tomatoeskit.org>
+ **/
+
 #include "TracksAfter.h"
 
 #include "AnalysisManager.h"
@@ -326,6 +335,38 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
         return;
     }
 
+    // FIXME: UGLY FIX START
+
+    if (planeID == 8) {
+        double mu = 0;
+        if (type == "Size2")
+            mu = 0.002;
+        if (type == "SizeLE2")
+            mu = 0.003;
+        int depletionVoltage = 250;
+        const int appliedvoltage = 70;
+
+        if (type != "SizeLE2Inv") {
+            // Thickness
+            XAsimmetryFunc_[planeID]->FixParameter(0, 200);
+            YAsimmetryFunc_[planeID]->FixParameter(0, 200);
+
+            // 2*mu*DepletionVoltage
+            XAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
+
+            // Depletion Voltage
+            XAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
+
+            // AppliedVoltage + DepletionVoltage
+            XAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
+        }
+    }
+
+    // FIXME: UGLY FIX END
+
     STDLINE("Fitting eta function in coordinate x for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
 
     if (type == "Size2")
@@ -424,6 +465,39 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
         STDLINE("Type of size constraint not recognized!", ACRed);
         return;
     }
+
+    // FIXME: UGLY FIX START
+
+    if (planeID == 8) {
+        double mu = 0;
+        if (type == "Size2")
+            mu = 0.002;
+        if (type == "SizeLE2")
+            mu = 0.003;
+        int depletionVoltage = 250;
+        const int appliedvoltage = 70;
+
+        if (type != "SizeLE2Inv") {
+            // Thickness
+            XAsimmetryFunc_[planeID]->FixParameter(0, 200);
+            YAsimmetryFunc_[planeID]->FixParameter(0, 200);
+
+            // 2*mu*DepletionVoltage
+            XAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * depletionVoltage);
+
+            // Depletion Voltage
+            XAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(2, depletionVoltage);
+
+            // AppliedVoltage + DepletionVoltage
+            XAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(3, appliedvoltage + depletionVoltage);
+        }
+    }
+
+    // FIXME: UGLY FIX END
+
 
     STDLINE("Fitting eta function in coordinate y for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
 
