@@ -311,16 +311,6 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
         XAsimmetryFunc_[planeID]->SetRange(-20., 20.);
 
         XAsimmetryFunc_[planeID]->FixParameter(5, 1. );
-/*        XAsimmetryFunc_[planeID]->SetParameter(4, 3 );
-        XAsimmetryFunc_[planeID]->SetParLimits(4, 0.1, 100);
-        XAsimmetryFunc_[planeID]->SetParameter(3, 525);
-        XAsimmetryFunc_[planeID]->SetParLimits(3, 510, 600);
-        XAsimmetryFunc_[planeID]->SetParameter(2, 25 );
-        XAsimmetryFunc_[planeID]->SetParLimits(2, 10 , 100);
-        XAsimmetryFunc_[planeID]->SetParameter(1, 2 );
-        XAsimmetryFunc_[planeID]->SetParLimits(2, 0.1 , 100);
-//        XAsimmetryFunc_[planeID]->SetParameter(0, 100);
-//        XAsimmetryFunc_[planeID]->SetParLimits(0, 50 , 500);  */
         XAsimmetryFunc_[planeID]->FixParameter(0, 500);
         XAsimmetryFunc_[planeID]->FixParameter(1, 0.02);
         XAsimmetryFunc_[planeID]->FixParameter(2, 5.);
@@ -332,16 +322,6 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
     else if (type == "SizeLE2")
     {
         XAsimmetryFunc_[planeID]->FixParameter(5, 1. );
-/*        XAsimmetryFunc_[planeID]->SetParameter(4, 0.01 );
-        XAsimmetryFunc_[planeID]->SetParLimits(4, 0.001, 3);
-        XAsimmetryFunc_[planeID]->SetParameter(3, 525);
-        XAsimmetryFunc_[planeID]->SetParLimits(3, 510, 600);
-        XAsimmetryFunc_[planeID]->SetParameter(2, 25 );
-        XAsimmetryFunc_[planeID]->SetParLimits(2, 10 , 100);
-        XAsimmetryFunc_[planeID]->SetParameter(1, 0.5 );
-        XAsimmetryFunc_[planeID]->SetParLimits(2, 0.01 , 9);
-//        XAsimmetryFunc_[planeID]->SetParameter(0, 100);
-//        XAsimmetryFunc_[planeID]->SetParLimits(0, 50 , 500);  */
         XAsimmetryFunc_[planeID]->FixParameter(0, 500);
         XAsimmetryFunc_[planeID]->FixParameter(1, 1.5);
         XAsimmetryFunc_[planeID]->FixParameter(2, 5.);
@@ -381,12 +361,12 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
             XAsimmetryFunc_[planeID]->FixParameter(2, planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // AppliedVoltage + DepletionVoltage
-            XAsimmetryFunc_[planeID]->FixParameter(3, planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage + planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
+            XAsimmetryFunc_[planeID]->FixParameter(3, (planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage) + (planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage));
         }
     }
 
     // NOTE: Additional settings end
-
+    STDLINE("DEBUG: PlaneID " + planeID, ACRed);// FIXME: DELETE THIS LINE
     STDLINE("Fitting eta function in coordinate x for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
 
     if (type == "Size2")
@@ -437,16 +417,6 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
     if (type == "Size2")
     {
         YAsimmetryFunc_[planeID]->FixParameter(5, 1.);
-/*        YAsimmetryFunc_[planeID]->SetParameter(4, 3. );
-        YAsimmetryFunc_[planeID]->SetParLimits(4, 0.1, 100);
-        YAsimmetryFunc_[planeID]->SetParameter(3, 525);
-        YAsimmetryFunc_[planeID]->SetParLimits(3, 510, 600);
-        YAsimmetryFunc_[planeID]->SetParameter(2, 25 );
-        YAsimmetryFunc_[planeID]->SetParLimits(2, 10 , 100);
-        YAsimmetryFunc_[planeID]->SetParameter(1, 2. );
-        YAsimmetryFunc_[planeID]->SetParLimits(1, 0.1 , 100);
-//        YAsimmetryFunc_[planeID]->SetParameter(0, 100);
-//        YAsimmetryFunc_[planeID]->SetParLimits(0, 50 , 500); */
         YAsimmetryFunc_[planeID]->FixParameter(0, 500);
         YAsimmetryFunc_[planeID]->FixParameter(1, 0.02);
         YAsimmetryFunc_[planeID]->FixParameter(2, 5.);
@@ -458,16 +428,6 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
     else if (type == "SizeLE2")
     {
         YAsimmetryFunc_[planeID]->FixParameter(5, 1.);
-/*        YAsimmetryFunc_[planeID]->SetParameter(4, 0.01 );
-        YAsimmetryFunc_[planeID]->SetParLimits(4, 0.001, 0.3);
-        YAsimmetryFunc_[planeID]->SetParameter(3, 525);
-        YAsimmetryFunc_[planeID]->SetParLimits(3, 510, 600);
-        YAsimmetryFunc_[planeID]->SetParameter(2, 25 );
-        YAsimmetryFunc_[planeID]->SetParLimits(2, 10 , 100);
-        YAsimmetryFunc_[planeID]->SetParameter(1, 1 );
-        YAsimmetryFunc_[planeID]->SetParLimits(1, 0.1 , 9);
-//        YAsimmetryFunc_[planeID]->SetParameter(0, 100);
-//        YAsimmetryFunc_[planeID]->SetParLimits(0, 50 , 500);  */
         YAsimmetryFunc_[planeID]->FixParameter(0, 500);
         YAsimmetryFunc_[planeID]->FixParameter(1, 1.5);
         YAsimmetryFunc_[planeID]->FixParameter(2, 5.);
@@ -507,13 +467,13 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
             YAsimmetryFunc_[planeID]->FixParameter(2, planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // AppliedVoltage + DepletionVoltage
-            YAsimmetryFunc_[planeID]->FixParameter(3, planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage + planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(3, (planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage) + (planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage));
         }
     }
 
     // NOTE: Additional settings end
 
-
+    STDLINE("DEBUG: PlaneID " + planeID, ACRed); // FIXME: DELETE THIS LINE
     STDLINE("Fitting eta function in coordinate y for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
 
     if (type == "Size2")
