@@ -342,8 +342,8 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
 
     // NOTE: Additional settings start
     // X Axis
-    if (planeID == 8 || planeID == 9) {
-        // NOTE: Not sure planeID 9
+    if (thePlaneMapping_->getPlaneName(planeID) == "Dut0" || thePlaneMapping_->getPlaneName(planeID) == "Dut1") {
+        bool isDut0 = thePlaneMapping_->getPlaneName(planeID) == "Dut0" ? true : false;
         double mu = 0;
         if (type == "Size2")
             mu = 0.002;
@@ -352,21 +352,21 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
 
         if (type != "SizeLE2Inv") {
             // Thickness
-            XAsimmetryFunc_[planeID]->FixParameter(0, planeID == 8 ? DUT0_Thickness : DUT1_Thickness);
+            XAsimmetryFunc_[planeID]->FixParameter(0, isDut0 ? DUT0_Thickness : DUT1_Thickness);
 
             // 2*mu*DepletionVoltage
-            XAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
+            XAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * isDut0 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // Depletion Voltage
-            XAsimmetryFunc_[planeID]->FixParameter(2, planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
+            XAsimmetryFunc_[planeID]->FixParameter(2, isDut0 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // AppliedVoltage + DepletionVoltage
-            XAsimmetryFunc_[planeID]->FixParameter(3, (planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage) + (planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage));
+            XAsimmetryFunc_[planeID]->FixParameter(3, (isDut0 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage) + (isDut0 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage));
         }
     }
 
     // NOTE: Additional settings end
-    STDLINE("DEBUG: PlaneID " + planeID, ACRed);// FIXME: DELETE THIS LINE
+    STDLINE("DEBUG: PlaneID " + QString::number(planeID).toStdString(), ACRed);// FIXME: DELETE THIS LINE
     STDLINE("Fitting eta function in coordinate x for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
 
     if (type == "Size2")
@@ -448,8 +448,8 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
 
     // NOTE: Additional settings start
     // Y Axis
-    if (planeID == 8 || planeID == 9) {
-        // NOTE: Not sure planeID 9
+    if (thePlaneMapping_->getPlaneName(planeID) == "Dut0" || thePlaneMapping_->getPlaneName(planeID) == "Dut1") {
+        bool isDut0 = thePlaneMapping_->getPlaneName(planeID) == "Dut0" ? true : false;
         double mu = 0;
         if (type == "Size2")
             mu = 0.002;
@@ -458,22 +458,21 @@ void TracksAfter::fitEtaFunc (int planeID, std::string type)
 
         if (type != "SizeLE2Inv") {
             // Thickness
-            YAsimmetryFunc_[planeID]->FixParameter(0, planeID == 8 ? DUT0_Thickness : DUT1_Thickness);
+            YAsimmetryFunc_[planeID]->FixParameter(0, isDut0 ? DUT0_Thickness : DUT1_Thickness);
 
             // 2*mu*DepletionVoltage
-            YAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(1, 2 * mu * isDut0 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // Depletion Voltage
-            YAsimmetryFunc_[planeID]->FixParameter(2, planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
+            YAsimmetryFunc_[planeID]->FixParameter(2, isDut0 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage);
 
             // AppliedVoltage + DepletionVoltage
-            YAsimmetryFunc_[planeID]->FixParameter(3, (planeID == 8 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage) + (planeID == 8 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage));
+            YAsimmetryFunc_[planeID]->FixParameter(3, (isDut0 ? DUT0_AppliedVoltage : DUT1_AppliedVoltage) + (isDut0 ? DUT0_DepletionVoltage : DUT1_DepletionVoltage));
         }
     }
 
     // NOTE: Additional settings end
-
-    STDLINE("DEBUG: PlaneID " + planeID, ACRed); // FIXME: DELETE THIS LINE
+    STDLINE("DEBUG: PlaneID " + QString::number(planeID).toStdString(), ACRed);// FIXME: DELETE THIS LINE
     STDLINE("Fitting eta function in coordinate y for plane " + thePlaneMapping_->getPlaneName(planeID) + ", size constraint: " + type, ACGreen);
 
     if (type == "Size2")
