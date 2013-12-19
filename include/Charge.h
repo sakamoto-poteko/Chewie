@@ -115,6 +115,9 @@ private:
     // NOTE: Fix START
     std::vector<TH2F*>    h2DCellChargeOddColumns_;
     std::vector<TH2F*>    h2DCellChargeEvenColumns_;
+    std::vector<TH2F*>    h2DallEvenTracks_                        ;
+    std::vector<TH2F*>    h2DallOddTracks_                         ;
+
     // NOTE: Fix END
     std::vector<TH2F*>    h2DCellChargeNum_                        ;
     std::vector<TH2F*>    h2DallTracks_                            ;

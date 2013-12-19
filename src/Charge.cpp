@@ -96,6 +96,8 @@ void Charge::destroy(void)
     for(std::vector<TH2F*>::iterator it=h2DCellChargeOddColumns_                .begin(); it!=h2DCellChargeOddColumns_                .end(); it++) delete *it; h2DCellChargeOddColumns_                .clear();
     for(std::vector<TH2F*>::iterator it=h2DCellChargeNum_                       .begin(); it!=h2DCellChargeNum_                       .end(); it++) delete *it; h2DCellChargeNum_                       .clear();
     for(std::vector<TH2F*>::iterator it=h2DallTracks_                           .begin(); it!=h2DallTracks_                           .end(); it++) delete *it; h2DallTracks_                           .clear();
+    for(std::vector<TH2F*>::iterator it=h2DallEvenTracks_                       .begin(); it!=h2DallEvenTracks_                       .end(); it++) delete *it; h2DallEvenTracks_                       .clear();
+    for(std::vector<TH2F*>::iterator it=h2DallOddTracks_                        .begin(); it!=h2DallOddTracks_                        .end(); it++) delete *it; h2DallOddTracks_                        .clear();
     for(std::vector<TH2F*>::iterator it=h2DCellChargeNorm_                      .begin(); it!=h2DCellChargeNorm_                      .end(); it++) delete *it; h2DCellChargeNorm_                      .clear();
     for(std::vector<TH2F*>::iterator it=h4CellsCharge_                          .begin(); it!=h4CellsCharge_                          .end(); it++) delete *it; h4CellsCharge_                          .clear();
     for(std::vector<TH2F*>::iterator it=h4CellsAllTracks_                       .begin(); it!=h4CellsAllTracks_                       .end(); it++) delete *it; h4CellsAllTracks_                       .clear();
@@ -837,6 +839,16 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
         return;
 
     THREADED(h2DallTracks_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+
+    // NOTE: Fix START
+    if (col % 2 == 0) {
+        THREADED(h2DallEvenTracks_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+    } else {
+        THREADED(h2DallOddTracks_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+    }
+
+    // NOTE: Fix END
+
     if (data.getClusterSize(planeID) == 2)
     {
         THREADED(h2DCellChargeNormSize2_[planeID])->Fill(xRes, yRes);
@@ -2263,6 +2275,8 @@ void Charge::endJob(void)
         ADD_THREADED(h2DCellChargeOddColumns_                 [p]);
         ADD_THREADED(h2DCellChargeNum_                        [p]);
         ADD_THREADED(h2DallTracks_                            [p]);
+        ADD_THREADED(h2DallEvenTracks_                        [p]);
+        ADD_THREADED(h2DallOddTracks_                         [p]);
         ADD_THREADED(h2DCellChargeNorm_                       [p]);
         ADD_THREADED(h2DCellChargeNormSize2_                  [p]);
         ADD_THREADED(h2DCellChargeNormSize1_                  [p]);
@@ -2352,6 +2366,8 @@ void Charge::endJob(void)
         }
 
         h2DCellCharge_                [p]->Divide(h2DallTracks_            [p]);
+        h2DCellChargeEvenColumns_     [p]->Divide(h2DallEvenTracks_        [p]);
+        h2DCellChargeOddColumns_      [p]->Divide(h2DallOddTracks_         [p]);
         h4CellsCharge_                [p]->Divide(h4CellsChargeNorm_       [p]);
         h4HitsCharge_                 [p]->Divide(h4Hits_                  [p]);
 
@@ -2514,6 +2530,10 @@ void Charge::endJob(void)
         h2DCellChargeNum_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
         h2DallTracks_                            [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         h2DallTracks_                            [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DallEvenTracks_                            [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DallEvenTracks_                            [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DallOddTracks_                            [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DallOddTracks_                            [p]->GetYaxis()->SetTitle("short pitch (um)"  );
         h2DCellChargeNorm_                       [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         h2DCellChargeNorm_                       [p]->GetYaxis()->SetTitle("short pitch (um)"  );
         h2DCellChargeNormSize2_                  [p]->GetXaxis()->SetTitle("long pitch (um)"   );
@@ -2760,6 +2780,14 @@ void Charge::book(void)
         hName  = "h2DallTracks_"                   + planeName;
         hTitle = "Cell charge normalization "      + planeName;
         h2DallTracks_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
+        hName  = "h2DallEvenTracks_"                   + planeName;
+        hTitle = "Cell charge normalization even columns"      + planeName;
+        h2DallEvenTracks_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
+        hName  = "h2DallOddTracks_"                   + planeName;
+        hTitle = "Cell charge normalization odd columns"      + planeName;
+        h2DallOddTracks_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
 
         hName  = "h2DCellChargeNorm_"              + planeName;
         hTitle = "Cell charge normalization 2"     + planeName;
