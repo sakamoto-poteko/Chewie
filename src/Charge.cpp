@@ -2264,8 +2264,6 @@ void Charge::endJob(void)
         ADD_THREADED(h2DCellChargeNum_                        [p]);
         ADD_THREADED(h2DallTracks_                            [p]);
         ADD_THREADED(h2DCellChargeNorm_                       [p]);
-        ADD_THREADED(h2DCellChargeEvenColumnsNorm_            [p]);
-        ADD_THREADED(h2DCellChargeOddColumnsNorm_             [p]);
         ADD_THREADED(h2DCellChargeNormSize2_                  [p]);
         ADD_THREADED(h2DCellChargeNormSize1_                  [p]);
         ADD_THREADED(h2DCellChargeNormSize2Up_                [p]);
@@ -2347,9 +2345,6 @@ void Charge::endJob(void)
         ADD_THREADED(h2DYcellChargeAsimmetryUnconstrainedInv_ [p]);
         ADD_THREADED(h2DYCellChargeAsimmetrySizeLE2_          [p]);
 
-//        ADD_THREADED(mXMeanCharge_                            [p]);
-//        ADD_THREADED(mYMeanCharge_                            [p]);
-
         for (std::vector<int>::iterator it = fRunNumbers_.begin(); it != fRunNumbers_.end(); ++it)
         {
             ADD_THREADED(mXYMeanCharge_[p][*it]);
@@ -2357,10 +2352,6 @@ void Charge::endJob(void)
         }
 
         h2DCellCharge_                [p]->Divide(h2DallTracks_            [p]);
-        // NOTE: endJob() Fix START
-        h2DCellChargeEvenColumns_     [p]->Divide(h2DCellChargeEvenColumnsNorm_[p]);
-        h2DCellChargeOddColumns_      [p]->Divide(h2DCellChargeOddColumnsNorm_[p]);
-        // NOTE: endJob() Fix END
         h4CellsCharge_                [p]->Divide(h4CellsChargeNorm_       [p]);
         h4HitsCharge_                 [p]->Divide(h4Hits_                  [p]);
 
