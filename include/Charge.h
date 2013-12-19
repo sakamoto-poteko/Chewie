@@ -1,3 +1,12 @@
+/**
+ *     Charge.h
+ *
+ *     Added support to Odd & Even column Cell Charge Histogram
+ *
+ *     Currently maintained by Afa.L Cheng <alpha@tomatoeskit.org>
+ *
+**/
+
 #ifndef CHARGE_H
 #define CHARGE_H
 
@@ -103,6 +112,10 @@ private:
 
     /*--------------------------2D cell charge--------------------*/
     std::vector<TH2F*>    h2DCellCharge_                           ;
+    // NOTE: Fix START
+    std::vector<TH2F*>    h2DCellChargeOddColumns_;
+    std::vector<TH2F*>    h2DCellChargeEvenColumns_;
+    // NOTE: Fix END
     std::vector<TH2F*>    h2DCellChargeNum_                        ;
     std::vector<TH2F*>    h2DallTracks_                            ;
     std::vector<TH2F*>    h2DCellChargeNorm_                       ;
@@ -193,7 +206,7 @@ private:
     std::vector<TH1F*>    hHitsNotOnRowColProjY_                   ;
 
     /*-------------------------X Asimmetry------------------------*/
-    std::vector<TH1F*>    hXasimmetry_                             ;    
+    std::vector<TH1F*>    hXasimmetry_                             ;
     std::vector<TH1F*>    hXasimmetry0_                            ;
     std::vector<TH2F*>    h2DXAsimmetryLandau_                     ;
     std::vector<TH2F*>    h2DXcellChargeAsimmetry_                 ;
