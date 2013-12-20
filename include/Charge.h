@@ -112,13 +112,16 @@ private:
 
     /*--------------------------2D cell charge--------------------*/
     std::vector<TH2F*>    h2DCellCharge_                           ;
-    // NOTE: Fix START
-    std::vector<TH2F*>    h2DCellChargeOddColumns_;
-    std::vector<TH2F*>    h2DCellChargeEvenColumns_;
-    std::vector<TH2F*>    h2DallEvenTracks_                        ;
-    std::vector<TH2F*>    h2DallOddTracks_                         ;
+    // Odd & Even Col/Row
+    std::vector<TH2F*>    h2DCellChargeOddColumnsOddRows_          ;
+    std::vector<TH2F*>    h2DCellChargeEvenColumnsOddRows_         ;
+    std::vector<TH2F*>    h2DEvenTracksOddRows_                    ;
+    std::vector<TH2F*>    h2DOddTracksOddRows_                     ;
+    std::vector<TH2F*>    h2DCellChargeOddColumnsEvenRows_         ;
+    std::vector<TH2F*>    h2DCellChargeEvenColumnsEvenRows_        ;
+    std::vector<TH2F*>    h2DEvenTracksEvenRows_                   ;
+    std::vector<TH2F*>    h2DOddTracksEvenRows_                    ;
 
-    // NOTE: Fix END
     std::vector<TH2F*>    h2DCellChargeNum_                        ;
     std::vector<TH2F*>    h2DallTracks_                            ;
     std::vector<TH2F*>    h2DCellChargeNorm_                       ;
