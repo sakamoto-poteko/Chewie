@@ -259,6 +259,7 @@ private:
 
     int totEventsControl_;
 
+    void oddEvenCellHelperOutOfWindow(const Data &data, int planeID, int row, int col);
  };
 
 #endif // CHARGE_H
