@@ -865,7 +865,7 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
 
     bool withinWindow = theWindow->checkWindow(col,row);
     if(!withinWindow)
-        goto CellChargeOddEven;
+        goto CellChargeOddEvenOutOfWindow;
 
     THREADED(h2DallTracks_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
 
@@ -918,6 +918,42 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
 
     THREADED(h2DCellChargeNorm_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
 
+    // Cell Charge Even/Odd Columns
+    // Will go here no matter within the window
+    // For those out of window
+CellChargeOddEvenOutOfWindow:
+    if (!withinWindow) {
+        int _csize = data.getClusterSize(planeID);
+
+        if( !data.getHasHit(planeID) || _csize > 4 )
+            return;
+
+        for(int h=0; h<_csize; h++)
+        {
+            if(    data.getClusterPixelRow   (h,planeID) == row
+                   && data.getClusterPixelCol   (h,planeID) == col
+                   && data.getIsPixelCalibrated (h,planeID)
+                   && data.getClusterPixelCharge(h,planeID) > threashold_
+                   && data.getClusterPixelCharge(h,planeID) < maxCharge_
+                   )
+            {
+                if (row % 2 == 0) { // Even rows
+                    if (col % 2 == 0)
+                        THREADED(h2DCellChargeEvenColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                    else
+                        THREADED(h2DCellChargeOddColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                } else { // Odd rows
+                    if (col % 2 == 0)
+                        THREADED(h2DCellChargeEvenColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                    else
+                        THREADED(h2DCellChargeOddColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                }
+            }
+        }
+        return;
+    }
+// End block
+
     for(int h=0; h<size; h++)
     {
         if(    data.getClusterPixelRow   (h,planeID) == row
@@ -930,10 +966,7 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
             THREADED(h4CellsChargeNorm_[planeID])->Fill(xRes,yRes);
             THREADED(h2DCellCharge_            [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
 
-            // Cell Charge Even/Odd Columns
-            // Will go here no matter within the window
-            // If not within window, leave after fill Even/Odd data
-CellChargeOddEven:
+            // This is for those within the window
             if (row % 2 == 0) { // Even rows
                 if (col % 2 == 0)
                     THREADED(h2DCellChargeEvenColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
@@ -945,10 +978,6 @@ CellChargeOddEven:
                 else
                     THREADED(h2DCellChargeOddColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
             }
-
-            if (!withinWindow)
-                return;
-
 
             THREADED(h2DCellChargeNum_         [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
             if (planeID == 9) ++totEventsControl_;
