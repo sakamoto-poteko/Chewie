@@ -3003,11 +3003,11 @@ void Charge::book(void)
 
         hName  = "h4CellsChargeNorm_"              + planeName;
         hTitle = "4 cells charge normalization 2 " + planeName;
-        h4CellsChargeNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h4CellsChargeNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10 - 1, -(resXRange) + 2.5, resXRange - 2.5, (int)resYRange/10 - 1, -(resYRange) + 2.5, resYRange - 2.5)));
 
         hName  = "h4CellsCharge_"                  + planeName;
         hTitle = "4 cells charge 2D distribution " + planeName;
-        h4CellsCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h4CellsCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10 - 1, -(resXRange) + 2.5, resXRange - 2.5, (int)resYRange/10 - 1, -(resYRange) + 2.5, resYRange - 2.5)));
 
         hName  = "h4HitsCharge_"                   + planeName;
         hTitle = "4 hits charge 2D distribution "  + planeName;
