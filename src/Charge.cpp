@@ -1105,7 +1105,7 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
  * @param row
  * @param col
  */
-void Charge::oddEvenCellHelperOutOfWindow(const Data &data, int planeID, int row, int col)
+void Charge::oddEvenCellHelperOutOfWindow(const Data &data, int planeID, int row, int col, int threadNumber)
 {
     // Cell Charge Even/Odd Columns
     // Will go here no matter within the window
