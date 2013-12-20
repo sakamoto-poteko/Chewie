@@ -106,6 +106,9 @@ void Charge::destroy(void)
     for(std::vector<TH2F*>::iterator it=h2DCellChargeOddColumnsEvenRows_        .begin(); it!=h2DCellChargeOddColumnsEvenRows_        .end(); it++) delete *it; h2DCellChargeOddColumnsEvenRows_        .clear();
     for(std::vector<TH2F*>::iterator it=h2DEvenTracksEvenRows_                  .begin(); it!=h2DEvenTracksEvenRows_                  .end(); it++) delete *it; h2DEvenTracksEvenRows_                  .clear();
     for(std::vector<TH2F*>::iterator it=h2DOddTracksEvenRows_                   .begin(); it!=h2DOddTracksEvenRows_                   .end(); it++) delete *it; h2DOddTracksEvenRows_                   .clear();
+    // Row independent
+    for(std::vector<TH2F*>::iterator it=h2DCellChargeOddColumns_                .begin(); it!=h2DCellChargeOddColumns_                .end(); it++) delete *it; h2DCellChargeOddColumns_                .clear();
+    for(std::vector<TH2F*>::iterator it=h2DCellChargeEvenColumns_               .begin(); it!=h2DCellChargeEvenColumns_               .end(); it++) delete *it; h2DCellChargeEvenColumns_               .clear();
     // END Odd/Even Cell Charge
     for(std::vector<TH2F*>::iterator it=h2DCellChargeNorm_                      .begin(); it!=h2DCellChargeNorm_                      .end(); it++) delete *it; h2DCellChargeNorm_                      .clear();
     for(std::vector<TH2F*>::iterator it=h4CellsCharge_                          .begin(); it!=h4CellsCharge_                          .end(); it++) delete *it; h4CellsCharge_                          .clear();
@@ -2360,6 +2363,10 @@ void Charge::endJob(void)
 
         ADD_THREADED(h2DCellChargeEvenColumnsEvenRows_        [p]);
         ADD_THREADED(h2DCellChargeOddColumnsEvenRows_         [p]);
+
+        // row independent
+        ADD_THREADED(h2DCellChargeOddColumns_                 [p]);
+        ADD_THREADED(h2DCellChargeEvenColumns_                [p]);
         // END Odd/Even Cell
 
         ADD_THREADED(h2DCellChargeNorm_                       [p]);
@@ -2459,6 +2466,12 @@ void Charge::endJob(void)
         // Even row
         h2DCellChargeEvenColumnsEvenRows_   [p]->Divide(h2DEvenTracksEvenRows_  [p]);
         h2DCellChargeOddColumnsEvenRows_    [p]->Divide(h2DOddTracksEvenRows_   [p]);
+
+        // row independent
+        h2DCellChargeOddColumns_            [p]->Add(h2DCellChargeOddColumnsOddRows_);
+        h2DCellChargeOddColumns_            [p]->Add(h2DCellChargeOddColumnsEvenRows_);
+        h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsOddRows_);
+        h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_);
         // End Odd/Even Cell
 
         h4CellsCharge_                [p]->Divide(h4CellsChargeNorm_       [p]);
@@ -2637,6 +2650,12 @@ void Charge::endJob(void)
 
         h2DOddTracksEvenRows_                    [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         h2DOddTracksEvenRows_                    [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        // row independent
+        h2DCellChargeEvenColumns_                [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeEvenColumns_                [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DCellChargeOddColumns_                 [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeOddColumns_                 [p]->GetYaxis()->SetTitle("short pitch (um)"  );
         // End Odd/Even Cell Charge Axis name
         h2DCellChargeNum_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         h2DCellChargeNum_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
@@ -2935,6 +2954,17 @@ void Charge::book(void)
         hName  = "h2DCellChargeOddColumnsEvenRows_" + planeName;
         hTitle = "Cell charge 2D distribution even columns even rows no window" + planeName;
         h2DCellChargeOddColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
+        // row independent
+        hName  = "h2DCellChargeEvenColumns_"+ planeName;
+        hTitle = "Cell charge 2D distribution even columns no window" + planeName;
+        h2DCellChargeEvenColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
+        hName  = "h2DCellChargeOddColumns_" + planeName;
+        hTitle = "Cell charge 2D distribution even columns no window" + planeName;
+        h2DCellChargeOddColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
+
         // END Cell Charge Odd/Even
 
         hName  = "h2DCellChargeNum_"                          + planeName;

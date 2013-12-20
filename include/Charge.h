@@ -121,6 +121,9 @@ private:
     std::vector<TH2F*>    h2DCellChargeEvenColumnsEvenRows_        ;
     std::vector<TH2F*>    h2DEvenTracksEvenRows_                   ;
     std::vector<TH2F*>    h2DOddTracksEvenRows_                    ;
+    std::vector<TH2F*>    h2DCellChargeOddColumns_;
+    std::vector<TH2F*>    h2DCellChargeEvenColumns_;
+
 
     std::vector<TH2F*>    h2DCellChargeNum_                        ;
     std::vector<TH2F*>    h2DallTracks_                            ;
