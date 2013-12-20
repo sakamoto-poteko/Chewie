@@ -259,7 +259,7 @@ private:
 
     int totEventsControl_;
 
-    void oddEvenCellHelperOutOfWindow(const Data &data, int planeID, int row, int col);
+    void oddEvenCellHelperOutOfWindow(const Data &data, int planeID, int row, int col, int threadNumber);
  };
 
 #endif // CHARGE_H
