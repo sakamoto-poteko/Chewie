@@ -2468,10 +2468,10 @@ void Charge::endJob(void)
         h2DCellChargeOddColumnsEvenRows_    [p]->Divide(h2DOddTracksEvenRows_   [p]);
 
         // row independent
-        h2DCellChargeOddColumns_            [p]->Add(h2DCellChargeOddColumnsOddRows_    [p]);
-        h2DCellChargeOddColumns_            [p]->Add(h2DCellChargeOddColumnsEvenRows_   [p]);
-        h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsOddRows_   [p]);
-        h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_  [p]);
+        h2DCellChargeOddColumns_            [p]->Add(h2DCellChargeOddColumnsOddRows_    [p], 0.5);
+        h2DCellChargeOddColumns_            [p]->Add(h2DCellChargeOddColumnsEvenRows_   [p], 0.5);
+        h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsOddRows_   [p], 0.5);
+        h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_  [p], 0.5);
         // End Odd/Even Cell
 
         h4CellsCharge_                [p]->Divide(h4CellsChargeNorm_       [p]);
