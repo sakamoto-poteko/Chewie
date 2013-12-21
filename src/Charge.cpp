@@ -2480,7 +2480,6 @@ void Charge::endJob(void)
         // FIXME: Test it
         // Generate 4 cell histogram
         int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX() + 2;
-STDLINE(QString("X Bins: %1, Y Bins: %2").arg(_cell_xnbins - 1).arg(_cell_ynbins - 1).toStdString().c_str(), ACRED);
         int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY() + 2;
         int _cell_yshift = _cell_ynbins / 2;
         // Get it once, since all are same
@@ -3012,7 +3011,7 @@ void Charge::book(void)
         // 4 Cells
         hName  = "h4CellChargeFullRange_"+ planeName;
         hTitle = "4 Cell charge 2D distribution full range no window "+ planeName;
-        h4CellChargeFullRange_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2 * ((int)resXRange/5 - 1), 2 * (-(resXRange/2) + 2.5), 2 * (resXRange/2 - 2.5), 2 * ((int)resYRange/5 - 1), 2 * (-(resYRange/2) + 2.5), 2 * (resYRange/2 - 2.5))));
+        h4CellChargeFullRange_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2 * ((int)resXRange/5) + 1, 2 * (-(resXRange/2) + 2.5), 2 * (resXRange/2 - 2.5), 2 * ((int)resYRange/5) + 1, 2 * (-(resYRange/2) + 2.5), 2 * (resYRange/2 - 2.5))));
 
 
         // END Cell Charge Odd/Even
