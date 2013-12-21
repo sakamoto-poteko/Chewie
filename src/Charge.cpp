@@ -2479,16 +2479,16 @@ void Charge::endJob(void)
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_  [p], 0.5);
         // FIXME: Test it
         // Generate 4 cell histogram
-        int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX() + 1;
+        int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX() + 2;
 STDLINE(QString("X Bins: %1, Y Bins: %2").arg(_cell_xnbins - 1).arg(_cell_ynbins - 1).toStdString().c_str(), ACRED);
-        int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY() + 1;
+        int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY() + 2;
         int _cell_yshift = _cell_ynbins / 2;
         // Get it once, since all are same
 
         // O Col O Row  -x, +y
         for (int i = 0; i < _cell_xnbins; ++i) {
             for (int j = 0; j < _cell_ynbins; ++j) {
-                h4CellChargeFullRange_[p]->SetBinContent(i, j + _cell_yshift,
+                h4CellChargeFullRange_[p]->SetBinContent(i, j + _cell_ynbins,
                                                          h2DCellChargeOddColumnsOddRows_[p]->GetBinContent(i, j));
             }
         }
