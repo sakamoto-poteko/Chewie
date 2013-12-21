@@ -10,7 +10,7 @@
 #include "XmlParser.h"
 #include "XmlPlane.h"
 #include "XmlAnalysis.h"
-#include "ANSIColors.h"
+
 #include <TH1F.h>
 #include <TH2F.h>
 #include <TThread.h>
@@ -2477,11 +2477,9 @@ void Charge::endJob(void)
         h2DCellChargeOddColumns_            [p]->Add(h2DCellChargeOddColumnsEvenRows_   [p], 0.5);
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsOddRows_   [p], 0.5);
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_  [p], 0.5);
-        // FIXME: Test it
         // Generate 4 cell histogram
         int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX() + 2;
         int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY() + 2;
-        int _cell_yshift = _cell_ynbins / 2;
         // Get it once, since all are same
 
         // O Col O Row  -x, +y
