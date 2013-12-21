@@ -1735,7 +1735,7 @@ p, li { white-space: pre-wrap; }
       <bool>false</bool>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="converterT">
       <attribute name="title">
