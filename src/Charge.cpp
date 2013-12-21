@@ -2480,24 +2480,22 @@ void Charge::endJob(void)
         // FIXME: Test it
         // Generate 4 cell histogram
         int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX();
-//        int _cell_xshift = _cell_xnbins / 2;
-        int _cell_xshift = _cell_xnbins;
+        int _cell_xshift = _cell_xnbins / 2;
         int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY();
-//        int _cell_yshift = _cell_ynbins / 2;
-        int _cell_yshift = _cell_ynbins;
+        int _cell_yshift = _cell_ynbins / 2;
         // Get it once, since all are same
 
         // O Col O Row  -x, +y
         for (int i = 0; i < _cell_xnbins; ++i) {
             for (int j = 0; j < _cell_ynbins; ++j) {
-                h4CellChargeFullRange_[p]->SetBinContent(i - _cell_xshift, j + _cell_yshift,
+                h4CellChargeFullRange_[p]->SetBinContent(i, j + _cell_yshift,
                                                          h2DCellChargeOddColumnsOddRows_[p]->GetBinContent(i, j));
             }
         }
         // O Col E Row  -x, -y
         for (int i = 0; i < _cell_xnbins; ++i) {
             for (int j = 0; j < _cell_ynbins; ++j) {
-                h4CellChargeFullRange_[p]->SetBinContent(i - _cell_xshift, j - _cell_yshift,
+                h4CellChargeFullRange_[p]->SetBinContent(i, j,
                                                          h2DCellChargeOddColumnsEvenRows_[p]->GetBinContent(i, j));
             }
         }
@@ -2511,7 +2509,7 @@ void Charge::endJob(void)
         // E Col E Row  +x, -y
         for (int i = 0; i < _cell_xnbins; ++i) {
             for (int j = 0; j < _cell_ynbins; ++j) {
-                h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xshift, j - _cell_yshift,
+                h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xshift, j,
                                                          h2DCellChargeEvenColumnsEvenRows_[p]->GetBinContent(i, j));
             }
         }
