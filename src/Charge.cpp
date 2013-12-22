@@ -2867,6 +2867,19 @@ void Charge::book(void)
     float resXRange = 150;
     float resYRange = 100;
 
+    // Very ugly refactor yet
+    int resXRangeOver5Minus1 = (int)resXRange/5 - 1;
+    float minusResXRangeOver2Plus2p5 = -(resXRange/2) + 2.5;
+    float resXRangeOver2Minus2p5 = resXRange/2 - 2.5;
+    int resYRangeOver5Minus1 = (int)resYRange/5 - 1;
+    float minusResYRangeOver2Plus2p5 = -(resYRange/2) + 2.5;
+    float resYRangeOver2m2p5 = resYRange/2 - 2.5;
+    float twiceResXRangeO2M1 = 2*(int)resXRange/2 - 1;
+    float twiceResYRangeO2M1 = 2*(int)resYRange/2 - 1;
+    float halfResYRange = resYRange/2;
+    float halfResXRange = resXRange/2;
+    int intResXRangeO5 = (int)resXRange/5;
+
     theAnalysisManager_->cd("/");
     theAnalysisManager_->mkdir("Charge");
 
@@ -2901,7 +2914,7 @@ void Charge::book(void)
 
         hName  = "hClusterSizeDistribution1s_"           + planeName;
         hTitle = "Size 1 cluster distribution on pixel " + planeName;
-        hClusterSizeDistribution1s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        hClusterSizeDistribution1s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
@@ -2951,118 +2964,118 @@ void Charge::book(void)
 
         hName  = "h2DallTracks_"                   + planeName;
         hTitle = "Cell charge normalization "      + planeName;
-        h2DallTracks_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DallTracks_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
 
         hName  = "h2DCellChargeNorm_"              + planeName;
         hTitle = "Cell charge normalization 2"     + planeName;
-        h2DCellChargeNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DCellCharge_"                  + planeName;
         hTitle = "Cell charge 2D distribution "    + planeName;
-        h2DCellCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         // START Cell Charge Odd/Even
         // Odd rows:
         hName  = "h2DEvenTracksOddRows_"           + planeName;
         hTitle = "Cell charge normalization even columns odd rows no window "   + planeName;
-        h2DEvenTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DEvenTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DOddTracksOddRows_"            + planeName;
         hTitle = "Cell charge normalization odd columns odd rows no window "    + planeName;
-        h2DOddTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DOddTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DCellChargeEvenColumnsOddRows_"+ planeName;
         hTitle = "Cell charge 2D distribution even columns odd rows no window " + planeName;
-        h2DCellChargeEvenColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeEvenColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DCellChargeOddColumnsOddRows_" + planeName;
         hTitle = "Cell charge 2D distribution odd columns odd rows no window "  + planeName;
-        h2DCellChargeOddColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeOddColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         // Even rows:
         hName  = "h2DEvenTracksEvenRows_"           + planeName;
         hTitle = "Cell charge normalization even columns even rows no window "  + planeName;
-        h2DEvenTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DEvenTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DOddTracksEvenRows_"            + planeName;
         hTitle = "Cell charge normalization odd columns even rows no window "   + planeName;
-        h2DOddTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DOddTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DCellChargeEvenColumnsEvenRows_"+ planeName;
         hTitle = "Cell charge 2D distribution even columns even rows no window "+ planeName;
-        h2DCellChargeEvenColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeEvenColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DCellChargeOddColumnsEvenRows_" + planeName;
         hTitle = "Cell charge 2D distribution even columns even rows no window "+ planeName;
-        h2DCellChargeOddColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeOddColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         // row independent
         hName  = "h2DCellChargeEvenColumns_"+ planeName;
         hTitle = "Cell charge 2D distribution even columns no window "+ planeName;
-        h2DCellChargeEvenColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeEvenColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DCellChargeOddColumns_" + planeName;
         hTitle = "Cell charge 2D distribution even columns no window "+ planeName;
-        h2DCellChargeOddColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeOddColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         // 4 Cells
         hName  = "h4CellChargeFullRange_"+ planeName;
         hTitle = "4 Cell charge 2D distribution full range no window "+ planeName;
-        h4CellChargeFullRange_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2 * ((int)resXRange/5) + 1, 2 * (-(resXRange/2) + 2.5), 2 * (resXRange/2 - 2.5), 2 * ((int)resYRange/5) + 1, 2 * (-(resYRange/2) + 2.5), 2 * (resYRange/2 - 2.5))));
+        h4CellChargeFullRange_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2 * (intResXRangeO5) + 1, 2 * (minusResXRangeOver2Plus2p5), 2 * (resXRangeOver2Minus2p5), 2 * ((int)resYRange/5) + 1, 2 * (minusResYRangeOver2Plus2p5), 2 * (resYRangeOver2m2p5))));
 
 
         // END Cell Charge Odd/Even
 
         hName  = "h2DCellChargeNum_"                          + planeName;
         hTitle = "Cell charge 2D distribution not normalized " + planeName;
-        h2DCellChargeNum_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNum_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DCellChargeNormSize2_"              + planeName;
         hTitle = "Cell charge normalization for cluster size 2 "     + planeName;
-        h2DCellChargeNormSize2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNormSize2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
         hName  = "h2DCellChargeNormSize1_"              + planeName;
         hTitle = "Cell charge normalization for cluster size 1 "     + planeName;
-        h2DCellChargeNormSize1_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNormSize1_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
         hName  = "h4CellsAllTracks_"               + planeName;
         hTitle = "4 cells charge normalization "   + planeName;
-        h4CellsAllTracks_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h4CellsAllTracks_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
         hName  = "h2DCellChargeNormSize2Up_"              + planeName;
         hTitle = "Cell charge normalization for cluster size 2 on the upper part of the revelator"     + planeName;
-        h2DCellChargeNormSize2Up_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNormSize2Up_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
         hName  = "h2DCellChargeNormSize1Up_"              + planeName;
         hTitle = "Cell charge normalization for cluster size 1 on the upper part of the revelator"     + planeName;
-        h2DCellChargeNormSize1Up_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNormSize1Up_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
         hName  = "h2DCellChargeNormSize2Down_"              + planeName;
         hTitle = "Cell charge normalization for cluster size 2 on the lower part of the revelator"     + planeName;
-        h2DCellChargeNormSize2Down_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNormSize2Down_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
         hName  = "h2DCellChargeNormSize1Down_"              + planeName;
         hTitle = "Cell charge normalization for cluster size 1 on the lower part of the revelator"     + planeName;
-        h2DCellChargeNormSize1Down_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeNormSize1Down_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "hCellChargeCoarse_"              + planeName;
         hTitle = "Cell charge 2D distribution "    + planeName;
-        hCellChargeCoarse_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10, -(resXRange/2), resXRange/2, (int)resYRange/10, -(resYRange/2), resYRange/2)));
+        hCellChargeCoarse_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10, -(halfResXRange), halfResXRange, (int)resYRange/10, -(halfResYRange), halfResYRange)));
 
         hName  = "hCellChargeCoarseNorm_"          + planeName;
         hTitle = "Cell charge normalization "      + planeName;
-        hCellChargeCoarseNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10, -(resXRange/2), resXRange/2, (int)resYRange/10, -(resYRange/2), resYRange/2)));
+        hCellChargeCoarseNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10, -(halfResXRange), halfResXRange, (int)resYRange/10, -(halfResYRange), halfResYRange)));
 
         hName  = "h4CellsChargeNorm_"              + planeName;
         hTitle = "4 cells charge normalization 2 " + planeName;
-        h4CellsChargeNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h4CellsChargeNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h4CellsCharge_"                  + planeName;
         hTitle = "4 cells charge 2D distribution " + planeName;
-        h4CellsCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h4CellsCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h4HitsCharge_"                   + planeName;
         hTitle = "4 hits charge 2D distribution "  + planeName;
-        h4HitsCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -resXRange, resXRange, (int)resYRange/5, -resYRange, resYRange)));
+        h4HitsCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), intResXRangeO5, -resXRange, resXRange, (int)resYRange/5, -resYRange, resYRange)));
 
         hName  = "h4Hits_"                         + planeName;
         hTitle = "4 hits 2D distribution "         + planeName;
-        h4Hits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -resXRange, resXRange, (int)resYRange/5, -resYRange, resYRange)));
+        h4Hits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), intResXRangeO5, -resXRange, resXRange, (int)resYRange/5, -resYRange, resYRange)));
 
         hName  = "hCutsControl_"                             + planeName;
         hTitle = "Events surviving different level of cuts " + planeName;
@@ -3070,7 +3083,7 @@ void Charge::book(void)
 
         hName  = "hHitsNotOnRowCol_"                  + planeName;
         hTitle = "Distribution of hits with the hit pixel not equal to the predicted "    + planeName;
-        hHitsNotOnRowCol_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        hHitsNotOnRowCol_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "hChargeNotOnRowCol_" + planeName;
         hTitle = "Charge distributionn for hits whose tracks don't point on the same pixel " + planeName;
@@ -3087,7 +3100,7 @@ void Charge::book(void)
             for(int y=0; y<(int)resYRange/10; y++)
             {
                 sName.str("");
-                sName << -(resXRange/2) + 5 + x*10 << "," << -(resYRange/2) + 5 + y*10;
+                sName << -(halfResXRange) + 5 + x*10 << "," << -(halfResYRange) + 5 + y*10;
                 hName  = "hCellChargeCoarseLandau_"  + sName.str()  + planeName;
                 hTitle = "Cell charge Landau ("      + sName.str()  + ")" + planeName;
                 hCellChargeCoarseLandau_[hCellChargeCoarseLandau_.size()-1].push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
@@ -3101,31 +3114,31 @@ void Charge::book(void)
 
         hName  = "h2DXcellCharge_"                                      + planeName;
         hTitle = "Predicted cell charge vs. X coordinate "              + planeName;
-        h2DXcellCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2, 100, -10000, 100000)));
+        h2DXcellCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange, 100, -10000, 100000)));
 
         hName  = "h2DXcellChargeSumLE2_"                                + planeName;
         hTitle = "Up to 2 adjacent hits total charge vs. X coordinate " + planeName;
-        h2DXcellChargeSumLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2, 100, -10000, 100000)));
+        h2DXcellChargeSumLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange, 100, -10000, 100000)));
 
         hName  = "h2DXcellChargeSumLE3_"                                + planeName;
         hTitle = "Up to 3 adjacent hits total charge vs. X coordinate " + planeName;
-        h2DXcellChargeSumLE3_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2, 100, -10000, 100000)));
+        h2DXcellChargeSumLE3_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange, 100, -10000, 100000)));
 
         hName  = "h2DXcellDoubleHits_"                                  + planeName;
         hTitle = "Double hits distribution vs. X coordinate "           + planeName;
-        h2DXcellDoubleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DXcellDoubleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DXcellSingleHits_"                                  + planeName;
         hTitle = "Single hits distribution vs. X coordinate "           + planeName;
-        h2DXcellSingleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DXcellSingleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "hHitsNotONRowColVsXSlope_" + planeName;
         hTitle = "x coordinate vs x slope for hits whose tracks don't point at the same pixel" + planeName;
-        hHitsNotONRowColVsXSlope_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2, 200, -0.000015,  0.000015)));
+        hHitsNotONRowColVsXSlope_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange, 200, -0.000015,  0.000015)));
 
         hName  = "hHitsNotONRowColProjX_" + planeName;
         hTitle = "x distribution for hits whose tracks don't point at the same pixel" + planeName;
-        hHitsNotOnRowColProjX_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        hHitsNotOnRowColProjX_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
@@ -3134,31 +3147,31 @@ void Charge::book(void)
 
         hName  = "h2DYcellCharge_"                                      + planeName;
         hTitle = "Predicted cell charge vs. Y coordinate "              + planeName;
-        h2DYcellCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1., 100, -10000, 100000)));
+        h2DYcellCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1., 100, -10000, 100000)));
 
         hName  = "h2DYcellChargeSumLE2_"                                + planeName;
         hTitle = "Up to 2 adjacent hits total charge vs. Y coordinate " + planeName;
-        h2DYcellChargeSumLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1., 100, -10000, 100000)));
+        h2DYcellChargeSumLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1., 100, -10000, 100000)));
 
         hName  = "h2DYcellChargeSumLE3_"                                + planeName;
         hTitle = "Up to 3 adjacent hits total charge vs. Y coordinate " + planeName;
-        h2DYcellChargeSumLE3_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1., 100, -10000, 100000)));
+        h2DYcellChargeSumLE3_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1., 100, -10000, 100000)));
 
         hName  = "h2DYcellDoubleHits_"                                  + planeName;
         hTitle = "Double hits vs. Y coordinate "                        + planeName;
-        h2DYcellDoubleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1., (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DYcellDoubleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1., resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "h2DYcellSingleHits_"                                  + planeName;
         hTitle = "Single hits vs. Y coordinate "                        + planeName;
-        h2DYcellSingleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1., (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DYcellSingleHits_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1., resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5)));
 
         hName  = "hHitsNotONRowColVsYSlope_" + planeName;
         hTitle = "y coordinate vs y slope for hits whose tracks don't point at the same pixel" + planeName;
-        hHitsNotONRowColVsYSlope_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resYRange/2,-(resYRange/2),resYRange/2, 200, -0.000015,  0.000015)));
+        hHitsNotONRowColVsYSlope_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResYRange,-(halfResYRange),halfResYRange, 200, -0.000015,  0.000015)));
 
         hName  = "hHitsNotONRowColProjY_" + planeName;
         hTitle = "y distribution for hits whose tracks don't point at the same pixel" + planeName;
-        hHitsNotOnRowColProjY_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        hHitsNotOnRowColProjY_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
@@ -3167,55 +3180,55 @@ void Charge::book(void)
 
         hName  = "h1DXcellCharge_"                                                             + planeName;
         hTitle = "Predicted cell charge - X coordinate (normalized to hits) "                  + planeName;
-        h1DXcellCharge_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellCharge_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeNormToAll_"                                                    + planeName;
         hTitle = "Predicted cell charge - X coordinate (normalized to tracks) "                + planeName;
-        h1DXcellChargeNormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeNormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeSumLE2_"                                                       + planeName;
         hTitle = "Up to 2 adjacent hits total charge - X coordinate (normalized to hits) "     + planeName;
-        h1DXcellChargeSumLE2_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeSumLE2_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeSumLE2NormToAll_"                                              + planeName;
         hTitle = "Up to 2 adjacent hits total charge - X coordinate (normalized to tracks) "   + planeName;
-        h1DXcellChargeSumLE2NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeSumLE2NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeSumLE3_"                                                       + planeName;
         hTitle = "Up to 3 adjacent hits total charge - X coordinate (normalized to hits) "     + planeName;
-        h1DXcellChargeSumLE3_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeSumLE3_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeSumLE3NormToAll_"                                              + planeName;
         hTitle = "Up to 3 adjacent hits total charge - X coordinate (normalized to tracks) "   + planeName;
-        h1DXcellChargeSumLE3NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeSumLE3NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXallTracks_"                                                              + planeName;
         hTitle = "All tracks normalization - X coordinate "                                    + planeName;
-        h1DXallTracks_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXallTracks_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeNorm_"                                                         + planeName;
         hTitle = "Predicted cell charge - X coordinate - all hits normalization "                + planeName;
-        h1DXcellChargeNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeSumLE2Norm_"                                                   + planeName;
         hTitle = "Up to 2 adjacent hits total charge - X coordinate - all hits normalization " + planeName;
-        h1DXcellChargeSumLE2Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeSumLE2Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellChargeSumLE3Norm_"                                                   + planeName;
         hTitle = "Up to 3 adjacent hits total charge - X coordinate - all hits normalization " + planeName;
-        h1DXcellChargeSumLE3Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellChargeSumLE3Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellSingleHits_"                                                         + planeName;
         hTitle = "Single hits distribution - X coordinate "                                    + planeName;
-        h1DXcellSingleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellSingleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcellDoubleHits_"                                                         + planeName;
         hTitle = "Double hits distribution - X coordinate "                                    + planeName;
-        h1DXcellDoubleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcellDoubleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         hName  = "h1DXcell3Hits_"                                                              + planeName;
         hTitle = "3 adjacent hits distribution - X coordinate "                                + planeName;
-        h1DXcell3Hits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resXRange/2,-(resXRange/2),resXRange/2)));
+        h1DXcell3Hits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResXRange,-(halfResXRange),halfResXRange)));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
@@ -3224,55 +3237,55 @@ void Charge::book(void)
 
         hName  = "h1DYcellCharge_"                                                             + planeName;
         hTitle = "Predicted cell charge - Y coordinate (normalized to hits) "                  + planeName;
-        h1DYcellCharge_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellCharge_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeNormToAll_"                                                    + planeName;
         hTitle = "Predicted cell charge - Y coordinate (normalized to tracks) "                + planeName;
-        h1DYcellChargeNormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeNormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeSumLE2_"                                                       + planeName;
         hTitle = "Up to 2 adjacent hits total charge - Y coordinate (normalized to hits) "     + planeName;
-        h1DYcellChargeSumLE2_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeSumLE2_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeSumLE2NormToAll_"                                              + planeName;
         hTitle = "Up to 2 adjacent hits total charge - Y coordinate (normalized to tracks) "   + planeName;
-        h1DYcellChargeSumLE2NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeSumLE2NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeSumLE3_"                                                       + planeName;
         hTitle = "Up to 3 adjacent hits total charge - Y coordinate (normalized to hits) "     + planeName;
-        h1DYcellChargeSumLE3_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeSumLE3_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeSumLE3NormToAll_"                                              + planeName;
         hTitle = "Up to 3 adjacent hits total charge - Y coordinate (normalized to tracks)"    + planeName;
-        h1DYcellChargeSumLE3NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeSumLE3NormToAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYallTracks_"                                                              + planeName;
         hTitle = "All tracks normalization - Y coordinate "                                    + planeName;
-        h1DYallTracks_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYallTracks_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeNorm_"                                                         + planeName;
         hTitle = "Predicted cell charge - Y coordinate - all hits normalization "              + planeName;
-        h1DYcellChargeNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeSumLE2Norm_"                                                   + planeName;
         hTitle = "Up to 2 adjacent hits total charge - Y coordinate - all hits normalization " + planeName;
-        h1DYcellChargeSumLE2Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeSumLE2Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellChargeSumLE3Norm_"                                                   + planeName;
         hTitle = "Up to 3 adjacent hits total charge - Y coordinate - all hits normalization " + planeName;
-        h1DYcellChargeSumLE3Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellChargeSumLE3Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellSingleHits_"                                                         + planeName;
         hTitle = "Single hits distribution - Y coordinate "                                    + planeName;
-        h1DYcellSingleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellSingleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcellDoubleHits_"                                                         + planeName;
         hTitle = "Double hits distribution - Y coordinate "                                    + planeName;
-        h1DYcellDoubleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcellDoubleHits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         hName  = "h1DYcell3Hits_"                                                              + planeName;
         hTitle = "3 adjacent hits distribution - Y coordinate "                                + planeName;
-        h1DYcell3Hits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)resYRange/2 - 1,-(resYRange/2) + 1.,resYRange/2 - 1.)));
+        h1DYcell3Hits_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), (int)halfResYRange - 1,-(halfResYRange) + 1.,halfResYRange - 1.)));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
@@ -3293,27 +3306,27 @@ void Charge::book(void)
 
         hName  = "h2DXcellChargeAsimmetry_"                                         + planeName;
         hTitle = "L/R charge asimmetry - X coordinate "                             + planeName;
-        h2DXcellChargeAsimmetry_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2, -(resXRange/2), resXRange/2, 102, -1.1, 1.1)));
+        h2DXcellChargeAsimmetry_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)halfResXRange, -(halfResXRange), halfResXRange, 102, -1.1, 1.1)));
 
         hName  = "h2DXcellChargeAsimmetryInv_"                                      + planeName;
         hTitle = "L/R charge asimmetry - X coordinate "                             + planeName;
-        h2DXcellChargeAsimmetryInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 102, -1.1, 1.1, 2*(int)resXRange/2, -(resXRange/2), resXRange/2)));
+        h2DXcellChargeAsimmetryInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 102, -1.1, 1.1, 2*(int)halfResXRange, -(halfResXRange), halfResXRange)));
 
         hName  = "h2DXcellChargeAsimmetryUnconstrained_"                            + planeName;
         hTitle = "L/R unconstrained charge asimmetry - X coordinate "               + planeName;
-        h2DXcellChargeAsimmetryUnconstrained_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/2, -(resXRange/2), resXRange/2, 100, -1, 1)));
+        h2DXcellChargeAsimmetryUnconstrained_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)halfResXRange, -(halfResXRange), halfResXRange, 100, -1, 1)));
 
         hName  = "h2DXcellChargeAsimmetryUnconstrainedInv_"                         + planeName;
         hTitle = "L/R unconstrained charge asimmetry - X coordinate "               + planeName;
-        h2DXcellChargeAsimmetryUnconstrainedInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 20, -1, 1, (int)resXRange/2, -(resXRange/2), resXRange/2)));
+        h2DXcellChargeAsimmetryUnconstrainedInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 20, -1, 1, (int)halfResXRange, -(halfResXRange), halfResXRange)));
 
         hName  = "h2DXcellChargeAsimmetrySizeLE2_"                                  + planeName;
         hTitle = "L/R charge asimmetry for cluster size <= 2 "                      + planeName;
-        h2DXCellChargeAsimmetrySizeLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, 102, -1.1, 1.1)));
+        h2DXCellChargeAsimmetrySizeLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, 102, -1.1, 1.1)));
 
         hName = "h1DXEtaDerivativeDistribution_" + planeName;
         hTitle = "Distribution of eta derivative function for coordinate x, " + planeName;
-        h1DXEtaDerivativeDistribution_.push_back(new TH1F (hName.c_str(), hTitle.c_str(), 2*(int)resXRange/2 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5));
+        h1DXEtaDerivativeDistribution_.push_back(new TH1F (hName.c_str(), hTitle.c_str(), twiceResXRangeO2M1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
@@ -3334,27 +3347,27 @@ void Charge::book(void)
 
         hName  = "h2DYcellChargeAsimmetry_"                                         + planeName;
         hTitle = "L/R charge asimmetry - Y coordinate "                             + planeName;
-        h2DYcellChargeAsimmetry_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resYRange/2 - 1, -(resYRange/2) + 1, resYRange/2 - 1, 102, -1.1, 1.1)));
+        h2DYcellChargeAsimmetry_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResYRangeO2M1, -(halfResYRange) + 1, halfResYRange - 1, 102, -1.1, 1.1)));
 
         hName  = "h2DYcellChargeAsimmetryInv_"                                      + planeName;
         hTitle = "L/R charge asimmetry - Y coordinate "                             + planeName;
-        h2DYcellChargeAsimmetryInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 102, -1.1, 1.1, 2*(int)resYRange/2 - 1, -(resYRange/2) + 1, resYRange/2 - 1)));
+        h2DYcellChargeAsimmetryInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 102, -1.1, 1.1, twiceResYRangeO2M1, -(halfResYRange) + 1, halfResYRange - 1)));
 
         hName  = "h2DYcellChargeAsimmetryUnconstrained_"                            + planeName;
         hTitle = "L/R unconstrained charge asimmetry - Y coordinate "               + planeName;
-        h2DYcellChargeAsimmetryUnconstrained_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),(int)resYRange/2 - 1, -(resYRange/2) + 1, resYRange/2 - 1, 100, -1, 1)));
+        h2DYcellChargeAsimmetryUnconstrained_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),(int)halfResYRange - 1, -(halfResYRange) + 1, halfResYRange - 1, 100, -1, 1)));
 
         hName  = "h2DYcellChargeAsimmetryUnconstrainedInv_"                         + planeName;
         hTitle = "L/R unconstrained charge asimmetry - Y coordinate "               + planeName;
-        h2DYcellChargeAsimmetryUnconstrainedInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 20, -1, 1, (int)resYRange/2 - 1, -(resYRange/2) + 1, resYRange/2 - 1)));
+        h2DYcellChargeAsimmetryUnconstrainedInv_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 20, -1, 1, (int)halfResYRange - 1, -(halfResYRange) + 1, halfResYRange - 1)));
 
         hName  = "h2DYcellChargeAsimmetrySizeLE2_"                                  + planeName;
         hTitle = "L/R charge asimmetry for cluster size <= 2 "                      + planeName;
-        h2DYCellChargeAsimmetrySizeLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5, 102, -1.1, 1.1)));
+        h2DYCellChargeAsimmetrySizeLE2_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5, 102, -1.1, 1.1)));
 
         hName = "h1DYEtaDerivativeDistribution_" + planeName;
         hTitle = "Distribution of eta derivative function for coordinate y, " + planeName;
-        h1DYEtaDerivativeDistribution_.push_back(new TH1F (hName.c_str(), hTitle.c_str(), 2*(int)resYRange/2 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5));
+        h1DYEtaDerivativeDistribution_.push_back(new TH1F (hName.c_str(), hTitle.c_str(), twiceResYRangeO2M1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
@@ -3404,10 +3417,10 @@ void Charge::book(void)
             sss << *it;
             hName = "xyChargeDistribution_run" + sss.str() + "_" + planeName;
             hTitle = "Charge distribution, run number #" + sss.str() + ", " + planeName;
-            aMap[*it] = NEW_THREADED(TH2F (hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5));
+            aMap[*it] = NEW_THREADED(TH2F (hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5));
             hName = "ChargeNormalization_run" + sss.str() + "_" + planeName;
             hTitle = "Normalization histogram, run number #" + sss.str() + ", " + planeName;
-            aMapNorm[*it] = NEW_THREADED(TH2F (hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5));
+            aMapNorm[*it] = NEW_THREADED(TH2F (hName.c_str(), hTitle.c_str(), resXRangeOver5Minus1, minusResXRangeOver2Plus2p5, resXRangeOver2Minus2p5, resYRangeOver5Minus1, minusResYRangeOver2Plus2p5, resYRangeOver2m2p5));
 
             if (*it > maxRunNumber) maxRunNumber = *it;
             if (*it < minRunNumber) minRunNumber = *it;
