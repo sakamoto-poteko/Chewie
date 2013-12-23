@@ -219,35 +219,34 @@ void Efficiency::endJob(void)
             hCellEfficiencyEvenColumnsOddRows_     [p]->Divide(hCellEfficiencyEvenColumnsOddRowsNorm_   [p]);
             hCellEfficiencyOddColumnsEvenRows_     [p]->Divide(hCellEfficiencyOddColumnsEvenRowsNorm_   [p]);
             hCellEfficiencyEvenColumnsEvenRows_    [p]->Divide(hCellEfficiencyEvenColumnsEvenRowsNorm_  [p]);
-            // FIXME: 4 Cell Coord
             // Generate 4 Cell Histogram
-            int _cell_xnbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsX() + 2;
-            int _cell_ynbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsY() + 2;
+            int _cell_xnbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsX();
+            int _cell_ynbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsY();
 
             // O Col O Row  -x, +y
-            for (int i = 0; i < _cell_xnbins; ++i) {
-                for (int j = 0; j < _cell_ynbins; ++j) {
+            for (int i = 1; i <= _cell_xnbins; ++i) {
+                for (int j = 1; j <= _cell_ynbins; ++j) {
                     h4CellEfficiency_[p]->SetBinContent(i, j + _cell_ynbins,
                                                         hCellEfficiencyOddColumnsOddRows_[p]->GetBinContent(i, j));
                 }
             }
             // O Col E Row  -x, -y
-            for (int i = 0; i < _cell_xnbins; ++i) {
-                for (int j = 0; j < _cell_ynbins; ++j) {
+            for (int i = 1; i <= _cell_xnbins; ++i) {
+                for (int j = 1; j <= _cell_ynbins; ++j) {
                     h4CellEfficiency_[p]->SetBinContent(i, j,
                                                         hCellEfficiencyOddColumnsEvenRows_[p]->GetBinContent(i, j));
                 }
             }
             // E Col O Row  +x, +y
-            for (int i = 0; i < _cell_xnbins; ++i) {
-                for (int j = 0; j < _cell_ynbins; ++j) {
+            for (int i = 1; i <= _cell_xnbins; ++i) {
+                for (int j = 1; j <= _cell_ynbins; ++j) {
                     h4CellEfficiency_[p]->SetBinContent(i + _cell_xnbins, j + _cell_ynbins,
                                                         hCellEfficiencyEvenColumnsOddRows_[p]->GetBinContent(i, j));
                 }
             }
             // E Col E Row  +x, -y
-            for (int i = 0; i < _cell_xnbins; ++i) {
-                for (int j = 0; j < _cell_ynbins; ++j) {
+            for (int i = 1; i <= _cell_xnbins; ++i) {
+                for (int j = 1; j <= _cell_ynbins; ++j) {
                     h4CellEfficiency_[p]->SetBinContent(i + _cell_xnbins, j,
                                                         hCellEfficiencyEvenColumnsEvenRows_[p]->GetBinContent(i, j));
                 }
@@ -390,41 +389,41 @@ void Efficiency::book(void)
         // Odd Rows
         hName  =  "hCellEfficiencyOddColumnsOddRowsNorm_"               + planeName;
         hTitle =  "Cell efficiency odd columns odd rows normalization " + planeName;
-        hCellEfficiencyOddColumnsOddRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyOddColumnsOddRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         hName  =  "hCellEfficiencyEvenColumnsOddRowsNorm_"              + planeName;
         hTitle =  "Cell efficiency even columns odd rows normalization " + planeName;
-        hCellEfficiencyEvenColumnsOddRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyEvenColumnsOddRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         hName  =  "hCellEfficiencyOddColumnsOddRows_"                   + planeName;
         hTitle =  "Cell efficiency odd columns odd rows " + planeName;
-        hCellEfficiencyOddColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyOddColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         hName  =  "hCellEfficiencyEvenColumnsOddRows_"                  + planeName;
         hTitle =  "Cell efficiency even columns odd rows " + planeName;
-        hCellEfficiencyEvenColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyEvenColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         // Even Rows
         hName  =  "hCellEfficiencyOddColumnsEvenRowsNorm_"              + planeName;
         hTitle =  "Cell efficiency odd columns even rows normalization " + planeName;
-        hCellEfficiencyOddColumnsEvenRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyOddColumnsEvenRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         hName  =  "hCellEfficiencyEvenColumnsEvenRowsNorm_"             + planeName;
         hTitle =  "Cell efficiency even columns even rows normalization " + planeName;
-        hCellEfficiencyEvenColumnsEvenRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyEvenColumnsEvenRowsNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         hName  =  "hCellEfficiencyOddColumnsEvenRows_"                  + planeName;
         hTitle =  "Cell efficiency odd columns even rows " + planeName;
-        hCellEfficiencyOddColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyOddColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         hName  =  "hCellEfficiencyEvenColumnsEvenRows_"                 + planeName;
         hTitle =  "Cell efficiency even columns even rows " + planeName;
-        hCellEfficiencyEvenColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+        hCellEfficiencyEvenColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         // 4 Cells
         hName  =  "h4CellEfficiency_"                 + planeName;
         hTitle =  "4 Cell efficiency " + planeName;
-        h4CellEfficiency_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(), 2 * ((int)resXRange/5 - 1), 2 * (-(resXRange/2) + 2.5), 2 * (resXRange/2 - 2.5), 2 * ((int)resYRange/5 - 1), 2 * (-(resYRange/2) + 2.5), 2 * (resYRange/2 - 2.5))));
+        h4CellEfficiency_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(), (int)2 * resXRange / 5, resXRange, resXRange, (int)2 * resYRange / 5, -resYRange, resYRange)));
 
         // END 4 Cell Efficiency
 
