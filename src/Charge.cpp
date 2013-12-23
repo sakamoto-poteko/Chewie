@@ -2478,8 +2478,8 @@ void Charge::endJob(void)
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsOddRows_   [p], 0.5);
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_  [p], 0.5);
         // Generate 4 cell histogram
-        int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX() + 2;
-        int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY() + 2;
+        int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX() + 3;
+        int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY() + 3;
         // Get it once, since all are same
 
         // O Col O Row  -x, +y
