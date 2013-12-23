@@ -2478,34 +2478,34 @@ void Charge::endJob(void)
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsOddRows_   [p], 0.5);
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_  [p], 0.5);
         // Generate 4 cell histogram
-        int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX() + 3;
-        int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY() + 3;
+        int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX();
+        int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY();
         // Get it once, since all are same
 
         // O Col O Row  -x, +y
-        for (int i = 0; i < _cell_xnbins; ++i) {
-            for (int j = 0; j < _cell_ynbins; ++j) {
+        for (int i = 1; i <= _cell_xnbins; ++i) {
+            for (int j = 1; j <= _cell_ynbins; ++j) {
                 h4CellChargeFullRange_[p]->SetBinContent(i, j + _cell_ynbins,
                                                          h2DCellChargeOddColumnsOddRows_[p]->GetBinContent(i, j));
             }
         }
         // O Col E Row  -x, -y
-        for (int i = 0; i < _cell_xnbins; ++i) {
-            for (int j = 0; j < _cell_ynbins; ++j) {
+        for (int i = 1; i <= _cell_xnbins; ++i) {
+            for (int j = 1; j <= _cell_ynbins; ++j) {
                 h4CellChargeFullRange_[p]->SetBinContent(i, j,
                                                          h2DCellChargeOddColumnsEvenRows_[p]->GetBinContent(i, j));
             }
         }
         // E Col O Row  +x, +y
-        for (int i = 0; i < _cell_xnbins; ++i) {
-            for (int j = 0; j < _cell_ynbins; ++j) {
+        for (int i = 1; i <= _cell_xnbins; ++i) {
+            for (int j = 1; j <= _cell_ynbins; ++j) {
                 h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xnbins, j + _cell_ynbins,
                                                          h2DCellChargeEvenColumnsOddRows_[p]->GetBinContent(i, j));
             }
         }
         // E Col E Row  +x, -y
-        for (int i = 0; i < _cell_xnbins; ++i) {
-            for (int j = 0; j < _cell_ynbins; ++j) {
+        for (int i = 1; i <= _cell_xnbins; ++i) {
+            for (int j = 1; j <= _cell_ynbins; ++j) {
                 h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xnbins, j,
                                                          h2DCellChargeEvenColumnsEvenRows_[p]->GetBinContent(i, j));
             }
@@ -2966,50 +2966,50 @@ void Charge::book(void)
         // Odd rows:
         hName  = "h2DEvenTracksOddRows_"           + planeName;
         hTitle = "Cell charge normalization even columns odd rows no window "   + planeName;
-        h2DEvenTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DEvenTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "h2DOddTracksOddRows_"            + planeName;
         hTitle = "Cell charge normalization odd columns odd rows no window "    + planeName;
-        h2DOddTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DOddTracksOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "h2DCellChargeEvenColumnsOddRows_"+ planeName;
         hTitle = "Cell charge 2D distribution even columns odd rows no window " + planeName;
-        h2DCellChargeEvenColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeEvenColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "h2DCellChargeOddColumnsOddRows_" + planeName;
         hTitle = "Cell charge 2D distribution odd columns odd rows no window "  + planeName;
-        h2DCellChargeOddColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeOddColumnsOddRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         // Even rows:
         hName  = "h2DEvenTracksEvenRows_"           + planeName;
         hTitle = "Cell charge normalization even columns even rows no window "  + planeName;
-        h2DEvenTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DEvenTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "h2DOddTracksEvenRows_"            + planeName;
         hTitle = "Cell charge normalization odd columns even rows no window "   + planeName;
-        h2DOddTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DOddTracksEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "h2DCellChargeEvenColumnsEvenRows_"+ planeName;
         hTitle = "Cell charge 2D distribution even columns even rows no window "+ planeName;
-        h2DCellChargeEvenColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeEvenColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "h2DCellChargeOddColumnsEvenRows_" + planeName;
         hTitle = "Cell charge 2D distribution even columns even rows no window "+ planeName;
-        h2DCellChargeOddColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeOddColumnsEvenRows_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         // row independent
         hName  = "h2DCellChargeEvenColumns_"+ planeName;
         hTitle = "Cell charge 2D distribution even columns no window "+ planeName;
-        h2DCellChargeEvenColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeEvenColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "h2DCellChargeOddColumns_" + planeName;
         hTitle = "Cell charge 2D distribution even columns no window "+ planeName;
-        h2DCellChargeOddColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        h2DCellChargeOddColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         // 4 Cells
         hName  = "h4CellChargeFullRange_"+ planeName;
         hTitle = "4 Cell charge 2D distribution full range no window "+ planeName;
-        h4CellChargeFullRange_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2 * ((int)resXRange/5) + 1, 2 * (-(resXRange/2) + 2.5), 2 * (resXRange/2 - 2.5), 2 * ((int)resYRange/5) + 1, 2 * (-(resYRange/2) + 2.5), 2 * (resYRange/2 - 2.5))));
+        h4CellChargeFullRange_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
 
 
         // END Cell Charge Odd/Even
