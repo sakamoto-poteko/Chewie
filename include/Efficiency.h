@@ -1,5 +1,5 @@
 #ifndef _Efficiency_h_
-#define _Efficiency_h_ 
+#define _Efficiency_h_
 
 #include "Analysis.h"
 
@@ -66,6 +66,16 @@ private:
     std::vector<TH2F*>                 hCellEfficiencyEvenColumns_    ;
     std::vector<TH2F*>                 hCellEfficiencyOddColumns_     ;
     std::vector<TH2F*>                 hCellInefficiency_             ;
+
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsEvenRowsNorm_ ;
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsOddRowsNorm_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsEvenRowsNorm_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsOddRowsNorm_   ;
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsEvenRows_ ;
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsOddRows_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsEvenRows_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsOddRows_   ;
+    std::vector<TH2F*>                  h4CellEfficiency_                   ;
 
     std::map< int,std::vector<TH1F*> > scanEfficiencyNorm_            ;
     std::map< int,std::vector<TH1F*> > scanEfficiencyHistos_          ;
