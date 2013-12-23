@@ -2547,8 +2547,8 @@ void Charge::endJob(void)
 
         CalculateEtaDerivative(p);
 
-        float resXRange = 150;
-        float resYRange = 100;
+        const float resXRange = 150;
+        const float resYRange = 100;
 
         h1DXcellChargeAsimmetry_                 [p]->SetMinimum(-1);
         h1DXcellChargeAsimmetry_                 [p]->SetMaximum( 1);
