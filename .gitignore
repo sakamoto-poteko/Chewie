@@ -16,6 +16,7 @@
 *.pro.user.*
 moc_*.cpp
 qrc_*.cpp
+ui_*.h
 Makefile
 *-build-*
 
@@ -24,3 +25,6 @@ CVS
 Express/xml/*
 Express/logs/*
 Chewie
+build
+CIn
+COut

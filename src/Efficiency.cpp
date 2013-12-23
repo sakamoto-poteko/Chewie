@@ -221,8 +221,8 @@ void Efficiency::endJob(void)
             hCellEfficiencyEvenColumnsEvenRows_    [p]->Divide(hCellEfficiencyEvenColumnsEvenRowsNorm_  [p]);
             // FIXME: 4 Cell Coord
             // Generate 4 Cell Histogram
-            int _cell_xnbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsX();
-            int _cell_ynbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsY();
+            int _cell_xnbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsX() + 2;
+            int _cell_ynbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsY() + 2;
 
             // O Col O Row  -x, +y
             for (int i = 0; i < _cell_xnbins; ++i) {
