@@ -2229,7 +2229,7 @@ void Charge::beginJob(void)
     maxCharge_    = theParser->getAnalysesFromString("Charge")->getMaxCharge();
     minTotCharge_ = theParser->getAnalysesFromString("Charge")->getMinTotCharge();
     maxTotCharge_ = theParser->getAnalysesFromString("Charge")->getMaxTotCharge();
-
+std::cout<<"Thre "<<threashold_<<std::endl;
     theWindowsManager_      = theAnalysisManager_->getWindowsManager();
     theCalibrationsManager_ = theAnalysisManager_->getCalibrationsManager();
 
