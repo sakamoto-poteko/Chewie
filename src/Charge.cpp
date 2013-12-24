@@ -85,6 +85,7 @@ void Charge::destroy(void)
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1sEREC_         .begin(); it!=hClusterSizeDistribution1sEREC_         .end(); it++) delete *it; hClusterSizeDistribution1sEREC_         .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1sOddColumns_   .begin(); it!=hClusterSizeDistribution1sOddColumns_   .end(); it++) delete *it; hClusterSizeDistribution1sOddColumns_   .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1sEvenColumns_  .begin(); it!=hClusterSizeDistribution1sEvenColumns_  .end(); it++) delete *it; hClusterSizeDistribution1sEvenColumns_  .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1s4Cells_       .begin(); it!=hClusterSizeDistribution1s4Cells_       .end(); it++) delete *it; hClusterSizeDistribution1s4Cells_       .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2s_             .begin(); it!=hClusterSizeDistribution2s_             .end(); it++) delete *it; hClusterSizeDistribution2s_             .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sOROC_         .begin(); it!=hClusterSizeDistribution2sOROC_         .end(); it++) delete *it; hClusterSizeDistribution2sOROC_         .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sEROC_         .begin(); it!=hClusterSizeDistribution2sEROC_         .end(); it++) delete *it; hClusterSizeDistribution2sEROC_         .clear();
@@ -92,6 +93,7 @@ void Charge::destroy(void)
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sEREC_         .begin(); it!=hClusterSizeDistribution2sEREC_         .end(); it++) delete *it; hClusterSizeDistribution2sEREC_         .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sOddColumns_   .begin(); it!=hClusterSizeDistribution2sOddColumns_   .end(); it++) delete *it; hClusterSizeDistribution2sOddColumns_   .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sEvenColumns_  .begin(); it!=hClusterSizeDistribution2sEvenColumns_  .end(); it++) delete *it; hClusterSizeDistribution2sEvenColumns_  .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2s4Cells_       .begin(); it!=hClusterSizeDistribution2s4Cells_       .end(); it++) delete *it; hClusterSizeDistribution2s4Cells_       .clear();
 
     /*-----------------------------------------------------------------------------------------Landau distributions---------------------------------------------------------------------------------------------*/
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize1_                    .begin(); it!=hLandauClusterSize1_                    .end(); it++) delete *it; hLandauClusterSize1_                    .clear();
@@ -2390,6 +2392,7 @@ void Charge::endJob(void)
         ADD_THREADED(hClusterSizeDistribution1sEROC_          [p]);
         ADD_THREADED(hClusterSizeDistribution1sOREC_          [p]);
         ADD_THREADED(hClusterSizeDistribution1sEREC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution1s4Cells_        [p]);
         ADD_THREADED(hClusterSizeDistribution2s_              [p]);
         ADD_THREADED(hClusterSizeDistribution2sOddColumns_    [p]);
         ADD_THREADED(hClusterSizeDistribution2sEvenColumns_   [p]);
@@ -2397,6 +2400,7 @@ void Charge::endJob(void)
         ADD_THREADED(hClusterSizeDistribution2sEROC_          [p]);
         ADD_THREADED(hClusterSizeDistribution2sOREC_          [p]);
         ADD_THREADED(hClusterSizeDistribution2sEREC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution2s4Cells_        [p]);
 
 
         ADD_THREADED(hLandauClusterSize1_                     [p]);
@@ -2540,35 +2544,35 @@ void Charge::endJob(void)
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsOddRows_   [p], 0.5);
         h2DCellChargeEvenColumns_           [p]->Add(h2DCellChargeEvenColumnsEvenRows_  [p], 0.5);
         // Generate 4 cell histogram
-        int _cell_xnbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX();
-        int _cell_ynbins = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY();
+        int _cell_xnbins_charge = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsX();
+        int _cell_ynbins_charge = h2DCellChargeEvenColumnsEvenRows_[p]->GetNbinsY();
         // Get it once, since all are same
 
         // O Col O Row  -x, +y
-        for (int i = 1; i <= _cell_xnbins; ++i) {
-            for (int j = 1; j <= _cell_ynbins; ++j) {
-                h4CellChargeFullRange_[p]->SetBinContent(i, j + _cell_ynbins,
+        for (int i = 1; i <= _cell_xnbins_charge; ++i) {
+            for (int j = 1; j <= _cell_ynbins_charge; ++j) {
+                h4CellChargeFullRange_[p]->SetBinContent(i, j + _cell_ynbins_charge,
                                                          h2DCellChargeOddColumnsOddRows_[p]->GetBinContent(i, j));
             }
         }
         // O Col E Row  -x, -y
-        for (int i = 1; i <= _cell_xnbins; ++i) {
-            for (int j = 1; j <= _cell_ynbins; ++j) {
+        for (int i = 1; i <= _cell_xnbins_charge; ++i) {
+            for (int j = 1; j <= _cell_ynbins_charge; ++j) {
                 h4CellChargeFullRange_[p]->SetBinContent(i, j,
                                                          h2DCellChargeOddColumnsEvenRows_[p]->GetBinContent(i, j));
             }
         }
         // E Col O Row  +x, +y
-        for (int i = 1; i <= _cell_xnbins; ++i) {
-            for (int j = 1; j <= _cell_ynbins; ++j) {
-                h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xnbins, j + _cell_ynbins,
+        for (int i = 1; i <= _cell_xnbins_charge; ++i) {
+            for (int j = 1; j <= _cell_ynbins_charge; ++j) {
+                h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xnbins_charge, j + _cell_ynbins_charge,
                                                          h2DCellChargeEvenColumnsOddRows_[p]->GetBinContent(i, j));
             }
         }
         // E Col E Row  +x, -y
-        for (int i = 1; i <= _cell_xnbins; ++i) {
-            for (int j = 1; j <= _cell_ynbins; ++j) {
-                h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xnbins, j,
+        for (int i = 1; i <= _cell_xnbins_charge; ++i) {
+            for (int j = 1; j <= _cell_ynbins_charge; ++j) {
+                h4CellChargeFullRange_[p]->SetBinContent(i + _cell_xnbins_charge, j,
                                                          h2DCellChargeEvenColumnsEvenRows_[p]->GetBinContent(i, j));
             }
         }
@@ -2582,6 +2586,79 @@ void Charge::endJob(void)
         hClusterSizeDistribution2sEvenColumns_  [p]->Add(hClusterSizeDistribution2sOREC_[p], 0.5);
         hClusterSizeDistribution2sOddColumns_   [p]->Add(hClusterSizeDistribution2sEROC_[p], 0.5);
         hClusterSizeDistribution2sOddColumns_   [p]->Add(hClusterSizeDistribution2sOROC_[p], 0.5);
+        // 4 Cells
+
+        // Generate 4 cell histogram
+        int _cell_xnbins_cluster1 = hClusterSizeDistribution1sOROC_[p]->GetNbinsX();
+        int _cell_ynbins_cluster1 = hClusterSizeDistribution1sOROC_[p]->GetNbinsY();
+        // Get it once, since all are same
+
+        // O Col O Row  -x, +y
+        for (int i = 1; i <= _cell_xnbins_cluster1; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster1; ++j) {
+                hClusterSizeDistribution1s4Cell_[p]->SetBinContent(i, j + _cell_ynbins_cluster1,
+                                                         hClusterSizeDistribution1sOROC_[p]->GetBinContent(i, j));
+            }
+        }
+        // O Col E Row  -x, -y
+        for (int i = 1; i <= _cell_xnbins_cluster1; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster1; ++j) {
+                hClusterSizeDistribution1s4Cell_[p]->SetBinContent(i, j,
+                                                         hClusterSizeDistribution1sEROC_[p]->GetBinContent(i, j));
+            }
+        }
+        // E Col O Row  +x, +y
+        for (int i = 1; i <= _cell_xnbins_cluster1; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster1; ++j) {
+                hClusterSizeDistribution1s4Cell_[p]->SetBinContent(i + _cell_xnbins_cluster1, j + _cell_ynbins_cluster1,
+                                                         hClusterSizeDistribution1sOREC_[p]->GetBinContent(i, j));
+            }
+        }
+        // E Col E Row  +x, -y
+        for (int i = 1; i <= _cell_xnbins_cluster1; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster1; ++j) {
+                hClusterSizeDistribution1s4Cell_[p]->SetBinContent(i + _cell_xnbins_cluster1, j,
+                                                         hClusterSizeDistribution1sEREC_[p]->GetBinContent(i, j));
+            }
+        }
+        // End Odd/Even Cell
+
+        // Generate 4 cell histogram
+        int _cell_xnbins_cluster2 = hClusterSizeDistribution2sOROC_[p]->GetNbinsX();
+        int _cell_ynbins_cluster2 = hClusterSizeDistribution2sOROC_[p]->GetNbinsY();
+        // Get it once, since all are same
+
+        // O Col O Row  -x, +y
+        for (int i = 1; i <= _cell_xnbins_cluster2; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster2; ++j) {
+                hClusterSizeDistribution2s4Cell_[p]->SetBinContent(i, j + _cell_ynbins_cluster2,
+                                                         hClusterSizeDistribution2sOROC_[p]->GetBinContent(i, j));
+            }
+        }
+        // O Col E Row  -x, -y
+        for (int i = 1; i <= _cell_xnbins_cluster2; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster2; ++j) {
+                hClusterSizeDistribution2s4Cell_[p]->SetBinContent(i, j,
+                                                         hClusterSizeDistribution2sEROC_[p]->GetBinContent(i, j));
+            }
+        }
+        // E Col O Row  +x, +y
+        for (int i = 1; i <= _cell_xnbins_cluster2; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster2; ++j) {
+                hClusterSizeDistribution2s4Cell_[p]->SetBinContent(i + _cell_xnbins_cluster2, j + _cell_ynbins_cluster2,
+                                                         hClusterSizeDistribution2sOREC_[p]->GetBinContent(i, j));
+            }
+        }
+        // E Col E Row  +x, -y
+        for (int i = 1; i <= _cell_xnbins_cluster2; ++i) {
+            for (int j = 1; j <= _cell_ynbins_cluster2; ++j) {
+                hClusterSizeDistribution2s4Cell_[p]->SetBinContent(i + _cell_xnbins_cluster2, j,
+                                                         hClusterSizeDistribution2sEREC_[p]->GetBinContent(i, j));
+            }
+        }
+        // End Odd/Even Cell
+        // End cluster size
+
 
         h4CellsCharge_                [p]->Divide(h4CellsChargeNorm_       [p]);
         h4HitsCharge_                 [p]->Divide(h4Hits_                  [p]);
@@ -2732,12 +2809,14 @@ void Charge::endJob(void)
         hClusterSizeDistribution1sOREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution1sEREC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution1sEREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution1s4Cells_        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution1s4Cells_        [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution2s_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution2s_              [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution2sOddColumns_    [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution2sOddColumns_    [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution2sEvenColumns_   [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-        hClusterSizeDistribution2sEvenColumns_    [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution2sEvenColumns_   [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution2sOROC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution2sOROC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution2sEROC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
@@ -2746,6 +2825,8 @@ void Charge::endJob(void)
         hClusterSizeDistribution2sOREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution2sEREC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution2sEREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution2s4Cells_        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution2s4Cells_        [p]->GetXaxis()->SetTitle("short pitch (um)"  );
 
 
         hLandauClusterSize1_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
@@ -3001,6 +3082,10 @@ void Charge::book(void)
         hTitle = "Size 1 cluster distribution on pixel " + planeName;
         hClusterSizeDistribution1s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
+        hName  = "hClusterSizeDistribution1s4Cells_"           + planeName;
+        hTitle = "Size 1 cluster distribution on pixel 4 Cells " + planeName;
+        hClusterSizeDistribution1s4Cells_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10, -resXRange, resXRange, (int)resYRange/10, -resYRange, resYRange)));
+
         hName  = "hClusterSizeDistribution1sOddColumns_"           + planeName;
         hTitle = "Size 1 cluster distribution on pixel odd columns " + planeName;
         hClusterSizeDistribution1sOddColumns_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
@@ -3028,6 +3113,10 @@ void Charge::book(void)
         hName  = "hClusterSizeDistribution2s_"           + planeName;
         hTitle = "Size 2 cluster distribution on pixel " + planeName;
         hClusterSizeDistribution2s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
+
+        hName  = "hClusterSizeDistribution2s4Cells_"           + planeName;
+        hTitle = "Size 2 cluster distribution on pixel 4 cells " + planeName;
+        hClusterSizeDistribution2s4Cells_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/10, -resXRange, resXRange, (int)resYRange/10, -resYRange, resYRange)));
 
         hName  = "hClusterSizeDistribution2sOddColumns_"           + planeName;
         hTitle = "Size 2 cluster distribution on pixel odd columns " + planeName;
