@@ -679,7 +679,7 @@ void Charge::clusterSize(bool, int planeID, const Data& data, int threadNumber)
 
     int size = data.getClusterSize(planeID);
 
-    if( !data.getHasHit(planeID) || size > 1)
+    if( !data.getHasHit(planeID) || size > 3)
         return;
 
     for(int h=0; h<size; h++)
@@ -691,13 +691,13 @@ void Charge::clusterSize(bool, int planeID, const Data& data, int threadNumber)
                && data.getClusterPixelCharge(h,planeID) < maxCharge_   )
         {
             switch (h) {
-            case 3:
+            case 2:
                 THREADED(hClusterSizeDistribution3s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
                 break;
-            case 2:
+            case 1:
                 THREADED(hClusterSizeDistribution2s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
                 break;
-            case 1:
+            case 0:
                 THREADED(hClusterSizeDistribution1s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
                 break;
             default:
