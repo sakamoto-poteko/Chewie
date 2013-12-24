@@ -98,6 +98,8 @@ private:
     std::vector<TH1F*>    hNumberOfCols_                           ;
     std::vector<TH1F*>    hNumberOfRows_                           ;
     std::vector<TH2F*>    hClusterSizeDistribution1s_              ;
+    std::vector<TH2F*>    hClusterSizeDistribution2s_              ;
+    std::vector<TH2F*>    hClusterSizeDistribution3s_              ;
 
     /*--------------------------Landau distributions -------------*/
     std::vector<TH1F*>    hLandauClusterSize1_                     ;

@@ -79,7 +79,8 @@ void Charge::destroy(void)
     for(std::vector<TH1F*>::iterator it=hNumberOfCols_                          .begin(); it!=hNumberOfCols_                          .end(); it++) delete *it; hNumberOfCols_                          .clear();
     for(std::vector<TH1F*>::iterator it=hNumberOfRows_                          .begin(); it!=hNumberOfRows_                          .end(); it++) delete *it; hNumberOfRows_                          .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1s_             .begin(); it!=hClusterSizeDistribution1s_             .end(); it++) delete *it; hClusterSizeDistribution1s_             .clear();
-
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2s_             .begin(); it!=hClusterSizeDistribution2s_             .end(); it++) delete *it; hClusterSizeDistribution2s_             .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution3s_             .begin(); it!=hClusterSizeDistribution3s_             .end(); it++) delete *it; hClusterSizeDistribution3s_             .clear();
     /*-----------------------------------------------------------------------------------------Landau distributions---------------------------------------------------------------------------------------------*/
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize1_                    .begin(); it!=hLandauClusterSize1_                    .end(); it++) delete *it; hLandauClusterSize1_                    .clear();
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize2_                    .begin(); it!=hLandauClusterSize2_                    .end(); it++) delete *it; hLandauClusterSize2_                    .clear();
@@ -689,8 +690,19 @@ void Charge::clusterSize(bool, int planeID, const Data& data, int threadNumber)
                && data.getClusterPixelCharge(h,planeID) > threashold_
                && data.getClusterPixelCharge(h,planeID) < maxCharge_   )
         {
-            THREADED(hClusterSizeDistribution1s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-            break;
+            switch (h) {
+            case 3:
+                THREADED(hClusterSizeDistribution3s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                break;
+            case 2:
+                THREADED(hClusterSizeDistribution2s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                break;
+            case 1:
+                THREADED(hClusterSizeDistribution1s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                break;
+            default:
+                break;
+            }
         }
     }
 }
@@ -2229,7 +2241,6 @@ void Charge::beginJob(void)
     maxCharge_    = theParser->getAnalysesFromString("Charge")->getMaxCharge();
     minTotCharge_ = theParser->getAnalysesFromString("Charge")->getMinTotCharge();
     maxTotCharge_ = theParser->getAnalysesFromString("Charge")->getMaxTotCharge();
-std::cout<<"Thre "<<threashold_<<std::endl;
     theWindowsManager_      = theAnalysisManager_->getWindowsManager();
     theCalibrationsManager_ = theAnalysisManager_->getCalibrationsManager();
 
@@ -2336,6 +2347,8 @@ void Charge::endJob(void)
         ADD_THREADED(hNumberOfCols_                           [p]);
         ADD_THREADED(hNumberOfRows_                           [p]);
         ADD_THREADED(hClusterSizeDistribution1s_              [p]);
+        ADD_THREADED(hClusterSizeDistribution2s_              [p]);
+        ADD_THREADED(hClusterSizeDistribution3s_              [p]);
 
         ADD_THREADED(hLandauClusterSize1_                     [p]);
         ADD_THREADED(hLandauClusterSize2_                     [p]);
@@ -2649,6 +2662,11 @@ void Charge::endJob(void)
         hNumberOfRows_                           [p]->GetXaxis()->SetTitle("number of rows"    );
         hClusterSizeDistribution1s_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution1s_              [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution2s_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution2s_              [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution3s_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution3s_              [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+
 
         hLandauClusterSize1_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
         hCellLandau_                             [p]->GetXaxis()->SetTitle("charge (electrons)");
@@ -2902,6 +2920,15 @@ void Charge::book(void)
         hName  = "hClusterSizeDistribution1s_"           + planeName;
         hTitle = "Size 1 cluster distribution on pixel " + planeName;
         hClusterSizeDistribution1s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
+        hName  = "hClusterSizeDistribution2s_"           + planeName;
+        hTitle = "Size 2 cluster distribution on pixel " + planeName;
+        hClusterSizeDistribution2s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
+        hName  = "hClusterSizeDistribution3s_"           + planeName;
+        hTitle = "Size 3 cluster distribution on pixel " + planeName;
+        hClusterSizeDistribution3s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
