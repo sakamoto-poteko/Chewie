@@ -220,8 +220,8 @@ void Efficiency::endJob(void)
             hCellEfficiencyOddColumnsEvenRows_     [p]->Divide(hCellEfficiencyOddColumnsEvenRowsNorm_   [p]);
             hCellEfficiencyEvenColumnsEvenRows_    [p]->Divide(hCellEfficiencyEvenColumnsEvenRowsNorm_  [p]);
             // Generate 4 Cell Histogram
-            int _cell_xnbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsX();
-            int _cell_ynbins = hCellEfficiencyEvenColumnsEvenRows_[p]->GetNbinsY();
+            int _cell_xnbins = hCellEfficiencyOddColumnsOddRows_[p]->GetNbinsX();
+            int _cell_ynbins = hCellEfficiencyOddColumnsOddRows_[p]->GetNbinsY();
 
             // O Col O Row  -x, +y
             for (int i = 1; i <= _cell_xnbins; ++i) {
@@ -423,7 +423,7 @@ void Efficiency::book(void)
         // 4 Cells
         hName  =  "h4CellEfficiency_"                 + planeName;
         hTitle =  "4 Cell efficiency " + planeName;
-        h4CellEfficiency_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(), (int)2 * resXRange / 5, resXRange, resXRange, (int)2 * resYRange / 5, -resYRange, resYRange)));
+        h4CellEfficiency_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
 
         // END 4 Cell Efficiency
 
