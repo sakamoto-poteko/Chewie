@@ -2578,6 +2578,10 @@ void Charge::endJob(void)
         hClusterSizeDistribution1sEvenColumns_  [p]->Add(hClusterSizeDistribution1sOREC_[p], 0.5);
         hClusterSizeDistribution1sOddColumns_   [p]->Add(hClusterSizeDistribution1sEROC_[p], 0.5);
         hClusterSizeDistribution1sOddColumns_   [p]->Add(hClusterSizeDistribution1sOROC_[p], 0.5);
+        hClusterSizeDistribution2sEvenColumns_  [p]->Add(hClusterSizeDistribution2sEREC_[p], 0.5);
+        hClusterSizeDistribution2sEvenColumns_  [p]->Add(hClusterSizeDistribution2sOREC_[p], 0.5);
+        hClusterSizeDistribution2sOddColumns_   [p]->Add(hClusterSizeDistribution2sEROC_[p], 0.5);
+        hClusterSizeDistribution2sOddColumns_   [p]->Add(hClusterSizeDistribution2sOROC_[p], 0.5);
 
         h4CellsCharge_                [p]->Divide(h4CellsChargeNorm_       [p]);
         h4HitsCharge_                 [p]->Divide(h4Hits_                  [p]);
