@@ -79,8 +79,16 @@ void Charge::destroy(void)
     for(std::vector<TH1F*>::iterator it=hNumberOfCols_                          .begin(); it!=hNumberOfCols_                          .end(); it++) delete *it; hNumberOfCols_                          .clear();
     for(std::vector<TH1F*>::iterator it=hNumberOfRows_                          .begin(); it!=hNumberOfRows_                          .end(); it++) delete *it; hNumberOfRows_                          .clear();
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1s_             .begin(); it!=hClusterSizeDistribution1s_             .end(); it++) delete *it; hClusterSizeDistribution1s_             .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1sOROC_         .begin(); it!=hClusterSizeDistribution1sOROC_         .end(); it++) delete *it; hClusterSizeDistribution1sOROC_         .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1sEROC_         .begin(); it!=hClusterSizeDistribution1sEROC_         .end(); it++) delete *it; hClusterSizeDistribution1sEROC_         .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1sOREC_         .begin(); it!=hClusterSizeDistribution1sOREC_         .end(); it++) delete *it; hClusterSizeDistribution1sOREC_         .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution1sEREC_         .begin(); it!=hClusterSizeDistribution1sEREC_         .end(); it++) delete *it; hClusterSizeDistribution1sEREC_         .clear();
+
     for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2s_             .begin(); it!=hClusterSizeDistribution2s_             .end(); it++) delete *it; hClusterSizeDistribution2s_             .clear();
-    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution3s_             .begin(); it!=hClusterSizeDistribution3s_             .end(); it++) delete *it; hClusterSizeDistribution3s_             .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sOROC_         .begin(); it!=hClusterSizeDistribution2sOROC_         .end(); it++) delete *it; hClusterSizeDistribution2sOROC_         .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sEROC_         .begin(); it!=hClusterSizeDistribution2sEROC_         .end(); it++) delete *it; hClusterSizeDistribution2sEROC_         .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sOREC_         .begin(); it!=hClusterSizeDistribution2sOREC_         .end(); it++) delete *it; hClusterSizeDistribution2sOREC_         .clear();
+    for(std::vector<TH2F*>::iterator it=hClusterSizeDistribution2sEREC_         .begin(); it!=hClusterSizeDistribution2sEREC_         .end(); it++) delete *it; hClusterSizeDistribution2sEREC_         .clear();
     /*-----------------------------------------------------------------------------------------Landau distributions---------------------------------------------------------------------------------------------*/
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize1_                    .begin(); it!=hLandauClusterSize1_                    .end(); it++) delete *it; hLandauClusterSize1_                    .clear();
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize2_                    .begin(); it!=hLandauClusterSize2_                    .end(); it++) delete *it; hLandauClusterSize2_                    .clear();
@@ -682,29 +690,54 @@ void Charge::clusterSize(bool, int planeID, const Data& data, int threadNumber)
     if( !data.getHasHit(planeID) || size > 3)
         return;
 
-    for(int h=0; h<size; h++)
-    {
-        if(    data.getClusterPixelRow   (h,planeID) == row
-               && data.getClusterPixelCol   (h,planeID) == col
-               && data.getIsPixelCalibrated (h,planeID)
-               && data.getClusterPixelCharge(h,planeID) > threashold_
-               && data.getClusterPixelCharge(h,planeID) < maxCharge_   )
-        {
-            switch (h) {
-            case 2:
-                THREADED(hClusterSizeDistribution3s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-                break;
-            case 1:
+    switch (size) {
+        case 2:
+            if (data.getClusterPixelRow   (1, planeID) == row && data.getClusterPixelCol   (1, planeID) == col
+                    && data.getIsPixelCalibrated (1, planeID)
+                    && data.getClusterPixelCharge(1, planeID) > threashold_ && data.getClusterPixelCharge(1, planeID) < maxCharge_)
+            {
                 THREADED(hClusterSizeDistribution2s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-                break;
-            case 0:
-                THREADED(hClusterSizeDistribution1s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-                break;
-            default:
-                break;
+                // START Cluster Size Distr..clusterSize() Fill Size 2
+                if (col % 2 == 0) { // Even columns
+                    if (row % 2 == 0) {
+                        THREADED(hClusterSizeDistribution2sEREC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    } else {
+                        THREADED(hClusterSizeDistribution2sOREC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    }
+                } else { // Odd columns
+                    if (row % 2 == 0) {
+                        THREADED(hClusterSizeDistribution2sEROC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    } else {
+                        THREADED(hClusterSizeDistribution2sOROC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    }
+                }
             }
-        }
+        case 1:
+            if (data.getClusterPixelRow   (0, planeID) == row && data.getClusterPixelCol   (0, planeID) == col
+                    && data.getIsPixelCalibrated (0, planeID)
+                    && data.getClusterPixelCharge(0, planeID) > threashold_ && data.getClusterPixelCharge(0, planeID) < maxCharge_)
+            {
+                THREADED(hClusterSizeDistribution1s_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                // START Cluster Size Distr..clusterSize() Fill Size 1
+                if (col % 2 == 0) { // Even columns
+                    if (row % 2 == 0) {
+                        THREADED(hClusterSizeDistribution1sEREC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    } else {
+                        THREADED(hClusterSizeDistribution1sOREC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    }
+                } else { // Odd columns
+                    if (row % 2 == 0) {
+                        THREADED(hClusterSizeDistribution1sEROC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    } else {
+                        THREADED(hClusterSizeDistribution1sOROC_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                    }
+                }
+            }
+        default:
+            break;
     }
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2347,8 +2380,16 @@ void Charge::endJob(void)
         ADD_THREADED(hNumberOfCols_                           [p]);
         ADD_THREADED(hNumberOfRows_                           [p]);
         ADD_THREADED(hClusterSizeDistribution1s_              [p]);
+        ADD_THREADED(hClusterSizeDistribution1sOROC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution1sEROC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution1sOREC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution1sEREC_          [p]);
         ADD_THREADED(hClusterSizeDistribution2s_              [p]);
-        ADD_THREADED(hClusterSizeDistribution3s_              [p]);
+        ADD_THREADED(hClusterSizeDistribution2sOROC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution2sEROC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution2sOREC_          [p]);
+        ADD_THREADED(hClusterSizeDistribution2sEREC_          [p]);
+
 
         ADD_THREADED(hLandauClusterSize1_                     [p]);
         ADD_THREADED(hLandauClusterSize2_                     [p]);
@@ -2662,10 +2703,24 @@ void Charge::endJob(void)
         hNumberOfRows_                           [p]->GetXaxis()->SetTitle("number of rows"    );
         hClusterSizeDistribution1s_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution1s_              [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution1sOROC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution1sOROC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution1sEROC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution1sEROC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution1sOREC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution1sOREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution1sEREC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution1sEREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
         hClusterSizeDistribution2s_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hClusterSizeDistribution2s_              [p]->GetXaxis()->SetTitle("short pitch (um)"  );
-        hClusterSizeDistribution3s_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-        hClusterSizeDistribution3s_              [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution2sOROC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution2sOROC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution2sEROC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution2sEROC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution2sOREC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution2sOREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
+        hClusterSizeDistribution2sEREC_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hClusterSizeDistribution2sEREC_          [p]->GetXaxis()->SetTitle("short pitch (um)"  );
 
 
         hLandauClusterSize1_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
@@ -2919,16 +2974,43 @@ void Charge::book(void)
 
         hName  = "hClusterSizeDistribution1s_"           + planeName;
         hTitle = "Size 1 cluster distribution on pixel " + planeName;
-        hClusterSizeDistribution1s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        hClusterSizeDistribution1s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
+
+        hName  = "hClusterSizeDistribution1sOROC_"           + planeName;
+        hTitle = "Size 1 cluster distribution on pixel odd rows odd columns " + planeName;
+        hClusterSizeDistribution1sOROC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
+
+        hName  = "hClusterSizeDistribution1sEROC_"           + planeName;
+        hTitle = "Size 1 cluster distribution on pixel even rows odd columns " + planeName;
+        hClusterSizeDistribution1sEROC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
+
+        hName  = "hClusterSizeDistribution1sOREC_"           + planeName;
+        hTitle = "Size 1 cluster distribution on pixel odd rows even columns " + planeName;
+        hClusterSizeDistribution1sOREC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
+
+        hName  = "hClusterSizeDistribution1sEREC_"           + planeName;
+        hTitle = "Size 1 cluster distribution on pixel even rows even columns " + planeName;
+        hClusterSizeDistribution1sEREC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         hName  = "hClusterSizeDistribution2s_"           + planeName;
         hTitle = "Size 2 cluster distribution on pixel " + planeName;
-        hClusterSizeDistribution2s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        hClusterSizeDistribution2s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
-        hName  = "hClusterSizeDistribution3s_"           + planeName;
-        hTitle = "Size 3 cluster distribution on pixel " + planeName;
-        hClusterSizeDistribution3s_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
+        hName  = "hClusterSizeDistribution2sOROC_"           + planeName;
+        hTitle = "Size 2 cluster distribution on pixel odd rows odd columns " + planeName;
+        hClusterSizeDistribution2sOROC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
+        hName  = "hClusterSizeDistribution2sOREC_"           + planeName;
+        hTitle = "Size 2 cluster distribution on pixel odd rows even columns " + planeName;
+        hClusterSizeDistribution2sOREC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
+
+        hName  = "hClusterSizeDistribution2sEROC_"           + planeName;
+        hTitle = "Size 2 cluster distribution on pixel even rows odd columns " + planeName;
+        hClusterSizeDistribution2sEROC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
+
+        hName  = "hClusterSizeDistribution2sEREC_"           + planeName;
+        hTitle = "Size 2 cluster distribution on pixel even rows even columns " + planeName;
+        hClusterSizeDistribution2sEREC_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -(resXRange/2), resXRange/2, (int)resYRange/5, -(resYRange/2), resYRange/2)));
 
         theAnalysisManager_->cd("Charge/" + planeName);
 
