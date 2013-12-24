@@ -3084,7 +3084,7 @@ void Charge::book(void)
 
         hName  = "hClusterSizeDistribution1s4Cells_"           + planeName;
         hTitle = "Size 1 cluster distribution on pixel 4 Cells " + planeName;
-        hClusterSizeDistribution1s4Cells_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -resXRange, resXRange, (int)resYRange/5, -resYRange, resYRange)));
+        hClusterSizeDistribution1s4Cells_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2 * ((int)resXRange/5), -resXRange, resXRange, 2 * ((int)resYRange/5), -resYRange, resYRange)));
 
         hName  = "hClusterSizeDistribution1sOddColumns_"           + planeName;
         hTitle = "Size 1 cluster distribution on pixel odd columns " + planeName;
@@ -3116,7 +3116,7 @@ void Charge::book(void)
 
         hName  = "hClusterSizeDistribution2s4Cells_"           + planeName;
         hTitle = "Size 2 cluster distribution on pixel 4 cells " + planeName;
-        hClusterSizeDistribution2s4Cells_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5, -resXRange, resXRange, (int)resYRange/5, -resYRange, resYRange)));
+        hClusterSizeDistribution2s4Cells_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), 2 * ((int)resXRange/5), -resXRange, resXRange, 2 * ((int)resYRange/5), -resYRange, resYRange)));
 
         hName  = "hClusterSizeDistribution2sOddColumns_"           + planeName;
         hTitle = "Size 2 cluster distribution on pixel odd columns " + planeName;
