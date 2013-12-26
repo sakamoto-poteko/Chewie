@@ -1,10 +1,7 @@
 /**
-    Modified TracksAfter.cpp
-
-    Loading data to change value in fitEtaFunc(..)
-
-
-    Currently maintined by Afa.L Cheng <alpha@tomatoeskit.org>
+  * File: TracksAfter.cpp
+  *
+  * Currently maintined by Afa.L Cheng <alpha@tomatoeskit.org>
  **/
 
 #include <QSettings>

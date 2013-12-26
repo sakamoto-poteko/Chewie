@@ -1,3 +1,9 @@
+/**
+  * File: Charge.cpp
+  *
+  * Currently maintined by Afa.L Cheng <alpha@tomatoeskit.org>
+ **/
+
 #include "Charge.h"
 #include "AnalysisManager.h"
 #include "ThreadUtilities.h"

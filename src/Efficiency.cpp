@@ -1,3 +1,9 @@
+/**
+  * File: Efficiency.cpp
+  *
+  * Currently maintined by Afa.L Cheng <alpha@tomatoeskit.org>
+ **/
+
 #include "Efficiency.h"
 #include "AnalysisManager.h"
 #include "WindowsManager.h"
