@@ -57,7 +57,8 @@ HEADERS       = include/mainwindow.h                                 \
                 ../Monicelli/plugins/customTableWidget/customTableWidget.h \
     include/PixelMatrix.h \
     include/TracksAfter.h \
-    include/fitParamManagerWidget.h
+    include/fitParamManagerWidget.h \
+    include/rectwindow.h
 
 
 
@@ -102,7 +103,8 @@ SOURCES       = src/EventManager.cpp              \
                 src/XmlScan.cpp \
     src/PixelMatrix.cpp \
     src/TracksAfter.cpp \
-    src/fitParamManagerWidget.cpp
+    src/fitParamManagerWidget.cpp \
+    src/rectwindow.cpp
 
 
 
