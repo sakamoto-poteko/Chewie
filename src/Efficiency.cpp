@@ -56,8 +56,6 @@ void Efficiency::destroy(void)
     std::vector<TH2F*>::iterator it2;
     for(it1=hEfficiency_                   .begin(); it1!=hEfficiency_                   .end(); it1++) delete *it1; hEfficiency_                   .clear();
     for(it1=hEfficiencyNorm_               .begin(); it1!=hEfficiencyNorm_               .end(); it1++) delete *it1; hEfficiencyNorm_               .clear();
-    for(it1=hWindowEfficiency_             .begin(); it1!=hWindowEfficiency_             .end(); it1++) delete *it1; hWindowEfficiency_             .clear();
-    for(it1=hWindowEfficiencyNorm_         .begin(); it1!=hWindowEfficiencyNorm_         .end(); it1++) delete *it1; hWindowEfficiencyNorm_         .clear();
     for(it2=h2DEfficiency_                 .begin(); it2!=h2DEfficiency_                 .end(); it2++) delete *it2; h2DEfficiency_                 .clear();
     for(it2=h2DEfficiencyNorm_             .begin(); it2!=h2DEfficiencyNorm_             .end(); it2++) delete *it2; h2DEfficiencyNorm_             .clear();
     for(it2=h2DInefficiency_               .begin(); it2!=h2DInefficiency_               .end(); it2++) delete *it2; h2DInefficiency_               .clear();
@@ -88,6 +86,36 @@ void Efficiency::destroy(void)
     for(it1=h1DYcellEfficiencySecondHit_   .begin(); it1!=h1DYcellEfficiencySecondHit_   .end(); it1++) delete *it1; h1DYcellEfficiencySecondHit_   .clear();
     for(it1=h1DYcellEfficiencyNorm_        .begin(); it1!=h1DYcellEfficiencyNorm_        .end(); it1++) delete *it1; h1DYcellEfficiencyNorm_        .clear();
 
+
+    // START Window
+
+    for(it1=hEfficiencyWindowed_                   .begin(); it1!=hEfficiencyWindowed_                   .end(); it1++) delete *it1; hEfficiencyWindowed_                   .clear();
+    for(it1=hEfficiencyNormWindowed_               .begin(); it1!=hEfficiencyNormWindowed_               .end(); it1++) delete *it1; hEfficiencyNormWindowed_               .clear();
+    for(it2=h2DEfficiencyWindowed_                 .begin(); it2!=h2DEfficiencyWindowed_                 .end(); it2++) delete *it2; h2DEfficiencyWindowed_                 .clear();
+    for(it2=h2DEfficiencyNormWindowed_             .begin(); it2!=h2DEfficiencyNormWindowed_             .end(); it2++) delete *it2; h2DEfficiencyNormWindowed_             .clear();
+    for(it2=h2DInefficiencyWindowed_               .begin(); it2!=h2DInefficiencyWindowed_               .end(); it2++) delete *it2; h2DInefficiencyWindowed_               .clear();
+    for(it2=hCellEfficiencyWindowed_               .begin(); it2!=hCellEfficiencyWindowed_               .end(); it2++) delete *it2; hCellEfficiencyWindowed_               .clear();
+
+    // START 4 Cell Efficiency .. destroy();
+    for(it2=hCellEfficiencyOddColumnsOddRowsNormWindowed_   .begin(); it2!=hCellEfficiencyOddColumnsOddRowsNormWindowed_    .end(); it2++) delete *it2; hCellEfficiencyOddColumnsOddRowsNormWindowed_   .clear();
+    for(it2=hCellEfficiencyEvenColumnsOddRowsNormWindowed_  .begin(); it2!=hCellEfficiencyEvenColumnsOddRowsNormWindowed_   .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsOddRowsNormWindowed_  .clear();
+    for(it2=hCellEfficiencyOddColumnsOddRowsWindowed_       .begin(); it2!=hCellEfficiencyOddColumnsOddRowsWindowed_        .end(); it2++) delete *it2; hCellEfficiencyOddColumnsOddRowsWindowed_       .clear();
+    for(it2=hCellEfficiencyEvenColumnsOddRowsWindowed_      .begin(); it2!=hCellEfficiencyEvenColumnsOddRowsWindowed_       .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsOddRowsWindowed_      .clear();
+    for(it2=hCellEfficiencyOddColumnsEvenRowsNormWindowed_  .begin(); it2!=hCellEfficiencyOddColumnsEvenRowsNormWindowed_   .end(); it2++) delete *it2; hCellEfficiencyOddColumnsEvenRowsNormWindowed_  .clear();
+    for(it2=hCellEfficiencyEvenColumnsEvenRowsNormWindowed_ .begin(); it2!=hCellEfficiencyEvenColumnsEvenRowsNormWindowed_  .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsEvenRowsNormWindowed_ .clear();
+    for(it2=hCellEfficiencyOddColumnsEvenRowsWindowed_      .begin(); it2!=hCellEfficiencyOddColumnsEvenRowsWindowed_       .end(); it2++) delete *it2; hCellEfficiencyOddColumnsEvenRowsWindowed_      .clear();
+    for(it2=hCellEfficiencyEvenColumnsEvenRowsWindowed_     .begin(); it2!=hCellEfficiencyEvenColumnsEvenRowsWindowed_      .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsEvenRowsWindowed_     .clear();
+    for(it2=h4CellEfficiencyWindowed_                       .begin(); it2!=h4CellEfficiencyWindowed_                        .end(); it2++) delete *it2; h4CellEfficiencyWindowed_                       .clear();
+    // END 4 Cell Efficiency
+
+    for(it2=hCellEfficiencyEvenColumnsWindowed_    .begin(); it2!=hCellEfficiencyEvenColumnsWindowed_    .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsWindowed_    .clear();
+    for(it2=hCellEfficiencyOddColumnsWindowed_     .begin(); it2!=hCellEfficiencyOddColumnsWindowed_     .end(); it2++) delete *it2; hCellEfficiencyOddColumnsWindowed_     .clear();
+    for(it2=hCellEfficiencyNormWindowed_           .begin(); it2!=hCellEfficiencyNormWindowed_           .end(); it2++) delete *it2; hCellEfficiencyNormWindowed_           .clear();
+    for(it2=hCellEfficiencyEvenColumnsNormWindowed_.begin(); it2!=hCellEfficiencyEvenColumnsNormWindowed_.end(); it2++) delete *it2; hCellEfficiencyEvenColumnsNormWindowed_.clear();
+    for(it2=hCellEfficiencyOddColumnsNormWindowed_ .begin(); it2!=hCellEfficiencyOddColumnsNormWindowed_ .end(); it2++) delete *it2; hCellEfficiencyOddColumnsNormWindowed_ .clear();
+    for(it2=hCellInefficiencyWindowed_             .begin(); it2!=hCellInefficiencyWindowed_             .end(); it2++) delete *it2; hCellInefficiencyWindowed_             .clear();
+
+    // END Window
     for(std::map< int,std::vector<TH1F*> >::iterator it=scanEfficiencyNorm_.begin(); it!=scanEfficiencyNorm_.end(); it++)
         for(std::vector<TH1F*>::iterator ii=(it->second).begin();ii!=(it->second).end();ii++)
             delete *ii;
