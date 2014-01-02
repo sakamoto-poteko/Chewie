@@ -52,8 +52,7 @@ private:
     //Histograms
     std::vector<TH1F*>                 hEfficiency_                   ;
     std::vector<TH1F*>                 hEfficiencyNorm_               ;
-    std::vector<TH1F*>                 hWindowEfficiency_             ;
-    std::vector<TH1F*>                 hWindowEfficiencyNorm_         ;
+
     std::vector<TH1F*>                 h1DXcellEfficiencyFirstHit_    ;
     std::vector<TH1F*>                 h1DXcellEfficiencySecondHit_   ;
     std::vector<TH1F*>                 h1DXcellEfficiencyNorm_        ;
@@ -80,6 +79,32 @@ private:
     std::vector<TH2F*>                  hCellEfficiencyOddColumnsEvenRows_  ;
     std::vector<TH2F*>                  hCellEfficiencyOddColumnsOddRows_   ;
     std::vector<TH2F*>                  h4CellEfficiency_                   ;
+
+    // Window
+    std::vector<TH1F*>                 hEfficiencyWindowed_             ;
+    std::vector<TH1F*>                 hEfficiencyNormWindowed_         ;
+    std::vector<TH2F*>                 h2DEfficiencyWindowed_                 ;
+    std::vector<TH2F*>                 h2DEfficiencyNormWindowed_             ;
+    std::vector<TH2F*>                 h2DInefficiencyWindowed_               ;
+    std::vector<TH2F*>                 hCellEfficiencyNormWindowed_           ;
+    std::vector<TH2F*>                 hCellEfficiencyEvenColumnsNormWindowed_;
+    std::vector<TH2F*>                 hCellEfficiencyOddColumnsNormWindowed_ ;
+    std::vector<TH2F*>                 hCellEfficiencyWindowed_               ;
+    std::vector<TH2F*>                 hCellEfficiencyEvenColumnsWindowed_    ;
+    std::vector<TH2F*>                 hCellEfficiencyOddColumnsWindowed_     ;
+    std::vector<TH2F*>                 hCellInefficiencyWindowed_             ;
+
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsEvenRowsNormWindowed_ ;
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsOddRowsNormWindowed_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsEvenRowsNormWindowed_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsOddRowsNormWindowed_   ;
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsEvenRowsWindowed_ ;
+    std::vector<TH2F*>                  hCellEfficiencyEvenColumnsOddRowsWindowed_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsEvenRowsWindowed_  ;
+    std::vector<TH2F*>                  hCellEfficiencyOddColumnsOddRowsWindowed_   ;
+    std::vector<TH2F*>                  h4CellEfficiencyWindowed_                   ;
+
+    // END Window
 
     std::map< int,std::vector<TH1F*> > scanEfficiencyNorm_            ;
     std::map< int,std::vector<TH1F*> > scanEfficiencyHistos_          ;

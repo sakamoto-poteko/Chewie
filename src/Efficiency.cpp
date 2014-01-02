@@ -182,9 +182,7 @@ void Efficiency::endJob(void)
         if(theXmlParser_->getScan()->getScanValues().size()==0)
         {
             ADD_THREADED(hEfficiency_                   [p]);
-            ADD_THREADED(hWindowEfficiencyNorm_               [p]);
             ADD_THREADED(hEfficiency_                   [p]);
-            ADD_THREADED(hWindowEfficiencyNorm_               [p]);
             ADD_THREADED(h2DEfficiency_                 [p]);
             ADD_THREADED(h2DEfficiencyNorm_             [p]);
             ADD_THREADED(h2DInefficiency_               [p]);
@@ -213,8 +211,36 @@ void Efficiency::endJob(void)
             ADD_THREADED(h4CellEfficiency_                      [p]);
             // END 4 Cell Efficiency
 
+            // START Windowed
+
+            ADD_THREADED(hEfficiencyWindowed_                   [p]);
+            ADD_THREADED(hEfficiencyNormWindowed_               [p]);
+            ADD_THREADED(h2DEfficiencyWindowed_                 [p]);
+            ADD_THREADED(h2DEfficiencyNormWindowed_             [p]);
+            ADD_THREADED(h2DInefficiencyWindowed_               [p]);
+            ADD_THREADED(hCellEfficiencyNormWindowed_           [p]);
+            ADD_THREADED(hCellEfficiencyEvenColumnsNormWindowed_[p]);
+            ADD_THREADED(hCellEfficiencyOddColumnsNormWindowed_ [p]);
+            ADD_THREADED(hCellEfficiencyWindowed_               [p]);
+            ADD_THREADED(hCellEfficiencyEvenColumnsWindowed_    [p]);
+            ADD_THREADED(hCellEfficiencyOddColumnsWindowed_     [p]);
+            ADD_THREADED(hCellInefficiencyWindowed_             [p]);
+            // START 4 Cell Efficiency .. endJob()
+            ADD_THREADED(hCellEfficiencyOddColumnsOddRowsNormWindowed_  [p]);
+            ADD_THREADED(hCellEfficiencyEvenColumnsOddRowsNormWindowed_ [p]);
+            ADD_THREADED(hCellEfficiencyOddColumnsEvenRowsNormWindowed_ [p]);
+            ADD_THREADED(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_[p]);
+            ADD_THREADED(hCellEfficiencyOddColumnsOddRowsWindowed_      [p]);
+            ADD_THREADED(hCellEfficiencyEvenColumnsOddRowsWindowed_     [p]);
+            ADD_THREADED(hCellEfficiencyOddColumnsEvenRowsWindowed_     [p]);
+            ADD_THREADED(hCellEfficiencyEvenColumnsEvenRowsWindowed_    [p]);
+            ADD_THREADED(h4CellEfficiencyWindowed_                      [p]);
+            // END 4 Cell Efficiency
+
+
+            // END Windowed
+
             hEfficiency_                [p]->Divide(hEfficiencyNorm_               [p]);
-            hWindowEfficiency_                [p]->Divide(hWindowEfficiencyNorm_               [p]);
             h2DEfficiency_              [p]->Divide(h2DEfficiencyNorm_             [p]);
             h2DInefficiency_            [p]->Divide(h2DEfficiencyNorm_             [p]);
             hCellEfficiency_            [p]->Divide(hCellEfficiencyNorm_           [p]);
@@ -265,6 +291,57 @@ void Efficiency::endJob(void)
 
             // End 4 Cell Efficiency
 
+            // START Windowed
+
+            hEfficiencyWindowed_                [p]->Divide(hEfficiencyNormWindowed_               [p]);
+            h2DEfficiencyWindowed_              [p]->Divide(h2DEfficiencyNormWindowed_             [p]);
+            h2DInefficiencyWindowed_            [p]->Divide(h2DEfficiencyNormWindowed_             [p]);
+            hCellEfficiencyWindowed_            [p]->Divide(hCellEfficiencyNormWindowed_           [p]);
+            hCellEfficiencyEvenColumnsWindowed_ [p]->Divide(hCellEfficiencyEvenColumnsNormWindowed_[p]);
+            hCellEfficiencyOddColumnsWindowed_  [p]->Divide(hCellEfficiencyOddColumnsNormWindowed_ [p]);
+            hCellInefficiencyWindowed_          [p]->Divide(hCellEfficiencyNormWindowed_           [p]);
+            // START 4 Cell Efficiency .. endJob() Calc
+            hCellEfficiencyOddColumnsOddRowsWindowed_      [p]->Divide(hCellEfficiencyOddColumnsOddRowsNormWindowed_    [p]);
+            hCellEfficiencyEvenColumnsOddRowsWindowed_     [p]->Divide(hCellEfficiencyEvenColumnsOddRowsNormWindowed_   [p]);
+            hCellEfficiencyOddColumnsEvenRowsWindowed_     [p]->Divide(hCellEfficiencyOddColumnsEvenRowsNormWindowed_   [p]);
+            hCellEfficiencyEvenColumnsEvenRowsWindowed_    [p]->Divide(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_  [p]);
+            // Generate 4 Cell Histogram
+            int Windowed_cellWindowed_xnbins = hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetNbinsX();
+            int Windowed_cellWindowed_ynbins = hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetNbinsY();
+
+            // O Col O Row  -x, +y
+            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
+                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
+                    h4CellEfficiencyWindowed_[p]->SetBinContent(i, j + Windowed_cellWindowed_ynbins,
+                                                        hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
+                }
+            }
+            // O Col E Row  -x, -y
+            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
+                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
+                    h4CellEfficiencyWindowed_[p]->SetBinContent(i, j,
+                                                        hCellEfficiencyOddColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
+                }
+            }
+            // E Col O Row  +x, +y
+            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
+                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
+                    h4CellEfficiencyWindowed_[p]->SetBinContent(i + Windowed_cellWindowed_xnbins, j + Windowed_cellWindowed_ynbins,
+                                                        hCellEfficiencyEvenColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
+                }
+            }
+            // E Col E Row  +x, -y
+            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
+                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
+                    h4CellEfficiencyWindowed_[p]->SetBinContent(i + Windowed_cellWindowed_xnbins, j,
+                                                        hCellEfficiencyEvenColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
+                }
+            }
+
+            // End 4 Cell Efficiency
+
+            // END Windowed
+
             h2DEfficiency_              [p]->GetXaxis()->SetTitle("column");
             h2DEfficiency_              [p]->GetYaxis()->SetTitle("row"   );
             h2DInefficiency_            [p]->GetXaxis()->SetTitle("column");
@@ -301,6 +378,43 @@ void Efficiency::endJob(void)
             h4CellEfficiency_                      [p]->GetXaxis()->SetTitle("x (um)");
             h4CellEfficiency_                      [p]->GetYaxis()->SetTitle("y (um)");
             // END 4 Cell Efficiency
+
+            // START Windowed
+
+            h2DEfficiencyWindowed_              [p]->GetXaxis()->SetTitle("column");
+            h2DEfficiencyWindowed_              [p]->GetYaxis()->SetTitle("row"   );
+            h2DInefficiencyWindowed_            [p]->GetXaxis()->SetTitle("column");
+            h2DInefficiencyWindowed_            [p]->GetYaxis()->SetTitle("row"   );
+            hCellEfficiencyWindowed_            [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyEvenColumnsWindowed_ [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyOddColumnsWindowed_  [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyWindowed_            [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyEvenColumnsWindowed_ [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyOddColumnsWindowed_  [p]->GetYaxis()->SetTitle("y (um)");
+            hCellInefficiencyWindowed_          [p]->GetXaxis()->SetTitle("x (um)");
+            hCellInefficiencyWindowed_          [p]->GetYaxis()->SetTitle("y (um)");
+            // START 4 Cell Efficiency .. endJob() Axis
+            hCellEfficiencyOddColumnsOddRowsNormWindowed_  [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyOddColumnsOddRowsNormWindowed_  [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyEvenColumnsOddRowsNormWindowed_ [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyEvenColumnsOddRowsNormWindowed_ [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyOddColumnsEvenRowsNormWindowed_ [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyOddColumnsEvenRowsNormWindowed_ [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyEvenColumnsEvenRowsNormWindowed_[p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyEvenColumnsEvenRowsNormWindowed_[p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyOddColumnsOddRowsWindowed_      [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyOddColumnsOddRowsWindowed_      [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyEvenColumnsOddRowsWindowed_     [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyEvenColumnsOddRowsWindowed_     [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyOddColumnsEvenRowsWindowed_     [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyOddColumnsEvenRowsWindowed_     [p]->GetYaxis()->SetTitle("y (um)");
+            hCellEfficiencyEvenColumnsEvenRowsWindowed_    [p]->GetXaxis()->SetTitle("x (um)");
+            hCellEfficiencyEvenColumnsEvenRowsWindowed_    [p]->GetYaxis()->SetTitle("y (um)");
+            h4CellEfficiencyWindowed_                      [p]->GetXaxis()->SetTitle("x (um)");
+            h4CellEfficiencyWindowed_                      [p]->GetYaxis()->SetTitle("y (um)");
+            // END 4 Cell Efficiency
+
+            // END Windowed
 
             setErrorsBar(p);
 
@@ -368,17 +482,9 @@ void Efficiency::book(void)
         hTitle = "Overall efficiency " + planeName;
         hEfficiency_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
 
-        hName  = "WindowEfficiency_"         + planeName;
-        hTitle = "Overall efficiency Window " + planeName;
-        hWindowEfficiency_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
-
         hName  = "EfficiencyNorm_"                   + planeName;
         hTitle = "Overall efficiency normalization " + planeName;
         hEfficiencyNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
-
-        hName  = "WindowEfficiencyNorm_"                   + planeName;
-        hTitle = "Overall efficiency normalization Window " + planeName;
-        hWindowEfficiencyNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
 
         hName  =  "CellEfficiencyNorm_"            + planeName;
         hTitle =  "Cell efficiency normalization " + planeName;
@@ -488,6 +594,106 @@ void Efficiency::book(void)
         hName  = "2DInefficiency_"  + planeName;
         hTitle = "2D inefficiency " + planeName;
         h2DInefficiency_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),nBinsX,0,nBinsX,nBinsY,0,nBinsY)));
+
+        // START Window
+
+        theAnalysisManager_->cd("Efficiency");
+        theAnalysisManager_->mkdir("Windowed" + planeName);
+
+        hName  = "EfficiencyWindowed_"         + planeName;
+        hTitle = "Overall efficiency " + planeName;
+        hEfficiencyWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
+
+        hName  = "EfficiencyNormWindowed_"                   + planeName;
+        hTitle = "Overall efficiency normalization " + planeName;
+        hEfficiencyNormWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
+
+        hName  =  "CellEfficiencyNormWindowed_"            + planeName;
+        hTitle =  "Cell efficiency normalization " + planeName;
+        hCellEfficiencyNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        hName  =  "CellEfficiencyEvenColumnsNormWindowed_"            + planeName;
+        hTitle =  "Cell efficiency normalization even columns" + planeName;
+        hCellEfficiencyEvenColumnsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        hName  =  "CellEfficiencyOddColumnsNormWindowed_"            + planeName;
+        hTitle =  "Cell efficiency normalization odd columns" + planeName;
+        hCellEfficiencyOddColumnsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        hName  = "CellEfficiencyWindowed_"  + planeName;
+        hTitle = "Cell efficiency " + planeName;
+        hCellEfficiencyWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        hName  = "CellEfficiencyEvenColumnsWindowed_"  + planeName;
+        hTitle = "Cell efficiency even columns" + planeName;
+        hCellEfficiencyEvenColumnsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        hName  = "CellEfficiencyOddColumnsWindowed_"  + planeName;
+        hTitle = "Cell efficiency odd columns" + planeName;
+        hCellEfficiencyOddColumnsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        // START 4 Cell Efficiency .. book() New TH2F
+        // Odd Rows
+        hName  =  "hCellEfficiencyOddColumnsOddRowsNormWindowed_"               + planeName;
+        hTitle =  "Cell efficiency odd columns odd rows normalization " + planeName;
+        hCellEfficiencyOddColumnsOddRowsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        hName  =  "hCellEfficiencyEvenColumnsOddRowsNormWindowed_"              + planeName;
+        hTitle =  "Cell efficiency even columns odd rows normalization " + planeName;
+        hCellEfficiencyEvenColumnsOddRowsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        hName  =  "hCellEfficiencyOddColumnsOddRowsWindowed_"                   + planeName;
+        hTitle =  "Cell efficiency odd columns odd rows " + planeName;
+        hCellEfficiencyOddColumnsOddRowsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        hName  =  "hCellEfficiencyEvenColumnsOddRowsWindowed_"                  + planeName;
+        hTitle =  "Cell efficiency even columns odd rows " + planeName;
+        hCellEfficiencyEvenColumnsOddRowsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        // Even Rows
+        hName  =  "hCellEfficiencyOddColumnsEvenRowsNormWindowed_"              + planeName;
+        hTitle =  "Cell efficiency odd columns even rows normalization " + planeName;
+        hCellEfficiencyOddColumnsEvenRowsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        hName  =  "hCellEfficiencyEvenColumnsEvenRowsNormWindowed_"             + planeName;
+        hTitle =  "Cell efficiency even columns even rows normalization " + planeName;
+        hCellEfficiencyEvenColumnsEvenRowsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        hName  =  "hCellEfficiencyOddColumnsEvenRowsWindowed_"                  + planeName;
+        hTitle =  "Cell efficiency odd columns even rows " + planeName;
+        hCellEfficiencyOddColumnsEvenRowsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        hName  =  "hCellEfficiencyEvenColumnsEvenRowsWindowed_"                 + planeName;
+        hTitle =  "Cell efficiency even columns even rows " + planeName;
+        hCellEfficiencyEvenColumnsEvenRowsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
+
+        // 4 Cells
+        hName  =  "h4CellEfficiencyWindowed_"                 + planeName;
+        hTitle =  "4 Cell efficiency " + planeName;
+        h4CellEfficiencyWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
+
+        // END 4 Cell Efficiency
+
+        hName  = "CellInefficiencyWindowed_"  + planeName;
+        hTitle = "Cell inefficiency " + planeName;
+        hCellInefficiencyWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5,(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        nBinsX = theWindow->getNbins().first;
+        nBinsY = theWindow->getNbins().second;
+
+        hName  = "2DEfficiencyWindowed_"               + planeName;
+        hTitle = "2D efficiency distribution " + planeName;
+        h2DEfficiencyWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),nBinsX,0,nBinsX,nBinsY,0,nBinsY)));
+
+        hName  = "2DEfficiencyNormWindowed_"         + planeName;
+        hTitle = "2D efficiency normalization " + planeName;
+        h2DEfficiencyNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),nBinsX,0,nBinsX,nBinsY,0,nBinsY)));
+
+        hName  = "2DInefficiencyWindowed_"  + planeName;
+        hTitle = "2D inefficiency " + planeName;
+        h2DInefficiencyWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),nBinsX,0,nBinsX,nBinsY,0,nBinsY)));
+
+        // END Window
     }
 }
 
@@ -616,13 +822,6 @@ void Efficiency::planeEfficiency(bool pass, int planeID, const Data& data, int t
     float         row       = data.getMeanRow(planeID);
     float         col       = data.getMeanCol(planeID);
 
-    if (rectWindow.checkRectWindow(col, row)) {
-        THREADED(hWindowEfficiencyNorm_  [planeID])->Fill(1);
-        if(data.getHasHit(planeID)) {
-            THREADED(hWindowEfficiency_  [planeID])->Fill(1);
-        }
-    }
-
     if(theWindow->checkWindow(col,row))
     {
         THREADED(hEfficiencyNorm_  [planeID])->Fill(1);
@@ -635,6 +834,22 @@ void Efficiency::planeEfficiency(bool pass, int planeID, const Data& data, int t
         else
             THREADED(h2DInefficiency_[planeID])->Fill(col,row);
     }
+
+    // START Window
+
+    if (rectWindow.checkRectWindow(col, row)) {
+        THREADED(hEfficiencyNormWindowed_  [planeID])->Fill(1);
+        THREADED(h2DEfficiencyNormWindowed_[planeID])->Fill(col,row);
+        if(data.getHasHit(planeID))
+        {
+            THREADED(hEfficiencyWindowed_  [planeID])->Fill(1);
+            THREADED(h2DEfficiencyWindowed_[planeID])->Fill(col,row);
+        }
+        else
+            THREADED(h2DInefficiencyWindowed_[planeID])->Fill(col,row);
+    }
+
+    // END Window
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -696,6 +911,56 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
         else
             THREADED(hCellInefficiency_[planeID])->Fill(xRes,yRes);
     }
+
+    // START Window
+
+    if(rectWindow->checkWindow(col,row) && data.getXPitchLocal(planeID)<=maxPitchX && data.getYPitchLocal(planeID)<=maxPitchY)
+    {
+        THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes,yRes);
+        if(col%2 == 0)
+            THREADED(hCellEfficiencyEvenColumnsNormWindowed_[planeID])->Fill(xRes,yRes);
+        else
+            THREADED(hCellEfficiencyOddColumnsNormWindowed_[planeID])->Fill(xRes,yRes);
+        // START 4 Cell Efficiency .. cellEfficiency() Norm
+        if (row % 2 == 0) {   // Even row
+            if (col % 2 == 0)
+                THREADED(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
+            else
+                THREADED(hCellEfficiencyOddColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
+        } else {    // Odd row
+            if (col % 2 == 0)
+                THREADED(hCellEfficiencyEvenColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
+            else
+                THREADED(hCellEfficiencyOddColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
+        }
+        // End 4 Cell Efficiency
+
+        if(data.getHasHit(planeID))
+        {
+            THREADED(hCellEfficiencyWindowed_[planeID])->Fill(xRes,yRes);
+            if(col%2 == 0)
+                THREADED(hCellEfficiencyEvenColumnsWindowed_[planeID])->Fill(xRes,yRes);
+            else
+                THREADED(hCellEfficiencyOddColumnsWindowed_[planeID])->Fill(xRes,yRes);
+            // START 4 Cell Efficiency .. cellEfficiency() not norm
+            if (row % 2 == 0) {   // Even row
+                if (col % 2 == 0)
+                    THREADED(hCellEfficiencyEvenColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
+                else
+                    THREADED(hCellEfficiencyOddColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
+            } else {    // Odd row
+                if (col % 2 == 0)
+                    THREADED(hCellEfficiencyEvenColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
+                else
+                    THREADED(hCellEfficiencyOddColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
+            }
+            // END 4 Cell Efficiency
+        }
+        else
+            THREADED(hCellInefficiencyWindowed_[planeID])->Fill(xRes,yRes);
+    }
+
+    // END Window
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
