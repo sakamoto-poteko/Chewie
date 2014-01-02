@@ -29,7 +29,8 @@ bool RectWindow::checkRectWindow(int col, int row)
     if (!rectWindowEnabled)
         return false;
 
-    if (col < windowColBottomRight && col > windowColTopLeft && row < windowRowTopLeft && row > windowRowBottomRight)
+    if (col <= windowColBottomRight && col >= windowColTopLeft
+            && row <= windowRowTopLeft && row >= windowRowBottomRight)
         return true;
     else
         return false;
