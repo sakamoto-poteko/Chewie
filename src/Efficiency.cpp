@@ -942,7 +942,7 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
 
     // START Window
 
-    if(rectWindow->checkWindow(col,row) && data.getXPitchLocal(planeID)<=maxPitchX && data.getYPitchLocal(planeID)<=maxPitchY)
+    if(rectWindow.checkRectWindow(col,row) && data.getXPitchLocal(planeID)<=maxPitchX && data.getYPitchLocal(planeID)<=maxPitchY)
     {
         THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes,yRes);
         if(col%2 == 0)
