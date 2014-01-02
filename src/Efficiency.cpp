@@ -318,8 +318,6 @@ void Efficiency::endJob(void)
 
             // End 4 Cell Efficiency
 
-            std::cout<<"DEBUG EndJob"<<std::endl;
-
             // START Windowed
 
             hEfficiencyWindowed_                [p]->Divide(hEfficiencyNormWindowed_               [p]);
@@ -334,7 +332,6 @@ void Efficiency::endJob(void)
             hCellEfficiencyEvenColumnsOddRowsWindowed_     [p]->Divide(hCellEfficiencyEvenColumnsOddRowsNormWindowed_   [p]);
             hCellEfficiencyOddColumnsEvenRowsWindowed_     [p]->Divide(hCellEfficiencyOddColumnsEvenRowsNormWindowed_   [p]);
             hCellEfficiencyEvenColumnsEvenRowsWindowed_    [p]->Divide(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_  [p]);
-            std::cout<<"DEBUG End Divide"<<std::endl;
             // Generate 4 Cell Histogram
             int Windowed_cellWindowed_xnbins = hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetNbinsX();
             int Windowed_cellWindowed_ynbins = hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetNbinsY();
@@ -369,7 +366,6 @@ void Efficiency::endJob(void)
             }
 
             // End 4 Cell Efficiency
-std::cout<<"DEBUG End Combine"<<std::endl;
             // END Windowed
 
             h2DEfficiency_              [p]->GetXaxis()->SetTitle("column");
@@ -443,7 +439,6 @@ std::cout<<"DEBUG End Combine"<<std::endl;
             h4CellEfficiencyWindowed_                      [p]->GetXaxis()->SetTitle("x (um)");
             h4CellEfficiencyWindowed_                      [p]->GetYaxis()->SetTitle("y (um)");
             // END 4 Cell Efficiency
-std::cout<<"DEBUG End Set Axis"<<std::endl;
             // END Windowed
 
             setErrorsBar(p);
