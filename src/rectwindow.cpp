@@ -14,7 +14,7 @@ RectWindow::RectWindow()
     windowConfig.endGroup();
 }
 
-RectWindow::checkRectWindow(int col, int row)
+bool RectWindow::checkRectWindow(int col, int row)
 {
     if (!rectWindowEnabled)
         return false;
