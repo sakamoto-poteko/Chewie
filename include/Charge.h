@@ -17,6 +17,8 @@
 #include <TGraph.h>
 #include <TH1D.h>
 
+#include "rectwindow.h"
+
 #include <vector>
 #include <iostream>
 
@@ -125,6 +127,8 @@ private:
     std::vector<TH1F*>    hLandauClusterSize3sameRow_              ;
     std::vector<TH1F*>    hCellLandau_                             ;
     std::vector<TH1F*>    hCellLandauSinglePixel_                  ;
+    std::vector<TH1F*>    hWindowCellLandau_                       ;
+
 
     /*--------------------------2D cell charge--------------------*/
     std::vector<TH2F*>    h2DCellCharge_                           ;
@@ -276,6 +280,8 @@ private:
     std::vector<std::map<int, TH2F*> > mXYNorm_      ;
     std::vector<TH1F*>                 hXMeanCharge_ ;
     std::vector<TH1F*>                 hYMeanCharge_ ;
+
+    RectWindow rectWindow;
 
     int totEventsControl_;
 

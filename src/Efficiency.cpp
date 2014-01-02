@@ -56,6 +56,8 @@ void Efficiency::destroy(void)
     std::vector<TH2F*>::iterator it2;
     for(it1=hEfficiency_                   .begin(); it1!=hEfficiency_                   .end(); it1++) delete *it1; hEfficiency_                   .clear();
     for(it1=hEfficiencyNorm_               .begin(); it1!=hEfficiencyNorm_               .end(); it1++) delete *it1; hEfficiencyNorm_               .clear();
+    for(it1=hWindowEfficiency_             .begin(); it1!=hWindowEfficiency_             .end(); it1++) delete *it1; hWindowEfficiency_             .clear();
+    for(it1=hWindowEfficiencyNorm_         .begin(); it1!=hWindowEfficiencyNorm_         .end(); it1++) delete *it1; hWindowEfficiencyNorm_         .clear();
     for(it2=h2DEfficiency_                 .begin(); it2!=h2DEfficiency_                 .end(); it2++) delete *it2; h2DEfficiency_                 .clear();
     for(it2=h2DEfficiencyNorm_             .begin(); it2!=h2DEfficiencyNorm_             .end(); it2++) delete *it2; h2DEfficiencyNorm_             .clear();
     for(it2=h2DInefficiency_               .begin(); it2!=h2DInefficiency_               .end(); it2++) delete *it2; h2DInefficiency_               .clear();
@@ -180,7 +182,9 @@ void Efficiency::endJob(void)
         if(theXmlParser_->getScan()->getScanValues().size()==0)
         {
             ADD_THREADED(hEfficiency_                   [p]);
-            ADD_THREADED(hEfficiencyNorm_               [p]);
+            ADD_THREADED(hWindowEfficiencyNorm_               [p]);
+            ADD_THREADED(hEfficiency_                   [p]);
+            ADD_THREADED(hWindowEfficiencyNorm_               [p]);
             ADD_THREADED(h2DEfficiency_                 [p]);
             ADD_THREADED(h2DEfficiencyNorm_             [p]);
             ADD_THREADED(h2DInefficiency_               [p]);
@@ -210,6 +214,7 @@ void Efficiency::endJob(void)
             // END 4 Cell Efficiency
 
             hEfficiency_                [p]->Divide(hEfficiencyNorm_               [p]);
+            hWindowEfficiency_                [p]->Divide(hWindowEfficiencyNorm_               [p]);
             h2DEfficiency_              [p]->Divide(h2DEfficiencyNorm_             [p]);
             h2DInefficiency_            [p]->Divide(h2DEfficiencyNorm_             [p]);
             hCellEfficiency_            [p]->Divide(hCellEfficiencyNorm_           [p]);
@@ -363,9 +368,17 @@ void Efficiency::book(void)
         hTitle = "Overall efficiency " + planeName;
         hEfficiency_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
 
+        hName  = "WindowEfficiency_"         + planeName;
+        hTitle = "Overall efficiency Window " + planeName;
+        hWindowEfficiency_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
+
         hName  = "EfficiencyNorm_"                   + planeName;
         hTitle = "Overall efficiency normalization " + planeName;
         hEfficiencyNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
+
+        hName  = "WindowEfficiencyNorm_"                   + planeName;
+        hTitle = "Overall efficiency normalization Window " + planeName;
+        hWindowEfficiencyNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),1,.5,1.5)));
 
         hName  =  "CellEfficiencyNorm_"            + planeName;
         hTitle =  "Cell efficiency normalization " + planeName;
@@ -602,6 +615,13 @@ void Efficiency::planeEfficiency(bool pass, int planeID, const Data& data, int t
     const Window* theWindow = theWindowsManager_->getWindow(planeID);
     float         row       = data.getMeanRow(planeID);
     float         col       = data.getMeanCol(planeID);
+
+    if (rectWindow.checkRectWindow(col, row)) {
+        THREADED(hWindowEfficiencyNorm_  [planeID])->Fill(1);
+        if(data.getHasHit(planeID)) {
+            THREADED(hWindowEfficiency_  [planeID])->Fill(1);
+        }
+    }
 
     if(theWindow->checkWindow(col,row))
     {

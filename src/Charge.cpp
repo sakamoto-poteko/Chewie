@@ -110,6 +110,7 @@ void Charge::destroy(void)
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize3sameCol_             .begin(); it!=hLandauClusterSize3sameCol_             .end(); it++) delete *it; hLandauClusterSize2sameCol_             .clear();
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize3sameRow_             .begin(); it!=hLandauClusterSize3sameRow_             .end(); it++) delete *it; hLandauClusterSize2sameRow_             .clear();
     for(std::vector<TH1F*>::iterator it=hCellLandau_                            .begin(); it!=hCellLandau_                            .end(); it++) delete *it; hCellLandau_                            .clear();
+    for(std::vector<TH1F*>::iterator it=hWindowCellLandau_                      .begin(); it!=hWindowCellLandau_                      .end(); it++) delete *it; hWindowCellLandau_                      .clear();
 
     /*-------------------------------------------------------------------------------------------2D cell charge-------------------------------------------------------------------------------------------------*/
     for(std::vector<TH2F*>::iterator it=h2DCellCharge_                          .begin(); it!=h2DCellCharge_                          .end(); it++) delete *it; h2DCellCharge_                          .clear();
@@ -316,6 +317,7 @@ void Charge::fitCharge(int planeID)
     STDLINE("",ACWhite);
 
     langausFit(hCellLandau_[planeID],fitParameters);
+    // FIXME: Fit windowLandau
 
     ss.str(""); ss << "Width: " << fitParameters[0];
     STDLINE(ss.str(),ACGreen);
@@ -816,6 +818,10 @@ void Charge::cellLandau(bool pass, int planeID, const Data& data, int threadNumb
            && data.getIsPixelCalibrated(0,planeID)
            && data.getClusterCharge(planeID) > threashold_  )
         THREADED(hCellLandau_[planeID])->Fill(data.getClusterCharge(planeID));
+    if(    rectWindow.checkRectWindow(data.getClusterPixelCol(0,planeID),data.getClusterPixelRow(0,planeID))
+           && data.getIsPixelCalibrated(0,planeID)
+           && data.getClusterCharge(planeID) > threashold_  )
+        THREADED(hWindowCellLandau_[planeID])->Fill(data.getClusterCharge(planeID));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2417,6 +2423,7 @@ void Charge::endJob(void)
         ADD_THREADED(hLandauClusterSize3sameCol_              [p]);
         ADD_THREADED(hLandauClusterSize3sameRow_              [p]);
         ADD_THREADED(hCellLandau_                             [p]);
+        ADD_THREADED(hWindowCellLandau_                       [p]);
         ADD_THREADED(hCellLandauSinglePixel_                  [p]);
 
         ADD_THREADED(h2DCellCharge_                           [p]);
@@ -2837,6 +2844,7 @@ void Charge::endJob(void)
 
         hLandauClusterSize1_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
         hCellLandau_                             [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hWindowCellLandau_                             [p]->GetXaxis()->SetTitle("charge (electrons)");
         hCellLandauSinglePixel_                  [p]->GetXaxis()->SetTitle("charge (electrons)");
         hLandauClusterSize2_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
         hLandauClusterSize2sameRow_              [p]->GetXaxis()->SetTitle("charge (electrons)");
@@ -3160,6 +3168,10 @@ void Charge::book(void)
         hName  = "hCellLandau_"                                               + planeName;
         hTitle = "Charge distribution for single hits in a fiducial window "  + planeName;
         hCellLandau_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
+
+        hName  = "hWindowCellLandau_"                                               + planeName;
+        hTitle = "Charge distribution for single hits in custom fiducial window "  + planeName;
+        hWindowCellLandau_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hCellLandauSinglePixel_"                                               + planeName;
         hTitle = "Charge distribution foreach pixel in any cluster in a fiducial window "  + planeName;

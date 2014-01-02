@@ -3,6 +3,8 @@
 
 #include "Analysis.h"
 
+#include "rectwindow.h"
+
 #include <vector>
 #include <iostream>
 
@@ -50,6 +52,8 @@ private:
     //Histograms
     std::vector<TH1F*>                 hEfficiency_                   ;
     std::vector<TH1F*>                 hEfficiencyNorm_               ;
+    std::vector<TH1F*>                 hWindowEfficiency_             ;
+    std::vector<TH1F*>                 hWindowEfficiencyNorm_         ;
     std::vector<TH1F*>                 h1DXcellEfficiencyFirstHit_    ;
     std::vector<TH1F*>                 h1DXcellEfficiencySecondHit_   ;
     std::vector<TH1F*>                 h1DXcellEfficiencyNorm_        ;
@@ -80,6 +84,8 @@ private:
     std::map< int,std::vector<TH1F*> > scanEfficiencyNorm_            ;
     std::map< int,std::vector<TH1F*> > scanEfficiencyHistos_          ;
     std::vector<TGraph*>               scanGraph_                     ;
+
+    RectWindow rectWindow;
 };
 
 #endif
