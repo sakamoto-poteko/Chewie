@@ -13,7 +13,6 @@ class CustomPixelWindow
 public:
     CustomPixelWindow();
 
-    bool checkCustomWindow(float xRes, float yRes);
     bool checkCustomWindow(int col, int row) {return false;}
     bool windowEnabled() {return rectWindowEnabled;}
 private:
