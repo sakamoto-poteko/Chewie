@@ -4075,6 +4075,8 @@ void Charge::book(void)
         hTitle = "Mean charge along y as function of run number, " + planeName;
         hYMeanCharge_.push_back(new TH1F (hName.c_str(), hTitle.c_str(), maxRunNumber-minRunNumber+1, minRunNumber, maxRunNumber+1));
 
+        theAnalysisManager_->cd("Charge/" + planeName);
+
         // START Window
         theAnalysisManager_->mkdir("Windowed");
         /*--------------------------------------------------------------------------cluster size-----------------------------------------------------------------------------------------------------------------*/
