@@ -239,7 +239,6 @@ void Charge::destroy(void)
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize3sameColWindowed_             .begin(); it!=hLandauClusterSize3sameColWindowed_             .end(); it++) delete *it; hLandauClusterSize2sameColWindowed_             .clear();
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize3sameRowWindowed_             .begin(); it!=hLandauClusterSize3sameRowWindowed_             .end(); it++) delete *it; hLandauClusterSize2sameRowWindowed_             .clear();
     for(std::vector<TH1F*>::iterator it=hCellLandauWindowed_                            .begin(); it!=hCellLandauWindowed_                            .end(); it++) delete *it; hCellLandauWindowed_                            .clear();
-    for(std::vector<TH1F*>::iterator it=hWindowCellLandauWindowed_                      .begin(); it!=hWindowCellLandauWindowed_                      .end(); it++) delete *it; hWindowCellLandauWindowed_                      .clear();
 
     /*-------------------------------------------------------------------------------------------2D cell charge-------------------------------------------------------------------------------------------------*/
     for(std::vector<TH2F*>::iterator it=h2DCellChargeWindowed_                          .begin(); it!=h2DCellChargeWindowed_                          .end(); it++) delete *it; h2DCellChargeWindowed_                          .clear();
