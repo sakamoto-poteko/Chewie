@@ -297,7 +297,6 @@ private:
     std::vector<TH1F*>    hLandauClusterSize3sameRowWindowed_              ;
     std::vector<TH1F*>    hCellLandauWindowed_                             ;
     std::vector<TH1F*>    hCellLandauSinglePixelWindowed_                  ;
-    std::vector<TH1F*>    hWindowCellLandauWindowed_                       ;
 
 
     /*--------------------------2D cell charge--------------------*/

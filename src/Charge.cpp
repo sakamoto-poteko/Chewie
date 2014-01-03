@@ -297,7 +297,8 @@ int Charge::langausFit(TH1* histo, double *fitParameters)
     TF1* landau = new TF1("myLandau","landau",0,60000);
     TF1* gaus   = new TF1("myGaus"  ,"gaus"  ,0,60000);
 
-    fitRange[0]=0.4*(histo->GetMean());
+    // NOTE: Changed lower bound from .4 to .2
+    fitRange[0]=0.2*(histo->GetMean());
     fitRange[1]=1.8*(histo->GetMean());
 
     gaus->SetRange(fitRange[0],fitRange[1]);
@@ -859,14 +860,16 @@ void Charge::clusterLandau(bool pass, int planeID, const Data& data, int threadN
     THREADED(hClusterSizeCuts_ [planeID])->Fill(data.getClusterSize(planeID));
 
     // START Window
-    if( size == 1 )
-        THREADED(hLandauClusterSize1Windowed_[planeID])->Fill(charge);
-    else if( size == 2 )
-        THREADED(hLandauClusterSize2Windowed_[planeID])->Fill(charge);
-    else if( size == 3 )
-        THREADED(hLandauClusterSize3Windowed_[planeID])->Fill(charge);
+    if (customWindow.checkCustomWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID))) {
+        if( size == 1 )
+            THREADED(hLandauClusterSize1Windowed_[planeID])->Fill(charge);
+        else if( size == 2 )
+            THREADED(hLandauClusterSize2Windowed_[planeID])->Fill(charge);
+        else if( size == 3 )
+            THREADED(hLandauClusterSize3Windowed_[planeID])->Fill(charge);
 
-    THREADED(hClusterSizeCutsWindowed_ [planeID])->Fill(data.getClusterSize(planeID));
+        THREADED(hClusterSizeCutsWindowed_ [planeID])->Fill(data.getClusterSize(planeID));
+    }
     // END Window
 
     bool cellLandauCut = true;
@@ -900,7 +903,7 @@ void Charge::cellLandau(bool pass, int planeID, const Data& data, int threadNumb
 
     if( size != 1 )
         return;
-
+    // Why the graph description says "single hits"?
     if( theWindow->checkWindow(data.getClusterPixelCol(0,planeID),data.getClusterPixelRow(0,planeID))
            && data.getIsPixelCalibrated(0,planeID)
            && data.getClusterCharge(planeID) > threashold_  ) {
@@ -939,6 +942,13 @@ void Charge::Xlandau(bool pass, int planeID, const Data &data, int threadNumber)
         THREADED(hLandauClusterSize2sameRow_[planeID])->Fill(data.getClusterCharge(planeID));
     else if( size == 3)
         THREADED(hLandauClusterSize3sameRow_[planeID])->Fill(data.getClusterCharge(planeID));
+
+    if (customWindow.checkCustomWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID))) {
+        if( size == 2)
+            THREADED(hLandauClusterSize2sameRowWindowed_[planeID])->Fill(data.getClusterCharge(planeID));
+        else if( size == 3)
+            THREADED(hLandauClusterSize3sameRowWindowed_[planeID])->Fill(data.getClusterCharge(planeID));
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -969,6 +979,13 @@ void Charge::Ylandau(bool pass, int planeID, const Data &data, int threadNumber)
         THREADED(hLandauClusterSize2sameCol_[planeID])->Fill(data.getClusterCharge(planeID));
     else if( size == 3 )
         THREADED(hLandauClusterSize3sameCol_[planeID])->Fill(data.getClusterCharge(planeID));
+
+    if (customWindow.checkCustomWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID)))  {
+        if( size ==2 )
+            THREADED(hLandauClusterSize2sameCol_[planeID])->Fill(data.getClusterCharge(planeID));
+        else if( size == 3 )
+            THREADED(hLandauClusterSize3sameCol_[planeID])->Fill(data.getClusterCharge(planeID));
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3561,20 +3578,20 @@ void Charge::book(void)
         /*----------------------------------------------------------------------Landau distributions-----------------------------------------------------------------------------------------------------------*/
         theAnalysisManager_->mkdir("Landau");
 
-        hName  = "hLandauClusterSize1_"                                       + planeName;
-        hTitle = "Charge distribution for single hits "                       + planeName;
-        hLandauClusterSize1_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
-
         hName  = "hCellLandau_"                                               + planeName;
-        hTitle = "Charge distribution for single hits in a fiducial window "  + planeName;
+        hTitle = "Charge distribution in a fiducial window without size 1 cluster counted"  + planeName;
         hCellLandau_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hCellLandauSinglePixel_"                                               + planeName;
-        hTitle = "Charge distribution foreach pixel in any cluster in a fiducial window "  + planeName;
+        hTitle = "Charge distribution for each pixel in any cluster in a fiducial window "  + planeName;
         hCellLandauSinglePixel_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
+        hName  = "hLandauClusterSize1_"                                       + planeName;
+        hTitle = "Charge distribution only for size 1 cluster "                       + planeName;
+        hLandauClusterSize1_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
+
         hName  = "hLandauClusterSize2_"                                       + planeName;
-        hTitle = "Charge distribution for 2 adjacent hits "                   + planeName;
+        hTitle = "Charge distribution only for size 2 cluster "                   + planeName;
         hLandauClusterSize2_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hLandauClusterSize2sameCol_"                                + planeName;
@@ -3586,7 +3603,7 @@ void Charge::book(void)
         hLandauClusterSize2sameRow_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hLandauClusterSize3_"                                       + planeName;
-        hTitle = "Charge distribution for 3 adjacent hits "                   + planeName;
+        hTitle = "Charge distribution only for size 3 cluster "                   + planeName;
         hLandauClusterSize3_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hLandauClusterSize3sameCol_"                                + planeName;
@@ -4104,23 +4121,19 @@ void Charge::book(void)
         theAnalysisManager_->mkdir("Landau");
 
         hName  = "hLandauClusterSize1Windowed_"                                       + planeName;
-        hTitle = "Charge distribution for single hits "                       + planeName;
+        hTitle = "Charge distribution only for size 1 cluster "                       + planeName;
         hLandauClusterSize1Windowed_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hCellLandauWindowed_"                                               + planeName;
-        hTitle = "Charge distribution for single hits in a fiducial window "  + planeName;
+        hTitle = "Charge distribution without size 1 cluster counted "  + planeName;
         hCellLandauWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
-        hName  = "hWindowCellLandauWindowed_"                                               + planeName;
-        hTitle = "Charge distribution for single hits in custom fiducial window "  + planeName;
-        hWindowCellLandauWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
-
         hName  = "hCellLandauSinglePixelWindowed_"                                               + planeName;
-        hTitle = "Charge distribution foreach pixel in any cluster in a fiducial window "  + planeName;
+        hTitle = "Charge distribution for each pixel in any cluster in a fiducial window "  + planeName;
         hCellLandauSinglePixelWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hLandauClusterSize2Windowed_"                                       + planeName;
-        hTitle = "Charge distribution for 2 adjacent hits "                   + planeName;
+        hTitle = "Charge distribution only for size 2 cluster "                   + planeName;
         hLandauClusterSize2Windowed_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hLandauClusterSize2sameColWindowed_"                                + planeName;
@@ -4132,7 +4145,7 @@ void Charge::book(void)
         hLandauClusterSize2sameRowWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hLandauClusterSize3Windowed_"                                       + planeName;
-        hTitle = "Charge distribution for 3 adjacent hits "                   + planeName;
+        hTitle = "Charge distribution only for size 3 cluster "                   + planeName;
         hLandauClusterSize3Windowed_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hLandauClusterSize3sameColWindowed_"                                + planeName;
