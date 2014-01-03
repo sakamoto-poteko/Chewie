@@ -110,7 +110,6 @@ void Charge::destroy(void)
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize3sameCol_             .begin(); it!=hLandauClusterSize3sameCol_             .end(); it++) delete *it; hLandauClusterSize2sameCol_             .clear();
     for(std::vector<TH1F*>::iterator it=hLandauClusterSize3sameRow_             .begin(); it!=hLandauClusterSize3sameRow_             .end(); it++) delete *it; hLandauClusterSize2sameRow_             .clear();
     for(std::vector<TH1F*>::iterator it=hCellLandau_                            .begin(); it!=hCellLandau_                            .end(); it++) delete *it; hCellLandau_                            .clear();
-    for(std::vector<TH1F*>::iterator it=hWindowCellLandau_                      .begin(); it!=hWindowCellLandau_                      .end(); it++) delete *it; hWindowCellLandau_                      .clear();
 
     /*-------------------------------------------------------------------------------------------2D cell charge-------------------------------------------------------------------------------------------------*/
     for(std::vector<TH2F*>::iterator it=h2DCellCharge_                          .begin(); it!=h2DCellCharge_                          .end(); it++) delete *it; h2DCellCharge_                          .clear();
@@ -228,7 +227,6 @@ void Charge::destroy(void)
     /*--------------------------------------------------------------------------------------------Cluster size--------------------------------------------------------------------------------------------------*/
     for(std::vector<TH1F*>::iterator it=hClusterSizeWindowed_                           .begin(); it!=hClusterSizeWindowed_                           .end(); it++) delete *it; hClusterSizeWindowed_                           .clear();
     for(std::vector<TH1F*>::iterator it=hClusterSizeCutsWindowed_                       .begin(); it!=hClusterSizeCutsWindowed_                       .end(); it++) delete *it; hClusterSizeCutsWindowed_                       .clear();
-    for(std::vector<TH1F*>::iterator it=hClusterSizeCutsPlusWindowed_                   .begin(); it!=hClusterSizeCutsPlusWindowed_                   .end(); it++) delete *it; hClusterSizeCutsPlusWindowed_                   .clear();
     for(std::vector<TH1F*>::iterator it=hNumberOfColsWindowed_                          .begin(); it!=hNumberOfColsWindowed_                          .end(); it++) delete *it; hNumberOfColsWindowed_                          .clear();
     for(std::vector<TH1F*>::iterator it=hNumberOfRowsWindowed_                          .begin(); it!=hNumberOfRowsWindowed_                          .end(); it++) delete *it; hNumberOfRowsWindowed_                          .clear();
 
@@ -2972,28 +2970,28 @@ void Charge::endJob(void)
         for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
             for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
                 h4CellChargeFullRangeWindowed_[p]->SetBinContent(i, j + _window_cell_ybins_charge,
-                                                         h2DCellChargeOddColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
+                                                                 h2DCellChargeOddColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
             }
         }
         // O Col E Row  -x, -y
         for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
             for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
                 h4CellChargeFullRangeWindowed_[p]->SetBinContent(i, j,
-                                                         h2DCellChargeOddColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
+                                                                 h2DCellChargeOddColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
             }
         }
         // E Col O Row  +x, +y
         for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
             for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
                 h4CellChargeFullRangeWindowed_[p]->SetBinContent(i + _window_cell_xbins_charge, j + _window_cell_ybins_charge,
-                                                         h2DCellChargeEvenColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
+                                                                 h2DCellChargeEvenColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
             }
         }
         // E Col E Row  +x, -y
         for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
             for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
                 h4CellChargeFullRangeWindowed_[p]->SetBinContent(i + _window_cell_xbins_charge, j,
-                                                         h2DCellChargeEvenColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
+                                                                 h2DCellChargeEvenColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
             }
         }
         // End Odd/Even Cell
@@ -3011,8 +3009,8 @@ void Charge::endJob(void)
         STDLINE("",ACWhite);
 
         NormalizeEtaDistributionSize2 (p);
-//        NormalizeEtaDistribution      (p);
-//        NormalizeEtaInverse(p);
+        //        NormalizeEtaDistribution      (p);
+        //        NormalizeEtaInverse(p);
 
         setErrorsBar(p);
 
@@ -3234,7 +3232,7 @@ void Charge::endJob(void)
         hCellChargeCoarseNorm_                   [p]->GetYaxis()->SetTitle("y (um)"            );
         hHitsNotOnRowCol_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
         hHitsNotOnRowCol_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-//        hCutsControl_                            [p]-> attach some legend...!
+        //        hCutsControl_                            [p]-> attach some legend...!
         hChargeNotOnRowCol_                      [p]->GetXaxis()->SetTitle("charge (electrons)");
 
         h1DXcellCharge_                          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
@@ -3352,101 +3350,101 @@ void Charge::endJob(void)
         h1DYEtaDistribution_                     [p]->GetXaxis()->SetTitle("Asimmetry"         );
         h1DYEtaDerivativeDistribution_           [p]->GetXaxis()->SetTitle("Short pitch (um)"  );
         h1DYEtaDerivativeDistribution_           [p]->GetYaxis()->SetTitle("dEta/dy"           );
+
+
+        // START Window
+
+        hClusterSizeWindowed_                            [p]->GetXaxis()->SetTitle("cluster size"      );
+        hClusterSizeCutsWindowed_                        [p]->GetXaxis()->SetTitle("cluster size"      );
+        hNumberOfColsWindowed_                           [p]->GetXaxis()->SetTitle("number of columns" );
+        hNumberOfRowsWindowed_                           [p]->GetXaxis()->SetTitle("number of rows"    );
+
+        hLandauClusterSize1Windowed_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hCellLandauWindowed_                             [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hCellLandauSinglePixelWindowed_                  [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hLandauClusterSize2Windowed_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hLandauClusterSize2sameRowWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hLandauClusterSize2sameColWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hLandauClusterSize3Windowed_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hLandauClusterSize3sameRowWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
+        hLandauClusterSize3sameColWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
+
+        h2DCellChargeWindowed_                           [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeWindowed_                           [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        // START Odd/Even Cell Charge Axis name
+        // Odd rows
+        h2DCellChargeEvenColumnsOddRowsWindowed_         [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeEvenColumnsOddRowsWindowed_         [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DCellChargeOddColumnsOddRowsWindowed_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeOddColumnsOddRowsWindowed_          [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DEvenTracksOddRowsWindowed_                    [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DEvenTracksOddRowsWindowed_                    [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DOddTracksOddRowsWindowed_                     [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DOddTracksOddRowsWindowed_                     [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        // Even rows
+        h2DCellChargeEvenColumnsEvenRowsWindowed_        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeEvenColumnsEvenRowsWindowed_        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DCellChargeOddColumnsEvenRowsWindowed_         [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeOddColumnsEvenRowsWindowed_         [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DEvenTracksEvenRowsWindowed_                   [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DEvenTracksEvenRowsWindowed_                   [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DOddTracksEvenRowsWindowed_                    [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DOddTracksEvenRowsWindowed_                    [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        // row independent
+        h2DCellChargeEvenColumnsWindowed_                [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeEvenColumnsWindowed_                [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DCellChargeOddColumnsWindowed_                 [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeOddColumnsWindowed_                 [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        // 4 cells
+        h4CellChargeFullRangeWindowed_                   [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h4CellChargeFullRangeWindowed_                   [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        // End Odd/Even Cell Charge Axis name
+        h2DCellChargeNumWindowed_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNumWindowed_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DallTracksWindowed_                            [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DallTracksWindowed_                            [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+
+        h2DOddTracksOddRowsWindowed_                            [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DOddTracksOddRowsWindowed_                            [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DCellChargeNormWindowed_                       [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNormWindowed_                       [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DCellChargeNormSize2Windowed_                  [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNormSize2Windowed_                  [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DCellChargeNormSize1Windowed_                  [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNormSize1Windowed_                  [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DCellChargeNormSize2UpWindowed_                [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNormSize2UpWindowed_                [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DCellChargeNormSize1UpWindowed_                [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNormSize1UpWindowed_                [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DCellChargeNormSize2DownWindowed_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNormSize2DownWindowed_              [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h2DCellChargeNormSize1DownWindowed_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h2DCellChargeNormSize1DownWindowed_              [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h4CellsChargeWindowed_                           [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h4CellsChargeWindowed_                           [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h4CellsAllTracksWindowed_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h4CellsAllTracksWindowed_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        h4CellsChargeNormWindowed_                       [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        h4CellsChargeNormWindowed_                       [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        hCellChargeCoarseWindowed_                       [p]->GetXaxis()->SetTitle("x (um)"            );
+        hCellChargeCoarseWindowed_                       [p]->GetYaxis()->SetTitle("y (um)"            );
+        hCellChargeCoarseNormWindowed_                   [p]->GetXaxis()->SetTitle("x (um)"            );
+        hCellChargeCoarseNormWindowed_                   [p]->GetYaxis()->SetTitle("y (um)"            );
+        hHitsNotOnRowColWindowed_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
+        hHitsNotOnRowColWindowed_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
+        hChargeNotOnRowColWindowed_                      [p]->GetXaxis()->SetTitle("charge (electrons)");
+
+        // END Window
     }
-
-    // START Window
-
-    hClusterSizeWindowed_                            [p]->GetXaxis()->SetTitle("cluster size"      );
-    hClusterSizeCutsWindowed_                        [p]->GetXaxis()->SetTitle("cluster size"      );
-    hNumberOfColsWindowed_                           [p]->GetXaxis()->SetTitle("number of columns" );
-    hNumberOfRowsWindowed_                           [p]->GetXaxis()->SetTitle("number of rows"    );
-
-    hLandauClusterSize1Windowed_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hCellLandauWindowed_                             [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hCellLandauSinglePixelWindowed_                  [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hLandauClusterSize2Windowed_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hLandauClusterSize2sameRowWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hLandauClusterSize2sameColWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hLandauClusterSize3Windowed_                     [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hLandauClusterSize3sameRowWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
-    hLandauClusterSize3sameColWindowed_              [p]->GetXaxis()->SetTitle("charge (electrons)");
-
-    h2DCellChargeWindowed_                           [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeWindowed_                           [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    // START Odd/Even Cell Charge Axis name
-    // Odd rows
-    h2DCellChargeEvenColumnsOddRowsWindowed_         [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeEvenColumnsOddRowsWindowed_         [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DCellChargeOddColumnsOddRowsWindowed_          [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeOddColumnsOddRowsWindowed_          [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DEvenTracksOddRowsWindowed_                    [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DEvenTracksOddRowsWindowed_                    [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DOddTracksOddRowsWindowed_                     [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DOddTracksOddRowsWindowed_                     [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    // Even rows
-    h2DCellChargeEvenColumnsEvenRowsWindowed_        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeEvenColumnsEvenRowsWindowed_        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DCellChargeOddColumnsEvenRowsWindowed_         [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeOddColumnsEvenRowsWindowed_         [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DEvenTracksEvenRowsWindowed_                   [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DEvenTracksEvenRowsWindowed_                   [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DOddTracksEvenRowsWindowed_                    [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DOddTracksEvenRowsWindowed_                    [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    // row independent
-    h2DCellChargeEvenColumnsWindowed_                [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeEvenColumnsWindowed_                [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DCellChargeOddColumnsWindowed_                 [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeOddColumnsWindowed_                 [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    // 4 cells
-    h4CellChargeFullRangeWindowed_                   [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h4CellChargeFullRangeWindowed_                   [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    // End Odd/Even Cell Charge Axis name
-    h2DCellChargeNumWindowed_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNumWindowed_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DallTracksWindowed_                            [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DallTracksWindowed_                            [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-
-    h2DOddTracksOddRowsWindowed_                            [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DOddTracksOddRowsWindowed_                            [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DCellChargeNormWindowed_                       [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNormWindowed_                       [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DCellChargeNormSize2Windowed_                  [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNormSize2Windowed_                  [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DCellChargeNormSize1Windowed_                  [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNormSize1Windowed_                  [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DCellChargeNormSize2UpWindowed_                [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNormSize2UpWindowed_                [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DCellChargeNormSize1UpWindowed_                [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNormSize1UpWindowed_                [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DCellChargeNormSize2DownWindowed_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNormSize2DownWindowed_              [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h2DCellChargeNormSize1DownWindowed_              [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h2DCellChargeNormSize1DownWindowed_              [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h4CellsChargeWindowed_                           [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h4CellsChargeWindowed_                           [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h4CellsAllTracksWindowed_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h4CellsAllTracksWindowed_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    h4CellsChargeNormWindowed_                       [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    h4CellsChargeNormWindowed_                       [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    hCellChargeCoarseWindowed_                       [p]->GetXaxis()->SetTitle("x (um)"            );
-    hCellChargeCoarseWindowed_                       [p]->GetYaxis()->SetTitle("y (um)"            );
-    hCellChargeCoarseNormWindowed_                   [p]->GetXaxis()->SetTitle("x (um)"            );
-    hCellChargeCoarseNormWindowed_                   [p]->GetYaxis()->SetTitle("y (um)"            );
-    hHitsNotOnRowColWindowed_                        [p]->GetXaxis()->SetTitle("long pitch (um)"   );
-    hHitsNotOnRowColWindowed_                        [p]->GetYaxis()->SetTitle("short pitch (um)"  );
-    hChargeNotOnRowColWindowed_                      [p]->GetXaxis()->SetTitle("charge (electrons)");
-
-    // END Window
-
     calculateMeanCharge();
 }
 
@@ -3570,10 +3568,6 @@ void Charge::book(void)
         hName  = "hCellLandau_"                                               + planeName;
         hTitle = "Charge distribution for single hits in a fiducial window "  + planeName;
         hCellLandau_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
-
-        hName  = "hWindowCellLandau_"                                               + planeName;
-        hTitle = "Charge distribution for single hits in custom fiducial window "  + planeName;
-        hWindowCellLandau_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 200, -10000, 100000)));
 
         hName  = "hCellLandauSinglePixel_"                                               + planeName;
         hTitle = "Charge distribution foreach pixel in any cluster in a fiducial window "  + planeName;
