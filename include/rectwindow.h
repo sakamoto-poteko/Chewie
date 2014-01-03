@@ -13,13 +13,14 @@ class RectWindow
 public:
     RectWindow();
 
-    bool checkRectWindow(int col, int row);
+    bool checkRectWindow(float xRes, float yRes);
+    bool windowEnabled() {return rectWindowEnabled;}
 private:
-    bool rectWindowEnabled;
-    int windowColTopLeft;
-    int windowRowTopLeft;
-    int windowColBottomRight;
-    int windowRowBottomRight;
+    bool rectWindowEnabled  ;
+    float windowLeftResidual;
+    float windowTopResidual ;
+    float windowRightResidual   ;
+    float windowBottomResidual  ;
 };
 
 #endif // RECTWINDOW_H

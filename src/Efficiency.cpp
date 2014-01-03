@@ -858,23 +858,23 @@ void Efficiency::planeEfficiency(bool pass, int planeID, const Data& data, int t
         }
         else
             THREADED(h2DInefficiency_[planeID])->Fill(col,row);
-    }
 
-    // START Window
+        // START Window
 
-    if (rectWindow.checkRectWindow(col, row)) {
-        THREADED(hEfficiencyNormWindowed_  [planeID])->Fill(1);
-        THREADED(h2DEfficiencyNormWindowed_[planeID])->Fill(col,row);
-        if(data.getHasHit(planeID))
-        {
-            THREADED(hEfficiencyWindowed_  [planeID])->Fill(1);
-            THREADED(h2DEfficiencyWindowed_[planeID])->Fill(col,row);
+        if (rectWindow.checkRectWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID))) {
+            THREADED(hEfficiencyNormWindowed_  [planeID])->Fill(1);
+            THREADED(h2DEfficiencyNormWindowed_[planeID])->Fill(col,row);
+            if(data.getHasHit(planeID))
+            {
+                THREADED(hEfficiencyWindowed_  [planeID])->Fill(1);
+                THREADED(h2DEfficiencyWindowed_[planeID])->Fill(col,row);
+            }
+            else
+                THREADED(h2DInefficiencyWindowed_[planeID])->Fill(col,row);
         }
-        else
-            THREADED(h2DInefficiencyWindowed_[planeID])->Fill(col,row);
-    }
 
-    // END Window
+        // END Window
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -935,57 +935,59 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
         }
         else
             THREADED(hCellInefficiency_[planeID])->Fill(xRes,yRes);
-    }
 
-    // START Window
-
-    if(rectWindow.checkRectWindow(col,row) && data.getXPitchLocal(planeID)<=maxPitchX && data.getYPitchLocal(planeID)<=maxPitchY)
-    {
-        THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes,yRes);
-        if(col%2 == 0)
-            THREADED(hCellEfficiencyEvenColumnsNormWindowed_[planeID])->Fill(xRes,yRes);
-        else
-            THREADED(hCellEfficiencyOddColumnsNormWindowed_[planeID])->Fill(xRes,yRes);
-        // START 4 Cell Efficiency .. cellEfficiency() Norm
-        if (row % 2 == 0) {   // Even row
-            if (col % 2 == 0)
-                THREADED(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
-            else
-                THREADED(hCellEfficiencyOddColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
-        } else {    // Odd row
-            if (col % 2 == 0)
-                THREADED(hCellEfficiencyEvenColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
-            else
-                THREADED(hCellEfficiencyOddColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
-        }
-        // End 4 Cell Efficiency
-
-        if(data.getHasHit(planeID))
+        // START Window
+        if(rectWindow.checkRectWindow(xRes,yRes))
         {
-            THREADED(hCellEfficiencyWindowed_[planeID])->Fill(xRes,yRes);
+            THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes,yRes);
             if(col%2 == 0)
-                THREADED(hCellEfficiencyEvenColumnsWindowed_[planeID])->Fill(xRes,yRes);
+                THREADED(hCellEfficiencyEvenColumnsNormWindowed_[planeID])->Fill(xRes,yRes);
             else
-                THREADED(hCellEfficiencyOddColumnsWindowed_[planeID])->Fill(xRes,yRes);
-            // START 4 Cell Efficiency .. cellEfficiency() not norm
+                THREADED(hCellEfficiencyOddColumnsNormWindowed_[planeID])->Fill(xRes,yRes);
+            // START 4 Cell Efficiency .. cellEfficiency() Norm
             if (row % 2 == 0) {   // Even row
                 if (col % 2 == 0)
-                    THREADED(hCellEfficiencyEvenColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
+                    THREADED(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
                 else
-                    THREADED(hCellEfficiencyOddColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
+                    THREADED(hCellEfficiencyOddColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
             } else {    // Odd row
                 if (col % 2 == 0)
-                    THREADED(hCellEfficiencyEvenColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
+                    THREADED(hCellEfficiencyEvenColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
                 else
-                    THREADED(hCellEfficiencyOddColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
+                    THREADED(hCellEfficiencyOddColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
             }
-            // END 4 Cell Efficiency
+            // End 4 Cell Efficiency
+
+            if(data.getHasHit(planeID))
+            {
+                THREADED(hCellEfficiencyWindowed_[planeID])->Fill(xRes,yRes);
+                if(col%2 == 0)
+                    THREADED(hCellEfficiencyEvenColumnsWindowed_[planeID])->Fill(xRes,yRes);
+                else
+                    THREADED(hCellEfficiencyOddColumnsWindowed_[planeID])->Fill(xRes,yRes);
+                // START 4 Cell Efficiency .. cellEfficiency() not norm
+                if (row % 2 == 0) {   // Even row
+                    if (col % 2 == 0)
+                        THREADED(hCellEfficiencyEvenColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
+                    else
+                        THREADED(hCellEfficiencyOddColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
+                } else {    // Odd row
+                    if (col % 2 == 0)
+                        THREADED(hCellEfficiencyEvenColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
+                    else
+                        THREADED(hCellEfficiencyOddColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
+                }
+                // END 4 Cell Efficiency
+            }
+            else
+                THREADED(hCellInefficiencyWindowed_[planeID])->Fill(xRes,yRes);
         }
-        else
-            THREADED(hCellInefficiencyWindowed_[planeID])->Fill(xRes,yRes);
+
+        // END Window
+
     }
 
-    // END Window
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
