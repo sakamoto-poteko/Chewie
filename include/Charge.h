@@ -127,7 +127,6 @@ private:
     std::vector<TH1F*>    hLandauClusterSize3sameRow_              ;
     std::vector<TH1F*>    hCellLandau_                             ;
     std::vector<TH1F*>    hCellLandauSinglePixel_                  ;
-    std::vector<TH1F*>    hWindowCellLandau_                       ;
 
 
     /*--------------------------2D cell charge--------------------*/
@@ -281,7 +280,65 @@ private:
     std::vector<TH1F*>                 hXMeanCharge_ ;
     std::vector<TH1F*>                 hYMeanCharge_ ;
 
-    RectWindow rectWindow;
+    // START Window
+    /*--------------------------------cluster size----------------*/
+    std::vector<TH1F*>    hClusterSizeWindowed_                            ;
+    std::vector<TH1F*>    hClusterSizeCutsWindowed_                        ;
+    std::vector<TH1F*>    hNumberOfColsWindowed_                           ;
+    std::vector<TH1F*>    hNumberOfRowsWindowed_                           ;
+
+    /*--------------------------Landau distributions -------------*/
+    std::vector<TH1F*>    hLandauClusterSize1Windowed_                     ;
+    std::vector<TH1F*>    hLandauClusterSize2Windowed_                     ;
+    std::vector<TH1F*>    hLandauClusterSize2sameColWindowed_              ;
+    std::vector<TH1F*>    hLandauClusterSize2sameRowWindowed_              ;
+    std::vector<TH1F*>    hLandauClusterSize3Windowed_                     ;
+    std::vector<TH1F*>    hLandauClusterSize3sameColWindowed_              ;
+    std::vector<TH1F*>    hLandauClusterSize3sameRowWindowed_              ;
+    std::vector<TH1F*>    hCellLandauWindowed_                             ;
+    std::vector<TH1F*>    hCellLandauSinglePixelWindowed_                  ;
+    std::vector<TH1F*>    hWindowCellLandauWindowed_                       ;
+
+
+    /*--------------------------2D cell charge--------------------*/
+    std::vector<TH2F*>    h2DCellChargeWindowed_                           ;
+    // Odd & Even Col/Row
+    std::vector<TH2F*>    h2DCellChargeOddColumnsOddRowsWindowed_          ;
+    std::vector<TH2F*>    h2DCellChargeEvenColumnsOddRowsWindowed_         ;
+    std::vector<TH2F*>    h2DEvenTracksOddRowsWindowed_                    ;
+    std::vector<TH2F*>    h2DOddTracksOddRowsWindowed_                     ;
+    std::vector<TH2F*>    h2DCellChargeOddColumnsEvenRowsWindowed_         ;
+    std::vector<TH2F*>    h2DCellChargeEvenColumnsEvenRowsWindowed_        ;
+    std::vector<TH2F*>    h2DEvenTracksEvenRowsWindowed_                   ;
+    std::vector<TH2F*>    h2DOddTracksEvenRowsWindowed_                    ;
+    std::vector<TH2F*>    h2DCellChargeOddColumnsWindowed_                 ;
+    std::vector<TH2F*>    h2DCellChargeEvenColumnsWindowed_                ;
+    std::vector<TH2F*>    h4CellChargeFullRangeWindowed_                   ;
+
+
+    std::vector<TH2F*>    h2DCellChargeNumWindowed_                        ;
+    std::vector<TH2F*>    h2DallTracksWindowed_                            ;
+    std::vector<TH2F*>    h2DCellChargeNormWindowed_                       ;
+    std::vector<TH2F*>    h4CellsChargeWindowed_                           ;
+    std::vector<TH2F*>    h4CellsAllTracksWindowed_                        ;
+    std::vector<TH2F*>    h4CellsChargeNormWindowed_                       ;
+    std::vector<TH2F*>    h4HitsWindowed_                                  ;
+    std::vector<TH2F*>    h4HitsChargeWindowed_                            ;
+    std::vector<TH2F*>    h2DCellChargeNormSize2Windowed_                  ;
+    std::vector<TH2F*>    h2DCellChargeNormSize1Windowed_                  ;
+    std::vector<TH2F*>    h2DCellChargeNormSize2UpWindowed_                ;
+    std::vector<TH2F*>    h2DCellChargeNormSize1UpWindowed_                ;
+    std::vector<TH2F*>    h2DCellChargeNormSize2DownWindowed_              ;
+    std::vector<TH2F*>    h2DCellChargeNormSize1DownWindowed_              ;
+    std::vector<TH2F*>    hCellChargeCoarseWindowed_                       ;
+    std::vector<TH2F*>    hCellChargeCoarseNormWindowed_                   ;
+    std::vector<TH2F*>    hHitsNotOnRowColWindowed_                        ;
+    std::vector<TH1F*>    hCutsControlWindowed_                            ;
+    std::vector<TH1F*>    hChargeNotOnRowColWindowed_                      ;
+
+
+
+    CustomPixelWindow customWindow;
 
     int totEventsControl_;
 

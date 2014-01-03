@@ -3,7 +3,7 @@
 #include "rectwindow.h"
 #include "MessageTools.h"
 
-RectWindow::RectWindow()
+CustomPixelWindow::CustomPixelWindow()
 {
     QSettings windowConfig("Config.ini", QSettings::IniFormat);
     windowConfig.beginGroup("Window");
@@ -24,7 +24,7 @@ RectWindow::RectWindow()
 
 }
 
-bool RectWindow::checkRectWindow(float xRes, float yRes)
+bool CustomPixelWindow::checkCustomWindow(float xRes, float yRes)
 {
     if (!rectWindowEnabled)
         return false;

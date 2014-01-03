@@ -8,13 +8,13 @@
  * The cost of constructing ths class is relative low. It's ok if you construct it in every Analysis class
  *
  */
-class RectWindow
+class CustomPixelWindow
 {
 public:
-    RectWindow();
+    CustomPixelWindow();
 
-    bool checkRectWindow(float xRes, float yRes);
-    bool checkRectWindow(int col, int row) {return false;}
+    bool checkCustomWindow(float xRes, float yRes);
+    bool checkCustomWindow(int col, int row) {return false;}
     bool windowEnabled() {return rectWindowEnabled;}
 private:
     bool rectWindowEnabled  ;

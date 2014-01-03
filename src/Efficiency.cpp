@@ -862,7 +862,7 @@ void Efficiency::planeEfficiency(bool pass, int planeID, const Data& data, int t
 
         // START Window
 
-        if (rectWindow.checkRectWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID))) {
+        if (rectWindow.checkCustomWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID))) {
             THREADED(hEfficiencyNormWindowed_  [planeID])->Fill(1);
             THREADED(h2DEfficiencyNormWindowed_[planeID])->Fill(col,row);
             if(data.getHasHit(planeID))
@@ -938,7 +938,7 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
             THREADED(hCellInefficiency_[planeID])->Fill(xRes,yRes);
 
         // START Window
-        if(rectWindow.checkRectWindow(xRes,yRes))
+        if(rectWindow.checkCustomWindow(xRes,yRes))
         {
             THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes,yRes);
             if(col%2 == 0)

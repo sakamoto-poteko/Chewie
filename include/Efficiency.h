@@ -110,7 +110,7 @@ private:
     std::map< int,std::vector<TH1F*> > scanEfficiencyHistos_          ;
     std::vector<TGraph*>               scanGraph_                     ;
 
-    RectWindow rectWindow;
+    CustomPixelWindow rectWindow;
 };
 
 #endif
