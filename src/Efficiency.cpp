@@ -210,6 +210,7 @@ void Efficiency::endJob(void)
         if(theXmlParser_->getScan()->getScanValues().size()==0)
         {
             ADD_THREADED(hEfficiency_                   [p]);
+            ADD_THREADED(hEfficiencyNorm_               [p]);
             ADD_THREADED(h2DEfficiency_                 [p]);
             ADD_THREADED(h2DEfficiencyNorm_             [p]);
             ADD_THREADED(h2DInefficiency_               [p]);
