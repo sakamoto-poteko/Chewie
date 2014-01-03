@@ -14,6 +14,7 @@ public:
     RectWindow();
 
     bool checkRectWindow(float xRes, float yRes);
+    bool checkRectWindow(int col, int row) {return false;}
     bool windowEnabled() {return rectWindowEnabled;}
 private:
     bool rectWindowEnabled  ;
