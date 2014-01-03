@@ -8,18 +8,18 @@ RectWindow::RectWindow()
     QSettings windowConfig("Config.ini", QSettings::IniFormat);
     windowConfig.beginGroup("Window");
     rectWindowEnabled   = windowConfig.value("WindowEnabled", false).toBool();
-    windowRightResidual = windowConfig.value("LeftX",       0).toFloat();
-    windowLeftResidual  = windowConfig.value("RightX",      0).toFloat();
+    windowRightResidual = windowConfig.value("RightX",      0).toFloat();
+    windowLeftResidual  = windowConfig.value("LeftX",       0).toFloat();
     windowBottomResidual= windowConfig.value("BottomY",     0).toFloat();
     windowTopResidual   = windowConfig.value("TopY",        0).toFloat();
     windowConfig.endGroup();
 
     if (rectWindowEnabled) {
         STDLINE("Custom Window Enabled", ACRed);
-        STDLINE(QString("\tBottom Right Column: %1, Bottom Right Row: %2")
-                .arg(windowRightResidual).arg(windowBottomResidual).toStdString(), ACRed);
-        STDLINE(QString("\tTop Left Column: %1, Top Left Row: %2")
-                .arg(windowLeftResidual).arg(windowTopResidual).toStdString(), ACRed);
+        STDLINE(QString("\tRight X: %1, Left X: %2")
+                .arg(windowRightResidual).arg(windowLeftResidual).toStdString(), ACRed);
+        STDLINE(QString("\tBottom Y: %1, Top Y: %2")
+                .arg(windowBottomResidual).arg(windowTopResidual).toStdString(), ACRed);
     }
 
 }
