@@ -6,7 +6,7 @@
 CustomPixelWindow::CustomPixelWindow()
 {
     QSettings windowConfig("Config.ini", QSettings::IniFormat);
-    windowConfig.beginGroup("Window");
+    windowConfig.beginGroup("CustomWindow");
     rectWindowEnabled   = windowConfig.value("WindowEnabled", false).toBool();
     windowRightResidual = windowConfig.value("RightX",      0).toFloat();
     windowLeftResidual  = windowConfig.value("LeftX",       0).toFloat();
