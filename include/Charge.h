@@ -115,7 +115,15 @@ private:
     std::vector<TH2F*>    hClusterSizeDistribution2sOREC_          ;
     std::vector<TH2F*>    hClusterSizeDistribution2sEROC_          ;
     std::vector<TH2F*>    hClusterSizeDistribution2sEREC_          ;
-
+    std::vector<TH2F*>    hClusterSizeDistributionAll_              ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllOROC_          ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllOREC_          ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllEROC_          ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllEREC_          ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllOROCNorm_          ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllORECNorm_          ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllEROCNorm_          ;
+    std::vector<TH2F*>    hClusterSizeDistributionAllERECNorm_          ;
 
     /*--------------------------Landau distributions -------------*/
     std::vector<TH1F*>    hLandauClusterSize1_                     ;
