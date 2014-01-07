@@ -226,6 +226,13 @@ void Efficiency::endJob(void)
             ADD_THREADED(h1DYcellEfficiencyNorm_        [p]);
             ADD_THREADED(h1DYcellEfficiencyFirstHit_    [p]);
             ADD_THREADED(h1DYcellEfficiencySecondHit_   [p]);
+
+            // START Edge
+
+            ADD_THREADED(h1DXcellEfficiencyCol01Row0_    [p]);
+
+            // END Edge
+
             ADD_THREADED(hCellInefficiency_             [p]);
             // START 4 Cell Efficiency .. endJob()
             ADD_THREADED(hCellEfficiencyOddColumnsOddRowsNorm_  [p]);
@@ -605,6 +612,14 @@ void Efficiency::book(void)
         hName  = "h1DYcellEfficiencyNorm_"                       + planeName;
         hTitle = "1D cell Efficiency - Y coordinate normalization " + planeName;
         h1DYcellEfficiencyNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
+
+        // START Edge
+
+        hName  = "h1DXcellEfficiencyCol01Row0_"                  + planeName;
+        hTitle = "1D cell Efficiency Col 0 and 1, Row 0 " + planeName;
+        h1DXcellEfficiencyCol01Row0_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), -250, 300, 550 / 5)));
+
+        // END Edge
 
         nBinsX = theWindow->getNbins().first;
         nBinsY = theWindow->getNbins().second;
@@ -1013,6 +1028,16 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
     const Window* theWindow = theWindowsManager_->getWindow(planeID) ;
     int           row       = data.getRowPredicted(planeID)          ;
     int           col       = data.getColPredicted(planeID)          ;
+
+
+    // START Edge
+
+    if (col == 0)
+        THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(xRes);
+    if (col == 1)
+        THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(xRes + 200);
+
+    // End Edge
 
     if(theWindow->checkWindow(col,row))
     {
