@@ -617,7 +617,7 @@ void Efficiency::book(void)
 
         hName  = "h1DXcellEfficiencyCol01Row0_"                  + planeName;
         hTitle = "1D cell Efficiency Col 0 and 1, Row 0 " + planeName;
-        h1DXcellEfficiencyCol01Row0_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 300, -250, 550 / 5)));
+        h1DXcellEfficiencyCol01Row0_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
 
         // END Edge
 
