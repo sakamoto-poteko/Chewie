@@ -87,6 +87,13 @@ void Efficiency::destroy(void)
     for(it1=h1DYcellEfficiencyNorm_        .begin(); it1!=h1DYcellEfficiencyNorm_        .end(); it1++) delete *it1; h1DYcellEfficiencyNorm_        .clear();
 
 
+    // START Edge
+    for(it1=h1DXcellEfficiencyCol01Row0_    .begin(); it1!=h1DXcellEfficiencyCol01Row0_  .end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row0_   .clear();
+    for(it1=h1DXcellEfficiencyCol01Row0Norm_.begin(); it1!=h1DXcellEfficiencyCol01Row0Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row0Norm_.clear();
+
+    // END Edge
+
+
     // START Window
 
     for(it1=hEfficiencyWindowed_                   .begin(); it1!=hEfficiencyWindowed_                   .end(); it1++) delete *it1; hEfficiencyWindowed_                   .clear();
@@ -230,6 +237,7 @@ void Efficiency::endJob(void)
             // START Edge
 
             ADD_THREADED(h1DXcellEfficiencyCol01Row0_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol01Row0Norm_    [p]);
 
             // END Edge
 
@@ -286,6 +294,12 @@ void Efficiency::endJob(void)
             h1DXcellEfficiencySecondHit_[p]->Divide(h1DXcellEfficiencyNorm_        [p]);
             h1DYcellEfficiencyFirstHit_ [p]->Divide(h1DYcellEfficiencyNorm_        [p]);
             h1DYcellEfficiencySecondHit_[p]->Divide(h1DYcellEfficiencyNorm_        [p]);
+
+            // START Edge
+            h1DXcellEfficiencyCol01Row0_[p]->Divide(h1DXcellEfficiencyCol01Row0Norm_[p]);
+            // END Edge
+
+
             // START 4 Cell Efficiency .. endJob() Calc
             hCellEfficiencyOddColumnsOddRows_      [p]->Divide(hCellEfficiencyOddColumnsOddRowsNorm_    [p]);
             hCellEfficiencyEvenColumnsOddRows_     [p]->Divide(hCellEfficiencyEvenColumnsOddRowsNorm_   [p]);
@@ -412,6 +426,12 @@ void Efficiency::endJob(void)
             h4CellEfficiency_                      [p]->GetXaxis()->SetTitle("x (um)");
             h4CellEfficiency_                      [p]->GetYaxis()->SetTitle("y (um)");
             // END 4 Cell Efficiency
+
+            // START Edge
+            h1DXcellEfficiencyCol01Row0Norm_        [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol01Row0_            [p]->GetXaxis()->SetTitle("x (um)");
+
+            // END Edge
 
             // START Windowed
 
@@ -618,6 +638,10 @@ void Efficiency::book(void)
         hName  = "h1DXcellEfficiencyCol01Row0_"                  + planeName;
         hTitle = "1D cell Efficiency Col 0 and 1, Row 0 " + planeName;
         h1DXcellEfficiencyCol01Row0_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
+
+        hName  = "h1DXcellEfficiencyCol01Row0Norm_"                  + planeName;
+        hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 0 and 1, Row 0 " + planeName;
+        h1DXcellEfficiencyCol01Row0Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
 
         // END Edge
 
@@ -830,6 +854,20 @@ void Efficiency::setErrorsBar(int planeID)
         error      = sqrt(efficiency*(1-efficiency)/Ntrack);
         h1DYcellEfficiencySecondHit_[planeID]->SetBinError(b,error);
     }
+
+    // START Edge
+
+    nBins = h1DXcellEfficiencyCol01Row0_[planeID]->GetNbinsX();
+    for(int b=1; b<=nBins; ++b)
+    {
+        efficiency = h1DXcellEfficiencyCol01Row0_[planeID]->GetBinContent(b);
+        Ntrack     = h1DXcellEfficiencyCol01Row0Norm_[planeID]->GetBinContent(b);
+        error      = sqrt(efficiency*(1-efficiency)/Ntrack);
+        h1DXcellEfficiencyCol01Row0_[planeID]->SetBinError(b,error);
+    }
+
+    // END Edge
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1032,10 +1070,11 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
 
     // START Edge
 
-    if (col == 0)
-        THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(xRes);
-    if (col == 1)
-        THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(xRes + 200);
+    if (col == 0 || col == 1) {
+        THREADED(h1DXcellEfficiencyCol01Row0Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+        if (data.getHasHit(planeID))
+            THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+    }
 
     // End Edge
 
