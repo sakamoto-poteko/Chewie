@@ -301,6 +301,7 @@ void Efficiency::endJob(void)
 
             // START Edge
             h1DXcellEfficiencyCol01Row0_[p]->Divide(h1DXcellEfficiencyCol01Row0Norm_[p]);
+            h1DXcellEfficiencyCol5051Row40_[p]->Divide(h1DXcellEfficiencyCol5051Row40Norm_[p]);
             // END Edge
 
 
@@ -870,15 +871,6 @@ void Efficiency::setErrorsBar(int planeID)
     }
 
     // START Edge
-
-    nBins = h1DXcellEfficiencyCol01Row0_[planeID]->GetNbinsX();
-    for(int b=1; b<=nBins; ++b)
-    {
-        efficiency = h1DXcellEfficiencyCol01Row0_[planeID]->GetBinContent(b);
-        Ntrack     = h1DXcellEfficiencyCol01Row0Norm_[planeID]->GetBinContent(b);
-        error      = sqrt(efficiency*(1-efficiency)/Ntrack);
-        h1DXcellEfficiencyCol01Row0_[planeID]->SetBinError(b,error);
-    }
 
     // END Edge
 
