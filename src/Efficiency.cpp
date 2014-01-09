@@ -959,6 +959,22 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
     double         maxPitchX = 150                                   ;
     double         maxPitchY = 100                                   ;
 
+    // START Edge
+
+    if (col == 0 || col == 1) {
+        THREADED(h1DXcellEfficiencyCol01Row0Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+        if (data.getHasHit(planeID))
+            THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+    }
+
+    if (col == 50 || col == 51) {
+        THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+        if (data.getHasHit(planeID))
+            THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+    }
+
+    // End Edge
+
     if(theWindow->checkWindow(col,row) && data.getXPitchLocal(planeID)<=maxPitchX && data.getYPitchLocal(planeID)<=maxPitchY)
     {
         THREADED(hCellEfficiencyNorm_[planeID])->Fill(xRes,yRes);
@@ -1080,23 +1096,6 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
     const Window* theWindow = theWindowsManager_->getWindow(planeID) ;
     int           row       = data.getRowPredicted(planeID)          ;
     int           col       = data.getColPredicted(planeID)          ;
-
-
-    // START Edge
-
-    if (col == 0 || col == 1) {
-        THREADED(h1DXcellEfficiencyCol01Row0Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
-        if (data.getHasHit(planeID))
-            THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
-    }
-
-    if (col == 50 || col == 51) {
-        THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
-        if (data.getHasHit(planeID))
-            THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
-    }
-
-    // End Edge
 
     if(theWindow->checkWindow(col,row))
     {
