@@ -953,16 +953,20 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
 
     // START Edge
 
-    if (col == 0 || col == 1) {
-        THREADED(h1DXcellEfficiencyCol01Row0Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
-        if (data.getHasHit(planeID))
-            THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+    if (row == 0) {
+        if (col == 0 || col == 1) {
+            THREADED(h1DXcellEfficiencyCol01Row0Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+            if (data.getHasHit(planeID))
+                THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+        }
     }
 
-    if (col == 50 || col == 51) {
-        THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
-        if (data.getHasHit(planeID))
-            THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+    if (row == 40) {
+        if (col == 50 || col == 51) {
+            THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+            if (data.getHasHit(planeID))
+                THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+        }
     }
 
     // End Edge
