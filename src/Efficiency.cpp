@@ -1076,6 +1076,12 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
             THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
     }
 
+    if (col == 50 || col == 51) {
+        THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+        if (data.getHasHit(planeID))
+            THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+    }
+
     // End Edge
 
     if(theWindow->checkWindow(col,row))

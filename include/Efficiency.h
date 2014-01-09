@@ -72,6 +72,9 @@ private:
     // START Edge
     std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row0_    ;
     std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row0Norm_;
+
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row40_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row40Norm_;
     // END Edge
 
     std::vector<TH2F*>                  hCellEfficiencyEvenColumnsEvenRowsNorm_ ;
