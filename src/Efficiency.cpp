@@ -731,7 +731,7 @@ void Efficiency::book(void)
         hCellEfficiencyEvenColumnsOddRowsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         // Even Rows
-        hName  =  "hCellEfficiencyOddColumnsEvenRowsNormWindowed_"              + planeName;
+        hName  =  "hCellEfficiencysparc serverOddColumnsEvenRowsNormWindowed_"              + planeName;
         hTitle =  "Cell efficiency odd columns even rows normalization " + planeName;
         hCellEfficiencyOddColumnsEvenRowsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
@@ -962,7 +962,7 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
     }
 
     if (row == 40) {
-        if (col == 50 || col == 51) {
+        if (col == 51) {
             THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
             if (data.getHasHit(planeID))
                 THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
