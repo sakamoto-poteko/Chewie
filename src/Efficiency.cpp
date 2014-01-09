@@ -961,8 +961,8 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
         }
     }
 
-    if (row == 40) {
-        if (col == 51) {
+    if (true) {
+        if (col == 50 || col == 51) {
             THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
             if (data.getHasHit(planeID))
                 THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
