@@ -93,6 +93,30 @@ private:
 
     std::vector<TH1F*>                 h1DXcellEfficiencyCol5051RowAll_    ;
     std::vector<TH1F*>                 h1DXcellEfficiencyCol5051RowAllNorm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01Col0_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01Col0Norm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01Col30_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01Col30Norm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01Col52_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01Col52Norm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01ColAll_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow01ColAllNorm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879Col0_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879Col0Norm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879Col30_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879Col30Norm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879Col52_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879Col52Norm_;
+
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879ColAll_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyRow7879ColAllNorm_;
     // END Edge
 
     std::vector<TH2F*>                  hCellEfficiencyEvenColumnsEvenRowsNorm_ ;
