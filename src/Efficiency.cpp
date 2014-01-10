@@ -810,35 +810,35 @@ void Efficiency::book(void)
 
         hName  = "h1DYcellEfficiencyRow01Col0_"                  + planeName;
         hTitle = "1D cell Efficiency Row 0 and 1, Col 0 " + planeName;
-        h1DYcellEfficiencyRow01Col0_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01Col0_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow01Col0Norm_"                  + planeName;
         hTitle = "DISCARD ME, 1D cell Efficiency Norm Row 0 and 1, Col 0 " + planeName;
-        h1DYcellEfficiencyRow01Col0Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01Col0Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow01Col30_"                  + planeName;
         hTitle = "1D cell Efficiency Row 0 and 1, Col 30 " + planeName;
-        h1DYcellEfficiencyRow01Col30_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01Col30_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow01Col30Norm_"                  + planeName;
         hTitle = "DISCARD ME, 1D cell Efficiency Norm Row 0 and 1, Col 30 " + planeName;
-        h1DYcellEfficiencyRow01Col30Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01Col30Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow01Col52_"                  + planeName;
         hTitle = "1D cell Efficiency Row 0 and 1, Col 52 " + planeName;
-        h1DYcellEfficiencyRow01Col52_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01Col52_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow01Col52Norm_"                  + planeName;
         hTitle = "DISCARD ME, 1D cell Efficiency Norm Row 0 and 1, Col 52 " + planeName;
-        h1DYcellEfficiencyRow01Col52Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01Col52Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow01ColAll_"                  + planeName;
         hTitle = "1D cell Efficiency Row 0 and 1, Col All " + planeName;
-        h1DYcellEfficiencyRow01ColAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01ColAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow01ColAllNorm_"                  + planeName;
         hTitle = "DISCARD ME, 1D cell Efficiency Norm Row 0 and 1, Col All " + planeName;
-        h1DYcellEfficiencyRow01ColAllNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 650 / 5, -300, 350)));
+        h1DYcellEfficiencyRow01ColAllNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 250 / 5, -100, 150)));
 
         hName  = "h1DYcellEfficiencyRow7879Col0_"                  + planeName;
         hTitle = "1D cell Efficiency Row 78 and 79, Col 0 " + planeName;
