@@ -652,11 +652,11 @@ void Efficiency::book(void)
 
         hName  = "h1DXcellEfficiencyCol5051Row40_"                  + planeName;
         hTitle = "1D cell Efficiency Col 50 and 51, Row 40 " + planeName;
-        h1DXcellEfficiencyCol5051Row40_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -300, 250)));
+        h1DXcellEfficiencyCol5051Row40_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
 
         hName  = "h1DXcellEfficiencyCol5051Row40Norm_"                  + planeName;
         hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 50 and 51, Row 40 " + planeName;
-        h1DXcellEfficiencyCol5051Row40Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -300, 250)));
+        h1DXcellEfficiencyCol5051Row40Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
 
         // END Edge
 
