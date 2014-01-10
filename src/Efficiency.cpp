@@ -946,7 +946,7 @@ void Efficiency::book(void)
         hCellEfficiencyEvenColumnsOddRowsWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
         // Even Rows
-        hName  =  "hCellEfficiencysparc serverOddColumnsEvenRowsNormWindowed_"              + planeName;
+        hName  =  "hCellEfficiencyOddColumnsEvenRowsNormWindowed_"              + planeName;
         hTitle =  "Cell efficiency odd columns even rows normalization " + planeName;
         hCellEfficiencyOddColumnsEvenRowsNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(),hTitle.c_str(),(int)resXRange/5,-(resXRange/2),resXRange/2,(int)resYRange/5,-(resYRange/2),resYRange/2)));
 
