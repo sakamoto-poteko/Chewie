@@ -88,10 +88,22 @@ void Efficiency::destroy(void)
 
 
     // START Edge
-    for(it1=h1DXcellEfficiencyCol01Row0_    .begin(); it1!=h1DXcellEfficiencyCol01Row0_  .end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row0_   .clear();
-    for(it1=h1DXcellEfficiencyCol01Row0Norm_.begin(); it1!=h1DXcellEfficiencyCol01Row0Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row0Norm_.clear();
-    for(it1=h1DXcellEfficiencyCol5051Row40_    .begin(); it1!=h1DXcellEfficiencyCol5051Row40_  .end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row40_   .clear();
-    for(it1=h1DXcellEfficiencyCol5051Row40Norm_.begin(); it1!=h1DXcellEfficiencyCol5051Row40Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row40Norm_.clear();
+    for(it1=h1DXcellEfficiencyCol01Row0_        .begin(); it1!=h1DXcellEfficiencyCol01Row0_     .end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row0_        .clear();
+    for(it1=h1DXcellEfficiencyCol01Row0Norm_    .begin(); it1!=h1DXcellEfficiencyCol01Row0Norm_ .end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row0Norm_    .clear();
+    for(it1=h1DXcellEfficiencyCol01Row40_       .begin(); it1!=h1DXcellEfficiencyCol01Row40_    .end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row40_       .clear();
+    for(it1=h1DXcellEfficiencyCol01Row40Norm_   .begin(); it1!=h1DXcellEfficiencyCol01Row40Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row40Norm_   .clear();
+    for(it1=h1DXcellEfficiencyCol01Row79_       .begin(); it1!=h1DXcellEfficiencyCol01Row79_    .end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row79_       .clear();
+    for(it1=h1DXcellEfficiencyCol01Row79Norm_   .begin(); it1!=h1DXcellEfficiencyCol01Row79Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol01Row79Norm_   .clear();
+    for(it1=h1DXcellEfficiencyCol01RowAll_      .begin(); it1!=h1DXcellEfficiencyCol01RowAll_   .end(); it1++) delete *it1; h1DXcellEfficiencyCol01RowAll_      .clear();
+    for(it1=h1DXcellEfficiencyCol01RowAllNorm_  .begin(); it1!=h1DXcellEfficiencyCol01RowAllNorm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol01RowAllNorm_ .clear();
+    for(it1=h1DXcellEfficiencyCol5051Row0_     .begin(); it1!=h1DXcellEfficiencyCol5051Row0_  .end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row0_     .clear();
+    for(it1=h1DXcellEfficiencyCol5051Row0Norm_ .begin(); it1!=h1DXcellEfficiencyCol5051Row0Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row0Norm_.clear();
+    for(it1=h1DXcellEfficiencyCol5051Row40_     .begin(); it1!=h1DXcellEfficiencyCol5051Row40_  .end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row40_     .clear();
+    for(it1=h1DXcellEfficiencyCol5051Row40Norm_ .begin(); it1!=h1DXcellEfficiencyCol5051Row40Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row40Norm_.clear();
+    for(it1=h1DXcellEfficiencyCol5051Row79_     .begin(); it1!=h1DXcellEfficiencyCol5051Row79_  .end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row79_     .clear();
+    for(it1=h1DXcellEfficiencyCol5051Row79Norm_ .begin(); it1!=h1DXcellEfficiencyCol5051Row79Norm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol5051Row79Norm_.clear();
+    for(it1=h1DXcellEfficiencyCol5051RowAll_     .begin(); it1!=h1DXcellEfficiencyCol5051RowAll_  .end(); it1++) delete *it1; h1DXcellEfficiencyCol5051RowAll_     .clear();
+    for(it1=h1DXcellEfficiencyCol5051RowAllNorm_ .begin(); it1!=h1DXcellEfficiencyCol5051RowAllNorm_.end(); it1++) delete *it1; h1DXcellEfficiencyCol5051RowAllNorm_.clear();
 
     // END Edge
 
@@ -240,8 +252,20 @@ void Efficiency::endJob(void)
 
             ADD_THREADED(h1DXcellEfficiencyCol01Row0_    [p]);
             ADD_THREADED(h1DXcellEfficiencyCol01Row0Norm_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol01Row40_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol01Row40Norm_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol01Row79_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol01Row79Norm_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol01RowAll_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol01RowAllNorm_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol5051Row0_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol5051Row0Norm_    [p]);
             ADD_THREADED(h1DXcellEfficiencyCol5051Row40_    [p]);
             ADD_THREADED(h1DXcellEfficiencyCol5051Row40Norm_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol5051Row79_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol5051Row79Norm_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol5051RowAll_    [p]);
+            ADD_THREADED(h1DXcellEfficiencyCol5051RowAllNorm_    [p]);
 
             // END Edge
 
@@ -300,8 +324,14 @@ void Efficiency::endJob(void)
             h1DYcellEfficiencySecondHit_[p]->Divide(h1DYcellEfficiencyNorm_        [p]);
 
             // START Edge
-            h1DXcellEfficiencyCol01Row0_[p]->Divide(h1DXcellEfficiencyCol01Row0Norm_[p]);
-            h1DXcellEfficiencyCol5051Row40_[p]->Divide(h1DXcellEfficiencyCol5051Row40Norm_[p]);
+            h1DXcellEfficiencyCol01Row0_    [p]->Divide(h1DXcellEfficiencyCol01Row0Norm_    [p]);
+            h1DXcellEfficiencyCol01Row40_   [p]->Divide(h1DXcellEfficiencyCol01Row40Norm_   [p]);
+            h1DXcellEfficiencyCol01Row79_   [p]->Divide(h1DXcellEfficiencyCol01Row79Norm_   [p]);
+            h1DXcellEfficiencyCol01RowAll_  [p]->Divide(h1DXcellEfficiencyCol01RowAllNorm_  [p]);
+            h1DXcellEfficiencyCol5051Row0_  [p]->Divide(h1DXcellEfficiencyCol5051Row0Norm_  [p]);
+            h1DXcellEfficiencyCol5051Row40_ [p]->Divide(h1DXcellEfficiencyCol5051Row40Norm_ [p]);
+            h1DXcellEfficiencyCol5051Row79_ [p]->Divide(h1DXcellEfficiencyCol5051Row79Norm_ [p]);
+            h1DXcellEfficiencyCol5051RowAll_[p]->Divide(h1DXcellEfficiencyCol5051RowAllNorm_[p]);
             // END Edge
 
 
@@ -435,8 +465,20 @@ void Efficiency::endJob(void)
             // START Edge
             h1DXcellEfficiencyCol01Row0Norm_        [p]->GetXaxis()->SetTitle("x (um)");
             h1DXcellEfficiencyCol01Row0_            [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol01Row40Norm_        [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol01Row40_            [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol01Row79Norm_        [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol01Row79_            [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol01RowAllNorm_        [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol01RowAll_            [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol5051Row0Norm_        [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol5051Row0_            [p]->GetXaxis()->SetTitle("x (um)");
             h1DXcellEfficiencyCol5051Row40Norm_        [p]->GetXaxis()->SetTitle("x (um)");
             h1DXcellEfficiencyCol5051Row40_            [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol5051Row79Norm_        [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol5051Row79_            [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol5051RowAllNorm_        [p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyCol5051RowAll_            [p]->GetXaxis()->SetTitle("x (um)");
 
             // END Edge
 
@@ -650,6 +692,38 @@ void Efficiency::book(void)
         hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 0 and 1, Row 0 " + planeName;
         h1DXcellEfficiencyCol01Row0Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
 
+        hName  = "h1DXcellEfficiencyCol01Row40_"                  + planeName;
+        hTitle = "1D cell Efficiency Col 0 and 1, Row 40 " + planeName;
+        h1DXcellEfficiencyCol01Row40_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
+
+        hName  = "h1DXcellEfficiencyCol01Row40Norm_"                  + planeName;
+        hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 0 and 1, Row 40 " + planeName;
+        h1DXcellEfficiencyCol01Row40Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
+
+        hName  = "h1DXcellEfficiencyCol01Row79_"                  + planeName;
+        hTitle = "1D cell Efficiency Col 0 and 1, Row 79 " + planeName;
+        h1DXcellEfficiencyCol01Row79_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
+
+        hName  = "h1DXcellEfficiencyCol01Row79Norm_"                  + planeName;
+        hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 0 and 1, Row 79 " + planeName;
+        h1DXcellEfficiencyCol01Row79Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
+
+        hName  = "h1DXcellEfficiencyCol01RowAll_"                  + planeName;
+        hTitle = "1D cell Efficiency Col 0 and 1, Row All " + planeName;
+        h1DXcellEfficiencyCol01RowAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
+
+        hName  = "h1DXcellEfficiencyCol01RowAllNorm_"                  + planeName;
+        hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 0 and 1, Row All " + planeName;
+        h1DXcellEfficiencyCol01RowAllNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 5, -250, 300)));
+
+        hName  = "h1DXcellEfficiencyCol5051Row0_"                  + planeName;
+        hTitle = "1D cell Efficiency Col 50 and 51, Row 0 " + planeName;
+        h1DXcellEfficiencyCol5051Row0_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
+
+        hName  = "h1DXcellEfficiencyCol5051Row0Norm_"                  + planeName;
+        hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 50 and 51, Row 0 " + planeName;
+        h1DXcellEfficiencyCol5051Row0Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
+
         hName  = "h1DXcellEfficiencyCol5051Row40_"                  + planeName;
         hTitle = "1D cell Efficiency Col 50 and 51, Row 40 " + planeName;
         h1DXcellEfficiencyCol5051Row40_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
@@ -658,6 +732,21 @@ void Efficiency::book(void)
         hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 50 and 51, Row 40 " + planeName;
         h1DXcellEfficiencyCol5051Row40Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
 
+        hName  = "h1DXcellEfficiencyCol5051Row79_"                  + planeName;
+        hTitle = "1D cell Efficiency Col 50 and 51, Row 79 " + planeName;
+        h1DXcellEfficiencyCol5051Row79_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
+
+        hName  = "h1DXcellEfficiencyCol5051Row79Norm_"                  + planeName;
+        hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 50 and 51, Row 79 " + planeName;
+        h1DXcellEfficiencyCol5051Row79Norm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
+
+        hName  = "h1DXcellEfficiencyCol5051RowAll_"                  + planeName;
+        hTitle = "1D cell Efficiency Col 50 and 51, Row All " + planeName;
+        h1DXcellEfficiencyCol5051RowAll_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
+
+        hName  = "h1DXcellEfficiencyCol5051RowAllNorm_"                  + planeName;
+        hTitle = "DISCARD ME, 1D cell Efficiency Norm Col 50 and 51, Row All " + planeName;
+        h1DXcellEfficiencyCol5051RowAllNorm_.push_back(NEW_THREADED(TH1F(hName.c_str(), hTitle.c_str(), 550 / 2, -300, 250)));
         // END Edge
 
         nBinsX = theWindow->getNbins().first;
@@ -953,21 +1042,57 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
 
     // START Edge
 
-    if (row == 0) {
-        if (col == 0 || col == 1) {
+    if (col == 0 || col == 1) {
+        switch (row) {
+        case 0:
             THREADED(h1DXcellEfficiencyCol01Row0Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
             if (data.getHasHit(planeID))
                 THREADED(h1DXcellEfficiencyCol01Row0_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+            break;
+        case 79:
+            THREADED(h1DXcellEfficiencyCol01Row79Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+            if (data.getHasHit(planeID))
+                THREADED(h1DXcellEfficiencyCol01Row79_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+            break;
+        case 40:
+            THREADED(h1DXcellEfficiencyCol01Row40Norm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+            if (data.getHasHit(planeID))
+                THREADED(h1DXcellEfficiencyCol01Row40_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+            break;
+        default:
+            break;
         }
+        THREADED(h1DXcellEfficiencyCol01RowAllNorm_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
+        if (data.getHasHit(planeID))
+            THREADED(h1DXcellEfficiencyCol01RowAll_[planeID])->Fill(col == 0 ? xRes : xRes + 225);
     }
 
-    if (true) {
-        if (col == 50 || col == 51) {
+
+    if (col == 50 || col == 51) {
+        switch (row) {
+        case 0:
+            THREADED(h1DXcellEfficiencyCol5051Row0Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+            if (data.getHasHit(planeID))
+                THREADED(h1DXcellEfficiencyCol5051Row0_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+            break;
+        case 40:
             THREADED(h1DXcellEfficiencyCol5051Row40Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
             if (data.getHasHit(planeID))
                 THREADED(h1DXcellEfficiencyCol5051Row40_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+            break;
+        case 79:
+            THREADED(h1DXcellEfficiencyCol5051Row79Norm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+            if (data.getHasHit(planeID))
+                THREADED(h1DXcellEfficiencyCol5051Row79_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+            break;
+        default:
+            break;
         }
+        THREADED(h1DXcellEfficiencyCol5051RowAllNorm_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
+        if (data.getHasHit(planeID))
+            THREADED(h1DXcellEfficiencyCol5051RowAll_[planeID])->Fill(col == 51 ? xRes : xRes - 225);
     }
+
 
     // End Edge
 

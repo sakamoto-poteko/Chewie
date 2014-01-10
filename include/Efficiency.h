@@ -73,8 +73,26 @@ private:
     std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row0_    ;
     std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row0Norm_;
 
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row79_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row79Norm_;
+
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row40_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol01Row40Norm_;
+
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol01RowAll_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol01RowAllNorm_;
+
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row0_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row0Norm_;
+
     std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row40_    ;
     std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row40Norm_;
+
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row79_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051Row79Norm_;
+
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051RowAll_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyCol5051RowAllNorm_;
     // END Edge
 
     std::vector<TH2F*>                  hCellEfficiencyEvenColumnsEvenRowsNorm_ ;
