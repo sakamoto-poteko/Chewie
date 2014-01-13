@@ -1052,18 +1052,18 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
     if (row % 2 == 0) { // Even row
         if (col % 2 == 0) {
             THREADED(h2DEvenTracksEvenRows_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID + 75),data.getYPixelResidualLocal(planeID - 50));
+            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) - 50);
         } else {
             THREADED(h2DOddTracksEvenRows_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID - 75),data.getYPixelResidualLocal(planeID - 50));
+            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) - 50);
         }
     } else { // Odd row
         if (col % 2 == 0) {
             THREADED(h2DEvenTracksOddRows_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID + 75),data.getYPixelResidualLocal(planeID + 50));
+            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) + 50);
         } else {
             THREADED(h2DOddTracksOddRows_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
-            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID - 75),data.getYPixelResidualLocal(planeID + 50));
+            THREADED(h4CellChargeFullRangeTracks_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) + 50);
         }
     }
 
@@ -1212,18 +1212,18 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
             if (row % 2 == 0) { // Even rows
                 if (col % 2 == 0) {
                     THREADED(h2DCellChargeEvenColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID + 75),data.getYPixelResidualLocal(planeID - 50));
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) - 50);
                 } else {
                     THREADED(h2DCellChargeOddColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID - 75),data.getYPixelResidualLocal(planeID - 50));
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) - 50);
                 }
             } else { // Odd rows
                 if (col % 2 == 0) {
                     THREADED(h2DCellChargeEvenColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID + 75),data.getYPixelResidualLocal(planeID + 50));
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) + 50);
                 } else {
                     THREADED(h2DCellChargeOddColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID - 75),data.getYPixelResidualLocal(planeID + 50));
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) + 50);
                 }
             }
 
@@ -1428,15 +1428,20 @@ void Charge::oddEvenCellHelperOutOfWindow(const Data &data, int planeID, int row
                )
         {
             if (row % 2 == 0) { // Even rows
-                if (col % 2 == 0)
+                if (col % 2 == 0) {
                     THREADED(h2DCellChargeEvenColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                else
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) - 50);
+               } else {
                     THREADED(h2DCellChargeOddColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) - 50);
             } else { // Odd rows
-                if (col % 2 == 0)
+                if (col % 2 == 0) {
                     THREADED(h2DCellChargeEvenColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                else
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID + 50));
+                } else {
                     THREADED(h2DCellChargeOddColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                    THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) + 50);
+                }
             }
 
             if (customWindow.checkCustomWindow(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID))) {
