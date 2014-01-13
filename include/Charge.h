@@ -151,6 +151,7 @@ private:
     std::vector<TH2F*>    h2DCellChargeOddColumns_                 ;
     std::vector<TH2F*>    h2DCellChargeEvenColumns_                ;
     std::vector<TH2F*>    h4CellChargeFullRange_                   ;
+    std::vector<TH2F*>    h4CellChargeFullRangeTracks_             ;
 
 
     std::vector<TH2F*>    h2DCellChargeNum_                        ;
