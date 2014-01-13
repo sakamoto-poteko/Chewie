@@ -1434,7 +1434,8 @@ void Charge::oddEvenCellHelperOutOfWindow(const Data &data, int planeID, int row
                } else {
                     THREADED(h2DCellChargeOddColumnsEvenRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
                     THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) - 50);
-            } else { // Odd rows
+                }
+            }else { // Odd rows
                 if (col % 2 == 0) {
                     THREADED(h2DCellChargeEvenColumnsOddRows_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
                     THREADED(h4CellChargeFullRange_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID + 50));
