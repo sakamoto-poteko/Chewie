@@ -130,6 +130,13 @@ private:
     std::vector<TH2F*>                  h4CellEfficiency_                   ;
 
     // Window
+    std::vector<TH1F*>                 h1DXcellEfficiencyFirstHitWindowed_    ;
+    std::vector<TH1F*>                 h1DXcellEfficiencySecondHitWindowed_   ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyNormWindowed_        ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyFirstHitWindowed_    ;
+    std::vector<TH1F*>                 h1DYcellEfficiencySecondHitWindowed_   ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyNormWindowed_        ;
+
     std::vector<TH1F*>                 hEfficiencyWindowed_             ;
     std::vector<TH1F*>                 hEfficiencyNormWindowed_         ;
     std::vector<TH2F*>                 h2DEfficiencyWindowed_                 ;
@@ -159,7 +166,7 @@ private:
     std::map< int,std::vector<TH1F*> > scanEfficiencyHistos_          ;
     std::vector<TGraph*>               scanGraph_                     ;
 
-    CustomPixelWindow rectWindow;
+    CustomPixelWindow customPixelWindow;
 };
 
 #endif
