@@ -944,18 +944,18 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
         if (row % 2 == 0) {   // Even row
             if (col % 2 == 0) {
                 THREADED(hCellEfficiencyEvenColumnsEvenRowsNorm_[planeID])->Fill(xRes, yRes);
-                THREADED(h4CellEfficiency_[planeID])->Fill(xRes + 75, yRes - 50);
+                THREADED(h4CellEfficiencyNorm_[planeID])->Fill(xRes + 75, yRes - 50);
             } else {
                 THREADED(hCellEfficiencyOddColumnsEvenRowsNorm_[planeID])->Fill(xRes, yRes);
-                THREADED(h4CellEfficiency_[planeID])->Fill(xRes - 75, yRes - 50);
+                THREADED(h4CellEfficiencyNorm_[planeID])->Fill(xRes - 75, yRes - 50);
             }
         } else {    // Odd row
             if (col % 2 == 0) {
                 THREADED(hCellEfficiencyEvenColumnsOddRowsNorm_[planeID])->Fill(xRes, yRes);
-                THREADED(h4CellEfficiency_[planeID])->Fill(xRes + 75, yRes + 50);
+                THREADED(h4CellEfficiencyNorm_[planeID])->Fill(xRes + 75, yRes + 50);
             } else {
                 THREADED(hCellEfficiencyOddColumnsOddRowsNorm_[planeID])->Fill(xRes, yRes);
-                THREADED(h4CellEfficiency_[planeID])->Fill(xRes - 75, yRes + 50);
+                THREADED(h4CellEfficiencyNorm_[planeID])->Fill(xRes - 75, yRes + 50);
             }
         }
         // End 4 Cell Efficiency
