@@ -71,6 +71,7 @@ void Efficiency::destroy(void)
     for(it2=hCellEfficiencyOddColumnsEvenRows_      .begin(); it2!=hCellEfficiencyOddColumnsEvenRows_       .end(); it2++) delete *it2; hCellEfficiencyOddColumnsEvenRows_      .clear();
     for(it2=hCellEfficiencyEvenColumnsEvenRows_     .begin(); it2!=hCellEfficiencyEvenColumnsEvenRows_      .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsEvenRows_     .clear();
     for(it2=h4CellEfficiency_                       .begin(); it2!=h4CellEfficiency_                        .end(); it2++) delete *it2; h4CellEfficiency_                       .clear();
+    for(it2=h4CellEfficiencyNorm_                   .begin(); it2!=h4CellEfficiencyNorm_                    .end(); it2++) delete *it2; h4CellEfficiencyNorm_                   .clear();
     // END 4 Cell Efficiency
 
     for(it2=hCellEfficiencyEvenColumns_    .begin(); it2!=hCellEfficiencyEvenColumns_    .end(); it2++) delete *it2; hCellEfficiencyEvenColumns_    .clear();
@@ -245,6 +246,7 @@ void Efficiency::endJob(void)
             ADD_THREADED(hCellEfficiencyOddColumnsEvenRows_     [p]);
             ADD_THREADED(hCellEfficiencyEvenColumnsEvenRows_    [p]);
             ADD_THREADED(h4CellEfficiency_                      [p]);
+            ADD_THREADED(h4CellEfficiencyNorm_                  [p]);
             // END 4 Cell Efficiency
 
             // START Windowed
@@ -298,40 +300,7 @@ void Efficiency::endJob(void)
             hCellEfficiencyEvenColumnsOddRows_     [p]->Divide(hCellEfficiencyEvenColumnsOddRowsNorm_   [p]);
             hCellEfficiencyOddColumnsEvenRows_     [p]->Divide(hCellEfficiencyOddColumnsEvenRowsNorm_   [p]);
             hCellEfficiencyEvenColumnsEvenRows_    [p]->Divide(hCellEfficiencyEvenColumnsEvenRowsNorm_  [p]);
-            // Generate 4 Cell Histogram
-            int _cell_xnbins = hCellEfficiencyOddColumnsOddRows_[p]->GetNbinsX();
-            int _cell_ynbins = hCellEfficiencyOddColumnsOddRows_[p]->GetNbinsY();
-
-            // O Col O Row  -x, +y
-            for (int i = 1; i <= _cell_xnbins; ++i) {
-                for (int j = 1; j <= _cell_ynbins; ++j) {
-                    h4CellEfficiency_[p]->SetBinContent(i, j + _cell_ynbins,
-                                                        hCellEfficiencyOddColumnsOddRows_[p]->GetBinContent(i, j));
-                }
-            }
-            // O Col E Row  -x, -y
-            for (int i = 1; i <= _cell_xnbins; ++i) {
-                for (int j = 1; j <= _cell_ynbins; ++j) {
-                    h4CellEfficiency_[p]->SetBinContent(i, j,
-                                                        hCellEfficiencyOddColumnsEvenRows_[p]->GetBinContent(i, j));
-                }
-            }
-            // E Col O Row  +x, +y
-            for (int i = 1; i <= _cell_xnbins; ++i) {
-                for (int j = 1; j <= _cell_ynbins; ++j) {
-                    h4CellEfficiency_[p]->SetBinContent(i + _cell_xnbins, j + _cell_ynbins,
-                                                        hCellEfficiencyEvenColumnsOddRows_[p]->GetBinContent(i, j));
-                }
-            }
-            // E Col E Row  +x, -y
-            for (int i = 1; i <= _cell_xnbins; ++i) {
-                for (int j = 1; j <= _cell_ynbins; ++j) {
-                    h4CellEfficiency_[p]->SetBinContent(i + _cell_xnbins, j,
-                                                        hCellEfficiencyEvenColumnsEvenRows_[p]->GetBinContent(i, j));
-                }
-            }
-
-            // End 4 Cell Efficiency
+            h4CellEfficiency_                      [p]->Divide(h4CellEfficiencyNorm_                    [p]);
 
             // START Windowed
 
@@ -598,6 +567,10 @@ void Efficiency::book(void)
         hName  =  "h4CellEfficiency_"                 + planeName;
         hTitle =  "4 Cell efficiency " + planeName;
         h4CellEfficiency_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
+
+        hName  =  "h4CellEfficiencyNorm_"                 + planeName;
+        hTitle =  "4 Cell efficiency norm " + planeName;
+        h4CellEfficiencyNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
 
         // END 4 Cell Efficiency
 
@@ -969,15 +942,21 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
             THREADED(hCellEfficiencyOddColumnsNorm_[planeID])->Fill(xRes,yRes);
         // START 4 Cell Efficiency .. cellEfficiency() Norm
         if (row % 2 == 0) {   // Even row
-            if (col % 2 == 0)
+            if (col % 2 == 0) {
                 THREADED(hCellEfficiencyEvenColumnsEvenRowsNorm_[planeID])->Fill(xRes, yRes);
-            else
+                THREADED(h4CellEfficiency_[planeID])->Fill(xRes + 75, yRes - 50);
+            } else {
                 THREADED(hCellEfficiencyOddColumnsEvenRowsNorm_[planeID])->Fill(xRes, yRes);
+                THREADED(h4CellEfficiency_[planeID])->Fill(xRes - 75, yRes - 50);
+            }
         } else {    // Odd row
-            if (col % 2 == 0)
+            if (col % 2 == 0) {
                 THREADED(hCellEfficiencyEvenColumnsOddRowsNorm_[planeID])->Fill(xRes, yRes);
-            else
+                THREADED(h4CellEfficiency_[planeID])->Fill(xRes + 75, yRes + 50);
+            } else {
                 THREADED(hCellEfficiencyOddColumnsOddRowsNorm_[planeID])->Fill(xRes, yRes);
+                THREADED(h4CellEfficiency_[planeID])->Fill(xRes - 75, yRes + 50);
+            }
         }
         // End 4 Cell Efficiency
 
@@ -990,15 +969,21 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
                 THREADED(hCellEfficiencyOddColumns_[planeID])->Fill(xRes,yRes);
             // START 4 Cell Efficiency .. cellEfficiency() not norm
             if (row % 2 == 0) {   // Even row
-                if (col % 2 == 0)
+                if (col % 2 == 0) {
                     THREADED(hCellEfficiencyEvenColumnsEvenRows_[planeID])->Fill(xRes, yRes);
-                else
+                    THREADED(h4CellEfficiency_[planeID])->Fill(xRes + 75, yRes - 50);
+                } else {
                     THREADED(hCellEfficiencyOddColumnsEvenRows_[planeID])->Fill(xRes, yRes);
+                    THREADED(h4CellEfficiency_[planeID])->Fill(xRes - 75, yRes - 50);
+                }
             } else {    // Odd row
-                if (col % 2 == 0)
+                if (col % 2 == 0) {
                     THREADED(hCellEfficiencyEvenColumnsOddRows_[planeID])->Fill(xRes, yRes);
-                else
+                    THREADED(h4CellEfficiency_[planeID])->Fill(xRes + 75, yRes + 50);
+                } else {
                     THREADED(hCellEfficiencyOddColumnsOddRows_[planeID])->Fill(xRes, yRes);
+                    THREADED(h4CellEfficiency_[planeID])->Fill(xRes - 75, yRes + 50);
+                }
             }
             // END 4 Cell Efficiency
         }

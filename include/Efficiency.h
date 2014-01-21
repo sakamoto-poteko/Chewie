@@ -79,6 +79,7 @@ private:
     std::vector<TH2F*>                  hCellEfficiencyOddColumnsEvenRows_  ;
     std::vector<TH2F*>                  hCellEfficiencyOddColumnsOddRows_   ;
     std::vector<TH2F*>                  h4CellEfficiency_                   ;
+    std::vector<TH2F*>                  h4CellEfficiencyNorm_               ;
 
     // Window
     std::vector<TH1F*>                 h1DXcellEfficiencyFirstHitWindowed_    ;
