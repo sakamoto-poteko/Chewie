@@ -220,7 +220,9 @@ void Efficiency::analyze(const Data& data, int threadNumber)//WARNING: You can't
             planeEfficiency (passMainCut           ,p,data,threadNumber);
             cellEfficiency  (passCellEfficiencyCut ,p,data,threadNumber);
             XcellEfficiency (passXCellEfficiencyCut,p,data,threadNumber);
+            XcellEfficiencyWindowed (passXCellEfficiencyCut,p,data,threadNumber);
             YcellEfficiency (passYCellEfficiencyCut,p,data,threadNumber);
+            YcellEfficiencyWindowed( (passYCellEfficiencyCut,p,data,threadNumber);
         }
     }
     else
