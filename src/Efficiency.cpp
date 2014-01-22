@@ -1510,7 +1510,32 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
                 THREADED(h1DXcellEfficiencySecondHit_[planeID])->Fill(xRes);
             }
         }
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Efficiency::XcellEfficiencyWindowed(bool pass, int planeID, const Data& data, int threadNumber)
+{
+    if(!pass || !data.getIsInDetector(planeID))
+        return;
 
+    float maxPitchX = 150;
+    float xRes      = 0  ;
+
+    if(data.getXPitchLocal(planeID)<=maxPitchX)
+    {
+        if(data.getXPixelResidualLocal(planeID)>0)
+            xRes = data.getXPitchLocal(planeID)/2 - data.getXPixelResidualLocal(planeID);
+        else if(data.getXPixelResidualLocal(planeID)<=0)
+            xRes = -(data.getXPixelResidualLocal(planeID) + data.getXPitchLocal(planeID)/2);
+    }
+    else
+        return;
+
+    const Window* theWindow = theWindowsManager_->getWindow(planeID) ;
+    int           row       = data.getRowPredicted(planeID)          ;
+    int           col       = data.getColPredicted(planeID)          ;
+
+    if (theWindow->checkWindow(col, row)) {
         // START Windowed
         if (customPixelWindow.checkCustomWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID))) {
             THREADED(h1DXcellEfficiencyNormWindowed_[planeID])->Fill(xRes);
@@ -1520,7 +1545,6 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
                 {
                     //std::cout << "ok!" << std::endl;
                     THREADED(h1DXcellEfficiencyFirstHitWindowed_ [planeID])->Fill(xRes);
-                    std::cout<<"GETTING DATA!!!!!!!!!!!!!!!!!!"<<std::endl;
                     THREADED(h1DXcellEfficiencySecondHitWindowed_[planeID])->Fill(xRes);
                     return;
                 }
@@ -1547,7 +1571,7 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
                         if(data.getClusterPixelRow(h,planeID)==row)
                         {
                             /*if((data.getXPixelResidualLocal(planeID)>0 && (col-data.getClusterPixelCol(h,planeID))==1) ||
-                                       (data.getXPixelResidualLocal(planeID)<0 && (col-data.getClusterPixelCol(h,planeID))==-1))*/
+                                   (data.getXPixelResidualLocal(planeID)<0 && (col-data.getClusterPixelCol(h,planeID))==-1))*/
                             if( ( (col-data.getClusterPixelCol(h,planeID)) ==  1 ) ||
                                     ( (col-data.getClusterPixelCol(h,planeID)) == -1 )  )
                             {
@@ -1639,7 +1663,33 @@ void Efficiency::YcellEfficiency(bool pass, int planeID, const Data& data, int t
                 THREADED(h1DYcellEfficiencySecondHit_[planeID])->Fill(yRes);
             }
         }
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+void Efficiency::YcellEfficiencyWindowed(bool pass, int planeID, const Data& data, int threadNumber)
+{
+    if(!pass || !data.getIsInDetector(planeID))
+        return;
 
+    float maxPitchY = 100;
+    float yRes      = 0  ;
+
+    if(data.getYPitchLocal(planeID)<=maxPitchY)
+    {
+        if(data.getYPixelResidualLocal(planeID)>0)
+            yRes = data.getYPitchLocal(planeID)/2 - data.getYPixelResidualLocal(planeID);
+        else if(data.getYPixelResidualLocal(planeID)<=0)
+            yRes = -(data.getYPixelResidualLocal(planeID) + data.getYPitchLocal(planeID)/2);
+    }
+    else
+        return;
+
+    const Window* theWindow = theWindowsManager_->getWindow(planeID) ;
+    int           row       = data.getRowPredicted(planeID)          ;
+    int           col       = data.getColPredicted(planeID)          ;
+
+    if(theWindow->checkWindow(col,row))
+    {
         if (customPixelWindow.checkCustomWindow(data.getXPixelResidualLocal(planeID), data.getYPixelResidualLocal(planeID))) {
             THREADED(h1DYcellEfficiencyNormWindowed_[planeID])->Fill(yRes);
             if(data.getHasHit(planeID) /*&& data.getClusterSize(planeID)<=4*/)
@@ -1691,7 +1741,6 @@ void Efficiency::YcellEfficiency(bool pass, int planeID, const Data& data, int t
         }
     }
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Efficiency::setCutsFormula(std::map<std::string,std::string> cutsList, std::vector<TTree*> tree)
 {
