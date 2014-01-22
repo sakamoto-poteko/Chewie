@@ -222,7 +222,7 @@ void Efficiency::analyze(const Data& data, int threadNumber)//WARNING: You can't
             XcellEfficiency (passXCellEfficiencyCut,p,data,threadNumber);
             XcellEfficiencyWindowed (passXCellEfficiencyCut,p,data,threadNumber);
             YcellEfficiency (passYCellEfficiencyCut,p,data,threadNumber);
-            YcellEfficiencyWindowed( (passYCellEfficiencyCut,p,data,threadNumber);
+            YcellEfficiencyWindowed(passYCellEfficiencyCut,p,data,threadNumber);
         }
     }
     else
