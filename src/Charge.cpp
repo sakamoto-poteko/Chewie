@@ -271,6 +271,7 @@ void Charge::destroy(void)
     for(std::vector<TH2F*>::iterator it=h2DCellChargeEvenColumnsWindowed_               .begin(); it!=h2DCellChargeEvenColumnsWindowed_               .end(); it++) delete *it; h2DCellChargeEvenColumnsWindowed_               .clear();
     // 4 Cell
     for(std::vector<TH2F*>::iterator it=h4CellChargeFullRangeWindowed_                  .begin(); it!=h4CellChargeFullRangeWindowed_                  .end(); it++) delete *it; h4CellChargeFullRangeWindowed_                  .clear();
+    for(std::vector<TH2F*>::iterator it=h4CellChargeFullRangeNormWindowed_              .begin(); it!=h4CellChargeFullRangeNormWindowed_              .end(); it++) delete *it; h4CellChargeFullRangeNormWindowed_               .clear();
 
     // END Odd/Even Cell Charge
     for(std::vector<TH2F*>::iterator it=h2DCellChargeNormWindowed_                      .begin(); it!=h2DCellChargeNormWindowed_                      .end(); it++) delete *it; h2DCellChargeNormWindowed_                      .clear();
@@ -1073,14 +1074,18 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
         if (row % 2 == 0) { // Even row
             if (col % 2 == 0) {
                 THREADED(h2DEvenTracksEvenRowsWindowed_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                THREADED(h4CellChargeFullRangeNormWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) - 50);
             } else {
                 THREADED(h2DOddTracksEvenRowsWindowed_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                THREADED(h4CellChargeFullRangeNormWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) - 50);
             }
         } else { // Odd row
             if (col % 2 == 0) {
                 THREADED(h2DEvenTracksOddRowsWindowed_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                THREADED(h4CellChargeFullRangeNormWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) + 50);
             } else {
                 THREADED(h2DOddTracksOddRowsWindowed_  [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID));
+                THREADED(h4CellChargeFullRangeNormWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) + 50);
             }
         }
     }
@@ -1247,15 +1252,21 @@ void Charge::cellCharge(bool pass, int planeID, const Data& data, int threadNumb
 
                 // This is for those within the window
                 if (row % 2 == 0) { // Even rows
-                    if (col % 2 == 0)
+                    if (col % 2 == 0) {
                         THREADED(h2DCellChargeEvenColumnsEvenRowsWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                    else
+                        THREADED(h4CellChargeFullRangeWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) - 50,data.getClusterPixelCharge(h,planeID));
+                    } else {
                         THREADED(h2DCellChargeOddColumnsEvenRowsWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                        THREADED(h4CellChargeFullRangeWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) - 50,data.getClusterPixelCharge(h,planeID));
+                    }
                 } else { // Odd rows
-                    if (col % 2 == 0)
+                    if (col % 2 == 0) {
                         THREADED(h2DCellChargeEvenColumnsOddRowsWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
-                    else
+                        THREADED(h4CellChargeFullRangeWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) + 75,data.getYPixelResidualLocal(planeID) + 50,data.getClusterPixelCharge(h,planeID));
+                    } else {
                         THREADED(h2DCellChargeOddColumnsOddRowsWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
+                        THREADED(h4CellChargeFullRangeWindowed_[planeID])->Fill(data.getXPixelResidualLocal(planeID) - 75,data.getYPixelResidualLocal(planeID) + 50,data.getClusterPixelCharge(h,planeID));
+                    }
                 }
 
                 THREADED(h2DCellChargeNumWindowed_         [planeID])->Fill(data.getXPixelResidualLocal(planeID),data.getYPixelResidualLocal(planeID),data.getClusterPixelCharge(h,planeID));
@@ -2844,6 +2855,7 @@ void Charge::endJob(void)
         ADD_THREADED(h2DCellChargeEvenColumnsWindowed_                [p]);
         // 4 cells
         ADD_THREADED(h4CellChargeFullRangeWindowed_                   [p]);
+        ADD_THREADED(h4CellChargeFullRangeNormWindowed_               [p]);
         // END Odd/Even Cell
 
         ADD_THREADED(h2DCellChargeNormWindowed_                       [p]);
@@ -3040,39 +3052,8 @@ void Charge::endJob(void)
         h2DCellChargeOddColumnsWindowed_            [p]->Add(h2DCellChargeOddColumnsEvenRowsWindowed_   [p], 0.5);
         h2DCellChargeEvenColumnsWindowed_           [p]->Add(h2DCellChargeEvenColumnsOddRowsWindowed_   [p], 0.5);
         h2DCellChargeEvenColumnsWindowed_           [p]->Add(h2DCellChargeEvenColumnsEvenRowsWindowed_  [p], 0.5);
-        // Generate 4 cell histogram
-        int _window_cell_xbins_charge = h2DCellChargeEvenColumnsEvenRowsWindowed_[p]->GetNbinsX();
-        int _window_cell_ybins_charge = h2DCellChargeEvenColumnsEvenRowsWindowed_[p]->GetNbinsY();
-        // Get it once, since all are same
+        h4CellChargeFullRangeWindowed_              [p]->Add(h4CellChargeFullRangeNormWindowed_         [p]);
 
-        // O Col O Row  -x, +y
-        for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
-            for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
-                h4CellChargeFullRangeWindowed_[p]->SetBinContent(i, j + _window_cell_ybins_charge,
-                                                                 h2DCellChargeOddColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
-            }
-        }
-        // O Col E Row  -x, -y
-        for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
-            for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
-                h4CellChargeFullRangeWindowed_[p]->SetBinContent(i, j,
-                                                                 h2DCellChargeOddColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
-            }
-        }
-        // E Col O Row  +x, +y
-        for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
-            for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
-                h4CellChargeFullRangeWindowed_[p]->SetBinContent(i + _window_cell_xbins_charge, j + _window_cell_ybins_charge,
-                                                                 h2DCellChargeEvenColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
-            }
-        }
-        // E Col E Row  +x, -y
-        for (int i = 1; i <= _window_cell_xbins_charge; ++i) {
-            for (int j = 1; j <= _window_cell_ybins_charge; ++j) {
-                h4CellChargeFullRangeWindowed_[p]->SetBinContent(i + _window_cell_xbins_charge, j,
-                                                                 h2DCellChargeEvenColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
-            }
-        }
         // End Odd/Even Cell
 
         h4CellsChargeWindowed_                [p]->Divide(h4CellsChargeNormWindowed_       [p]);
@@ -3843,7 +3824,7 @@ void Charge::book(void)
         h4CellsChargeNorm_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
 
         hName  = "h4CellsCharge_"                  + planeName;
-        hTitle = "4 cells charge 2D distribution " + planeName;
+        hTitle = "INCORRECT GRAPH " + planeName;
         h4CellsCharge_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(), (int)resXRange/5 - 1, -(resXRange/2) + 2.5, resXRange/2 - 2.5, (int)resYRange/5 - 1, -(resYRange/2) + 2.5, resYRange/2 - 2.5)));
 
         hName  = "h4HitsCharge_"                   + planeName;
@@ -4342,6 +4323,10 @@ void Charge::book(void)
         hName  = "h4CellChargeFullRangeWindowed_"+ planeName;
         hTitle = "4 Cell charge 2D distribution full range no window "+ planeName;
         h4CellChargeFullRangeWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
+
+        hName  = "h4CellChargeFullRangeNormWindowed_"+ planeName;
+        hTitle = "4 Cell charge 2D distribution full range no window norm "+ planeName;
+        h4CellChargeFullRangeNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
 
 
         // END Cell Charge Odd/Even

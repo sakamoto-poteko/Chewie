@@ -322,6 +322,7 @@ private:
     std::vector<TH2F*>    h2DCellChargeOddColumnsWindowed_                 ;
     std::vector<TH2F*>    h2DCellChargeEvenColumnsWindowed_                ;
     std::vector<TH2F*>    h4CellChargeFullRangeWindowed_                   ;
+    std::vector<TH2F*>    h4CellChargeFullRangeNormWindowed_               ;
 
 
     std::vector<TH2F*>    h2DCellChargeNumWindowed_                        ;

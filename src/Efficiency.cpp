@@ -107,6 +107,7 @@ void Efficiency::destroy(void)
     for(it2=hCellEfficiencyOddColumnsEvenRowsWindowed_      .begin(); it2!=hCellEfficiencyOddColumnsEvenRowsWindowed_       .end(); it2++) delete *it2; hCellEfficiencyOddColumnsEvenRowsWindowed_      .clear();
     for(it2=hCellEfficiencyEvenColumnsEvenRowsWindowed_     .begin(); it2!=hCellEfficiencyEvenColumnsEvenRowsWindowed_      .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsEvenRowsWindowed_     .clear();
     for(it2=h4CellEfficiencyWindowed_                       .begin(); it2!=h4CellEfficiencyWindowed_                        .end(); it2++) delete *it2; h4CellEfficiencyWindowed_                       .clear();
+    for(it2=h4CellEfficiencyNormWindowed_                   .begin(); it2!=h4CellEfficiencyNormWindowed_                    .end(); it2++) delete *it2; h4CellEfficiencyNormWindowed_                   .clear();
     // END 4 Cell Efficiency
 
     for(it2=hCellEfficiencyEvenColumnsWindowed_    .begin(); it2!=hCellEfficiencyEvenColumnsWindowed_    .end(); it2++) delete *it2; hCellEfficiencyEvenColumnsWindowed_    .clear();
@@ -273,6 +274,8 @@ void Efficiency::endJob(void)
             ADD_THREADED(hCellEfficiencyOddColumnsEvenRowsWindowed_     [p]);
             ADD_THREADED(hCellEfficiencyEvenColumnsEvenRowsWindowed_    [p]);
             ADD_THREADED(h4CellEfficiencyWindowed_                      [p]);
+            ADD_THREADED(h4CellEfficiencyNormWindowed_                  [p]);
+
             // END 4 Cell Efficiency
             ADD_THREADED(h1DXcellEfficiencyNormWindowed_        [p]);
             ADD_THREADED(h1DXcellEfficiencyFirstHitWindowed_    [p]);
@@ -321,40 +324,7 @@ void Efficiency::endJob(void)
             hCellEfficiencyEvenColumnsOddRowsWindowed_     [p]->Divide(hCellEfficiencyEvenColumnsOddRowsNormWindowed_   [p]);
             hCellEfficiencyOddColumnsEvenRowsWindowed_     [p]->Divide(hCellEfficiencyOddColumnsEvenRowsNormWindowed_   [p]);
             hCellEfficiencyEvenColumnsEvenRowsWindowed_    [p]->Divide(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_  [p]);
-            // Generate 4 Cell Histogram
-            int Windowed_cellWindowed_xnbins = hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetNbinsX();
-            int Windowed_cellWindowed_ynbins = hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetNbinsY();
-
-            // O Col O Row  -x, +y
-            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
-                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
-                    h4CellEfficiencyWindowed_[p]->SetBinContent(i, j + Windowed_cellWindowed_ynbins,
-                                                        hCellEfficiencyOddColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
-                }
-            }
-            // O Col E Row  -x, -y
-            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
-                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
-                    h4CellEfficiencyWindowed_[p]->SetBinContent(i, j,
-                                                        hCellEfficiencyOddColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
-                }
-            }
-            // E Col O Row  +x, +y
-            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
-                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
-                    h4CellEfficiencyWindowed_[p]->SetBinContent(i + Windowed_cellWindowed_xnbins, j + Windowed_cellWindowed_ynbins,
-                                                        hCellEfficiencyEvenColumnsOddRowsWindowed_[p]->GetBinContent(i, j));
-                }
-            }
-            // E Col E Row  +x, -y
-            for (int i = 1; i <= Windowed_cellWindowed_xnbins; ++i) {
-                for (int j = 1; j <= Windowed_cellWindowed_ynbins; ++j) {
-                    h4CellEfficiencyWindowed_[p]->SetBinContent(i + Windowed_cellWindowed_xnbins, j,
-                                                        hCellEfficiencyEvenColumnsEvenRowsWindowed_[p]->GetBinContent(i, j));
-                }
-            }
-
-            // End 4 Cell Efficiency
+            h4CellEfficiencyWindowed_                      [p]->Divide(h4CellEfficiencyNormWindowed_                    [p]);
             // END Windowed
 
             h2DEfficiency_              [p]->GetXaxis()->SetTitle("column");
@@ -694,6 +664,10 @@ void Efficiency::book(void)
         hTitle =  "4 Cell efficiency " + planeName;
         h4CellEfficiencyWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
 
+        hName  =  "h4CellEfficiencyNormWindowed_"                 + planeName;
+        hTitle =  "4 Cell efficiency norm " + planeName;
+        h4CellEfficiencyNormWindowed_.push_back(NEW_THREADED(TH2F(hName.c_str(), hTitle.c_str(),  ((int)2 * resXRange/5), -resXRange, resXRange, ((int)2 * resYRange/5), -resYRange, resYRange)));
+
         // END 4 Cell Efficiency
 
         hName  = "CellInefficiencyWindowed_"  + planeName;
@@ -1000,15 +974,21 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
                 THREADED(hCellEfficiencyOddColumnsNormWindowed_[planeID])->Fill(xRes,yRes);
             // START 4 Cell Efficiency .. cellEfficiency() Norm
             if (row % 2 == 0) {   // Even row
-                if (col % 2 == 0)
+                if (col % 2 == 0) {
                     THREADED(hCellEfficiencyEvenColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
-                else
+                    THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes + 75, yRes - 50);
+                } else {
                     THREADED(hCellEfficiencyOddColumnsEvenRowsNormWindowed_[planeID])->Fill(xRes, yRes);
+                    THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes - 75, yRes - 50);
+                }
             } else {    // Odd row
-                if (col % 2 == 0)
+                if (col % 2 == 0) {
                     THREADED(hCellEfficiencyEvenColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
-                else
+                    THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes + 75, yRes + 50);
+                } else {
                     THREADED(hCellEfficiencyOddColumnsOddRowsNormWindowed_[planeID])->Fill(xRes, yRes);
+                    THREADED(hCellEfficiencyNormWindowed_[planeID])->Fill(xRes - 75, yRes + 50);
+                }
             }
             // End 4 Cell Efficiency
 
@@ -1021,15 +1001,21 @@ void Efficiency::cellEfficiency(bool pass, int planeID, const Data& data, int th
                     THREADED(hCellEfficiencyOddColumnsWindowed_[planeID])->Fill(xRes,yRes);
                 // START 4 Cell Efficiency .. cellEfficiency() not norm
                 if (row % 2 == 0) {   // Even row
-                    if (col % 2 == 0)
+                    if (col % 2 == 0) {
                         THREADED(hCellEfficiencyEvenColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
-                    else
+                        THREADED(hCellEfficiencyWindowed_[planeID])->Fill(xRes + 75, yRes - 50);
+                    } else {
                         THREADED(hCellEfficiencyOddColumnsEvenRowsWindowed_[planeID])->Fill(xRes, yRes);
+                        THREADED(hCellEfficiencyWindowed_[planeID])->Fill(xRes - 75, yRes - 50);
+                    }
                 } else {    // Odd row
-                    if (col % 2 == 0)
+                    if (col % 2 == 0) {
                         THREADED(hCellEfficiencyEvenColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
-                    else
+                        THREADED(hCellEfficiencyWindowed_[planeID])->Fill(xRes + 75, yRes + 50);
+                    } else {
                         THREADED(hCellEfficiencyOddColumnsOddRowsWindowed_[planeID])->Fill(xRes, yRes);
+                        THREADED(hCellEfficiencyWindowed_[planeID])->Fill(xRes - 75, yRes + 50);
+                    }
                 }
                 // END 4 Cell Efficiency
             }

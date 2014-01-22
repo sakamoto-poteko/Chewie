@@ -111,6 +111,7 @@ private:
     std::vector<TH2F*>                  hCellEfficiencyOddColumnsEvenRowsWindowed_  ;
     std::vector<TH2F*>                  hCellEfficiencyOddColumnsOddRowsWindowed_   ;
     std::vector<TH2F*>                  h4CellEfficiencyWindowed_                   ;
+    std::vector<TH2F*>                  h4CellEfficiencyNormWindowed_               ;
 
     // END Window
 
