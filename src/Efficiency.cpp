@@ -1520,6 +1520,7 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
                 {
                     //std::cout << "ok!" << std::endl;
                     THREADED(h1DXcellEfficiencyFirstHitWindowed_ [planeID])->Fill(xRes);
+                    std::cout<<"GETTING DATA!!!!!!!!!!!!!!!!!!"<<std::endl;
                     THREADED(h1DXcellEfficiencySecondHitWindowed_[planeID])->Fill(xRes);
                     return;
                 }
