@@ -57,6 +57,7 @@ private:
 
     std::vector<TH1F*>                 h1DXcellEfficiencyFirstHit_    ;
     std::vector<TH1F*>                 h1DXcellEfficiencySecondHit_   ;
+    std::vector<TH1F*>                 h1DXcellEfficiencyAllHit_   ;
     std::vector<TH1F*>                 h1DXcellEfficiencyNorm_        ;
     std::vector<TH1F*>                 h1DYcellEfficiencyFirstHit_    ;
     std::vector<TH1F*>                 h1DYcellEfficiencySecondHit_   ;

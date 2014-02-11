@@ -82,6 +82,7 @@ void Efficiency::destroy(void)
     for(it2=hCellInefficiency_             .begin(); it2!=hCellInefficiency_             .end(); it2++) delete *it2; hCellInefficiency_             .clear();
     for(it1=h1DXcellEfficiencyFirstHit_    .begin(); it1!=h1DXcellEfficiencyFirstHit_    .end(); it1++) delete *it1; h1DXcellEfficiencyFirstHit_    .clear();
     for(it1=h1DXcellEfficiencySecondHit_   .begin(); it1!=h1DXcellEfficiencySecondHit_   .end(); it1++) delete *it1; h1DXcellEfficiencySecondHit_   .clear();
+    for(it1=h1DXcellEfficiencyAllHit_   .begin(); it1!=h1DXcellEfficiencyAllHit_   .end(); it1++) delete *it1; h1DXcellEfficiencyAllHit_   .clear();
     for(it1=h1DXcellEfficiencyNorm_        .begin(); it1!=h1DXcellEfficiencyNorm_        .end(); it1++) delete *it1; h1DXcellEfficiencyNorm_        .clear();
     for(it1=h1DYcellEfficiencyFirstHit_    .begin(); it1!=h1DYcellEfficiencyFirstHit_    .end(); it1++) delete *it1; h1DYcellEfficiencyFirstHit_    .clear();
     for(it1=h1DYcellEfficiencySecondHit_   .begin(); it1!=h1DYcellEfficiencySecondHit_   .end(); it1++) delete *it1; h1DYcellEfficiencySecondHit_   .clear();
@@ -273,6 +274,7 @@ void Efficiency::endJob(void)
             ADD_THREADED(h1DXcellEfficiencyNorm_        [p]);
             ADD_THREADED(h1DXcellEfficiencyFirstHit_    [p]);
             ADD_THREADED(h1DXcellEfficiencySecondHit_   [p]);
+            ADD_THREADED(h1DXcellEfficiencyAllHit_   [p]);
             ADD_THREADED(h1DYcellEfficiencyNorm_        [p]);
             ADD_THREADED(h1DYcellEfficiencyFirstHit_    [p]);
             ADD_THREADED(h1DYcellEfficiencySecondHit_   [p]);
@@ -374,6 +376,7 @@ void Efficiency::endJob(void)
             hCellInefficiency_          [p]->Divide(hCellEfficiencyNorm_           [p]);
             h1DXcellEfficiencyFirstHit_ [p]->Divide(h1DXcellEfficiencyNorm_        [p]);
             h1DXcellEfficiencySecondHit_[p]->Divide(h1DXcellEfficiencyNorm_        [p]);
+            h1DXcellEfficiencyAllHit_[p]->Divide(h1DXcellEfficiencyNorm_        [p]);
             h1DYcellEfficiencyFirstHit_ [p]->Divide(h1DYcellEfficiencyNorm_        [p]);
             h1DYcellEfficiencySecondHit_[p]->Divide(h1DYcellEfficiencyNorm_        [p]);
 
@@ -437,6 +440,7 @@ void Efficiency::endJob(void)
             hCellEfficiencyOddColumns_  [p]->GetXaxis()->SetTitle("x (um)");
             h1DXcellEfficiencyFirstHit_ [p]->GetXaxis()->SetTitle("x (um)");
             h1DXcellEfficiencySecondHit_[p]->GetXaxis()->SetTitle("x (um)");
+            h1DXcellEfficiencyAllHit_[p]->GetXaxis()->SetTitle("x (um)");
             h1DYcellEfficiencyFirstHit_ [p]->GetXaxis()->SetTitle("y (um)");
             h1DYcellEfficiencySecondHit_[p]->GetXaxis()->SetTitle("y (um)");
             hCellEfficiency_            [p]->GetYaxis()->SetTitle("y (um)");
@@ -692,6 +696,10 @@ void Efficiency::book(void)
         hName  = "h1DXcellEfficiencySecondHit_"                  + planeName;
         hTitle = "1D cell Efficiency - X coordinate second hit " + planeName;
         h1DXcellEfficiencySecondHit_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5)));
+
+        hName  = "h1DXcellEfficiencyAllHit_"                  + planeName;
+        hTitle = "1D cell Efficiency - X coordinate all hit " + planeName;
+        h1DXcellEfficiencyAllHit_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5)));
 
         hName  = "h1DXcellEfficiencyNorm_"                          + planeName;
         hTitle = "1D cell Efficiency - X coordinate normalization " + planeName;
@@ -1443,6 +1451,7 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
                 //std::cout << "ok!" << std::endl;
                 THREADED(h1DXcellEfficiencyFirstHit_ [planeID])->Fill(xRes);
                 THREADED(h1DXcellEfficiencySecondHit_[planeID])->Fill(xRes);
+                THREADED(h1DXcellEfficiencyAllHit_[planeID])->Fill(xRes);
                 return;
             }
 
@@ -1453,6 +1462,7 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
                 {
                     THREADED(h1DXcellEfficiencyFirstHit_ [planeID])->Fill(xRes);
                     THREADED(h1DXcellEfficiencySecondHit_[planeID])->Fill(xRes);
+                    THREADED(h1DXcellEfficiencyAllHit_[planeID])->Fill(xRes);
                     isOk = true;
                     break;
                 }
@@ -1481,6 +1491,7 @@ void Efficiency::XcellEfficiency(bool pass, int planeID, const Data& data, int t
                     return;
 
                 THREADED(h1DXcellEfficiencySecondHit_[planeID])->Fill(xRes);
+                THREADED(h1DXcellEfficiencyAllHit_[planeID])->Fill(xRes);
             }
         }
     }
