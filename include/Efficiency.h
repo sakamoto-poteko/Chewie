@@ -56,12 +56,13 @@ private:
     std::vector<TH1F*>                 hEfficiencyNorm_               ;
 
     std::vector<TH1F*>                 h1DXcellEfficiencyFirstHit_    ;
-    std::vector<TH1F*>                 h1DXcellEfficiencySecondHit_   ;
     std::vector<TH1F*>                 h1DXcellEfficiencyAllHit_   ;
+    std::vector<TH1F*>                 h1DXcellEfficiencySecondHit_   ;
     std::vector<TH1F*>                 h1DXcellEfficiencyNorm_        ;
     std::vector<TH1F*>                 h1DYcellEfficiencyFirstHit_    ;
-    std::vector<TH1F*>                 h1DYcellEfficiencySecondHit_   ;
+    std::vector<TH1F*>                 h1DYcellEfficiencyAllHit_   ;
     std::vector<TH1F*>                 h1DYcellEfficiencyNorm_        ;
+    std::vector<TH1F*>                 h1DYcellEfficiencySecondHit_   ;
     std::vector<TH2F*>                 h2DEfficiency_                 ;
     std::vector<TH2F*>                 h2DEfficiencyNorm_             ;
     std::vector<TH2F*>                 h2DInefficiency_               ;
