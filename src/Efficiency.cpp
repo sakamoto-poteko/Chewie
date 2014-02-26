@@ -982,7 +982,7 @@ void Efficiency::book(void)
         h1DXcellEfficiencyFirstHitWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5)));
 
         hName  = "h1DXcellEfficiencySecondHitWindowed_"                  + planeName;
-        hTitle = "1D cell Efficiency - X coordinate second hit " + planeName;
+        hTitle = "1D cell Efficiency - X coordinate all hit " + planeName;
         h1DXcellEfficiencySecondHitWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),(int)resXRange/5 - 1,-(resXRange/2) + 2.5,resXRange/2 - 2.5)));
 
         hName  = "h1DXcellEfficiencyNormWindowed_"                          + planeName;
@@ -994,7 +994,7 @@ void Efficiency::book(void)
         h1DYcellEfficiencyFirstHitWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
 
         hName  = "h1DYcellEfficiencySecondHitWindowed_"                  + planeName;
-        hTitle = "1D cell Efficiency - Y coordinate second hit " + planeName;
+        hTitle = "1D cell Efficiency - Y coordinate all hit " + planeName;
         h1DYcellEfficiencySecondHitWindowed_.push_back(NEW_THREADED(TH1F(hName.c_str(),hTitle.c_str(),(int)resYRange/5 - 1,-(resYRange/2) + 2.5,resYRange/2 - 2.5)));
 
         hName  = "h1DYcellEfficiencyNormWindowed_"                       + planeName;
