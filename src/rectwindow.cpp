@@ -38,10 +38,10 @@ CustomPixelWindow::CustomPixelWindow()
         STDLINE(QString("\tBottom Y: %1, Top Y: %2")
                 .arg(windowBottomResidual).arg(windowTopResidual).toStdString(), ACRed);
 
-        for (int i = 0; i < roundWindows.size(); ++i) {
+        for (int j = 0; j < roundWindows.size(); ++j) {
             STDLINE(QString("\tRound Window %1: X: %2, Y: %3, Radius: %4")
-                    .arg(i).arg(roundWindows.at(i).xResidual).arg(roundWindows.at(i).yResidual)
-                    .arg(roundWindows.at(i).radius), ACRed);
+                    .arg(j).arg(roundWindows.at(j).xResidual).arg(roundWindows.at(j).yResidual)
+                    .arg(roundWindows.at(j).radius).toStdString(), ACRed);
         }
     }
 
