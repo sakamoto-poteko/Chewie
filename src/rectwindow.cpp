@@ -58,7 +58,7 @@ bool CustomPixelWindow::checkCustomWindow(float xRes, float yRes)
         return false;
 
     foreach (RoundWindowDef window, roundWindows) {
-        if (!pointInCircle(xRes, yRes, window.xResidual, window.yResidual, window.radius))
+        if (pointInCircle(xRes, yRes, window.xResidual, window.yResidual, window.radius))
             return false;
     }
 
