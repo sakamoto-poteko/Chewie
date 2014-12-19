@@ -1,4 +1,8 @@
 Chewie
 ======
 
-Forked from original Chewie. Added custom functionality. Under devel.
+Final release.
+
+Chewie is used to parse data file processed by Monicelli.
+
+This is part of Large Hadron Collider Compact Muon Solenoid (LHC CMS) sensor testing suite
